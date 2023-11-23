@@ -11,6 +11,7 @@ import {
 
 import ReactMarkdown from 'react-markdown';
 import capitalizeString from "@/app/components/Util";
+import {cosBase} from "@/app/components/Util";
 
 import data from '@/public/city/data.json';
 
@@ -38,7 +39,7 @@ export default function CityPage({ params }: {params: { cityType: string, cityNa
   const description = getCityDescription(cityType, cityName);
   const href: string = `${cityName}.png`;
   const imagePath = `/city/${cityType}/${href}`;
-
+  const imageUrl = `${cosBase}${imagePath}`
   return (
     <Container minW={'100%'} minH={"100vh"}>
       <Box>
@@ -72,7 +73,7 @@ export default function CityPage({ params }: {params: { cityType: string, cityNa
                 height={500}
                 width={500}
                 objectFit={'cover'}
-                src={imagePath}
+                src={imageUrl}
                 alt="#"
               />
               </Stack>
