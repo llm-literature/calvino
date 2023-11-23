@@ -7,6 +7,7 @@ import {
   Button,
 } from '@chakra-ui/react'
 import Link from "next/link";
+import WithSpeechBubbles from './Testimonial';
 
 
 export default function LandingPage() {
@@ -28,6 +29,7 @@ export default function LandingPage() {
           <Link href={"/city"}>Invisible Cities</Link>
         </Button>
       </Stack>
+      <WithSpeechBubbles/>
     </Container>
   )
 }
