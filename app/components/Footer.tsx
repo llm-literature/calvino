@@ -34,7 +34,7 @@ export default function LargeWithLogoCentered() {
     //   bg={useColorModeValue('gray.50', 'gray.900')}
     //   color={useColorModeValue('gray.700', 'gray.200')}
       >
-      <Container as={Stack} py={10} centerContent
+      <Container as={Stack} py={20} centerContent
       >
         <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} spacing={50}
         >
