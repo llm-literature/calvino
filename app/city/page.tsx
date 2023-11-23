@@ -33,7 +33,7 @@ export default function InvisibleCityPage() {
         </Heading>
       </Stack>
 
-      <SimpleGrid columns={5} spacing={5}>
+      <SimpleGrid minChildWidth={'300px'} spacing={5}>
         {cityCardComponents}
       </SimpleGrid>
     </Container>
