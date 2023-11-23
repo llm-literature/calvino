@@ -227,19 +227,19 @@ const NAV_ITEMS: Array<NavItem> = [
     label: 'Invisible City',
     href: '/city',
     },
-  {
-    label: 'About',
-    children: [
-      {
-        label: 'GitHub Repository',
-        subLabel: 'The LLM & Literature orgnization in GitHub',
-        href: 'https://github.com/llm-literature/calvino',
-      },
-      {
-        label: 'Me',
-        subLabel: 'Big fan of Calvino!',
-        href: 'datahonor.com',
-      },
-    ],
-  },
+  // {
+  //   label: 'About',
+  //   children: [
+  //     {
+  //       label: 'GitHub Repository',
+  //       subLabel: 'The LLM & Literature orgnization in GitHub',
+  //       href: 'https://github.com/llm-literature/calvino',
+  //     },
+  //     {
+  //       label: 'Me',
+  //       subLabel: 'Big fan of Calvino!',
+  //       href: 'datahonor.com',
+  //     },
+  //   ],
+  // },
 ]

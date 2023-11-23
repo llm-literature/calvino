@@ -113,7 +113,7 @@ export default function WithSpeechBubbles() {
           spacing={{ base: 10, md: 4, lg: 10 }}>
           <Testimonial>
             <TestimonialContent>
-              <TestimonialHeading>感慨良多</TestimonialHeading>
+              <TestimonialHeading>一直读下去</TestimonialHeading>
               <TestimonialText>
                 我可能永远读不懂卡尔维诺，我可能不会停止读卡尔维诺。
               </TestimonialText>
