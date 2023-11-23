@@ -1,5 +1,3 @@
-'use client'
-
 import {
   Container,
   Heading,
@@ -17,6 +15,17 @@ import capitalizeString from "@/app/components/Util";
 import data from '@/public/city/data.json';
 
 
+export async function generateStaticParams() {
+  // Replace this with the actual logic for getting city types and names
+ const params = data.cities.map(city => ({
+   cityType: city.type,
+   cityName: city.name,
+ }));
+
+ return params;
+}
+
+
 function getCityDescription(cityType: string, cityName: string): string | undefined {
   const city = data.cities.find(
     (c) => c.type.toLowerCase() === cityType.toLowerCase() && c.name.toLowerCase() === cityName.toLowerCase()
@@ -24,11 +33,11 @@ function getCityDescription(cityType: string, cityName: string): string | undefi
   return city?.description;
 }
 
-export default function CityPage({ params, desc }: {params: { cityType: string, cityName: string }}) {
+export default function CityPage({ params }: {params: { cityType: string, cityName: string }}) {
   const cityType = params.cityType;
   const cityName = params.cityName;
 
-  const description: string = getCityDescription(cityType, cityName);
+  const description = getCityDescription(cityType, cityName);
   const href: string = `${cityName}.png`;
   const imagePath = `/city/${cityType}/${href}`;
 
@@ -94,3 +103,4 @@ export default function CityPage({ params, desc }: {params: { cityType: string, 
     </Container>
   )
 }
+
