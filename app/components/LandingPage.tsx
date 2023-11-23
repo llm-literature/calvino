@@ -8,7 +8,7 @@ import {
 } from '@chakra-ui/react'
 import Link from "next/link";
 import WithSpeechBubbles from './Testimonial';
-import InvisibleCityCard from './Card';
+import InvisibleCityCard from './BookCard';
 
 
 export default function LandingPage() {
@@ -18,7 +18,7 @@ export default function LandingPage() {
         textAlign={'center'}
         align={'center'}
         spacing={{ base: 8, md: 10 }}
-        py={{ base: 20, md: 28 }}>
+        py={{ base: 10, md: 12 }}>
         <Heading
           fontWeight={600}
           fontSize={{ base: '3xl', sm: '4xl', md: '6xl' }}

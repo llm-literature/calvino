@@ -13,6 +13,7 @@ import {
 } from '@chakra-ui/react'
 import { ReactNode } from 'react'
 
+
 const Logo = (props: any) => {
   return (
     <Avatar name='Calvino' src='/logo.png' />
@@ -33,18 +34,21 @@ export default function LargeWithLogoCentered() {
     //   bg={useColorModeValue('gray.50', 'gray.900')}
     //   color={useColorModeValue('gray.700', 'gray.200')}
       >
-      <Container as={Stack} py={10}
+      <Container as={Stack} py={10} centerContent
       >
-        <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} spacing={15}
+        <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} spacing={50}
         >
           <Stack align={'flex-start'} >
             <ListHeader>Github</ListHeader>
             <Box as="a" href={'https://github.com/llm-literature'}>
               Organization
             </Box>
-            <Stack direction={'row'} align={'center'} spacing={2}>
               <Box as="a" href={'https://github.com/llm-literature/calvino'}>
                 Repository
+              </Box>
+            <Stack direction={'row'} align={'center'} spacing={-1}>
+              <Box as="a" href={'https://github.com/llm-literature/calvino/discussions'}>
+                Discussion
               </Box>
               <Tag
                 size={'sm'}
@@ -54,16 +58,14 @@ export default function LargeWithLogoCentered() {
                 New
               </Tag>
             </Stack>
-            <Box as="a" href={'https://github.com/llm-literature/calvino/discussions'}>
-              Discussion
-            </Box>
+
             <Box as="a" href={'https://github.com/llm-literature/calvino/releases'}>
               Releases
             </Box>
           </Stack>
           <Stack align={'flex-start'}>
-            <ListHeader>Fun</ListHeader>
-            <Stack direction={'row'} align={'center'} spacing={2}>
+            <ListHeader>Project</ListHeader>
+            <Stack direction={'row'} align={'center'} spacing={-1}>
                 <Box as="a" href={'https://datahonor.com/beer/'}>
                 Beer
                 </Box>
@@ -82,41 +84,51 @@ export default function LargeWithLogoCentered() {
             <Box as="a" href={'https://datahonor.com/python-package-template/'}>
               MPPT
             </Box>
-          </Stack>
-          <Stack align={'flex-start'}>
-            <ListHeader>Toys</ListHeader>
             <Box as="a" href={'https://datahonor.com/toyml/'}>
               ToyML
             </Box>
             <Box as="a" href={'https://datahonor.com/toydl/'}>
               ToyDL
             </Box>
-            <Box as="a" href={'https://datahonor.com/toydata/'}>
-              ToyData
-            </Box>
-            <Stack direction={'row'} align={'center'} spacing={2}>
-                <Box as="a" href={'https://datahonor.com/toystat/'}>
-                ToyStat
-                </Box>
-                <Tag
-                    size={'sm'}
-                    bg={useColorModeValue('gray.300', 'gray.800')}
-                    ml={2}
-                    color={'white'}>
-                    Coming
-                </Tag>
-            </Stack>
           </Stack>
           <Stack align={'flex-start'}>
-            <ListHeader>Contact Me</ListHeader>
+            <ListHeader>Odyssey</ListHeader>
+             <Box as="a" href={'https://datahonor.com/odyssey/aiops/'}>
+              AIOps
+            </Box>
+            <Box as="a" href={'https://datahonor.com/odyssey/mlsys/'}>
+              MlSys
+            </Box>
+            <Box as="a" href={'https://datahonor.com/odyssey/chc/'}>
+              Crowdsourcing
+            </Box>
+            <Stack direction={'row'} align={'center'} spacing={-1}>
+              <Box as="a" href={'https://datahonor.com/odyssey/llm/'}>
+                LLM
+              </Box>
+              <Tag
+                  size={'sm'}
+                  bg={useColorModeValue('gray.300', 'gray.800')}
+                  ml={2}
+                  color={'white'}>
+                  Coming
+              </Tag>
+            </Stack>
+
+          </Stack>
+          <Stack align={'flex-start'}>
+            <ListHeader>Contact</ListHeader>
+            <Box as="a" href={'https://datahonor.com'}>
+              Website
+            </Box>
             <Box as="a" href={'https://github.com/shenxiangzhuang'}>
               Github
             </Box>
             <Box as="a" href={'https://twitter.com/MathewShen42'}>
               Twitter
             </Box>
-            <Box as="a" href={'#'}>
-              LinkedIn(TBD)
+            <Box as="a" href={'https://linkedin.com/in/mathewshen'}>
+              LinkedIn
             </Box>
           </Stack>
         </SimpleGrid>

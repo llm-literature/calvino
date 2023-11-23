@@ -113,7 +113,7 @@ export default function WithSpeechBubbles() {
           spacing={{ base: 10, md: 4, lg: 10 }}>
           <Testimonial>
             <TestimonialContent>
-              <TestimonialHeading>感慨良多</TestimonialHeading>
+              <TestimonialHeading>一直读下去</TestimonialHeading>
               <TestimonialText>
                 我可能永远读不懂卡尔维诺，我可能不会停止读卡尔维诺。
               </TestimonialText>
@@ -123,22 +123,22 @@ export default function WithSpeechBubbles() {
                 'https://avatars.githubusercontent.com/u/17157965?v=4'
               }
               name={'Mathew Shen'}
-              title={'Big fan of Calvino'}
+              title={'小小白'}
             />
           </Testimonial>
           <Testimonial>
             <TestimonialContent>
-              <TestimonialHeading>TBD</TestimonialHeading>
+              <TestimonialHeading>喜欢卡尔维诺</TestimonialHeading>
               <TestimonialText>
-                TBD
+                我不是奉承意大利人啊，我比较喜欢卡尔维诺。喜欢卡尔维诺。
               </TestimonialText>
             </TestimonialContent>
             <TestimonialAvatar
               src={
-                'https://images.unsplash.com/photo-1586297135537-94bc9ba060aa?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80'
+                'https://upload.wikimedia.org/wikipedia/zh/7/79/%E7%8E%8B%E5%B0%8F%E6%B3%A2.jpg'
               }
-              name={'Fans X'}
-              title={'Title X'}
+              name={'王小波'}
+              title={'作家'}
             />
           </Testimonial>
         </Stack>
