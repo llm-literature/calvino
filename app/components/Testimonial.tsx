@@ -135,7 +135,7 @@ export default function WithSpeechBubbles() {
             </TestimonialContent>
             <TestimonialAvatar
               src={
-                'https://upload.wikimedia.org/wikipedia/zh/7/79/%E7%8E%8B%E5%B0%8F%E6%B3%A2.jpg'
+                '/xiaobo.jpg'
               }
               name={'王小波'}
               title={'作家'}
