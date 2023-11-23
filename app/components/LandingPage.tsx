@@ -7,6 +7,8 @@ import {
   Button,
 } from '@chakra-ui/react'
 import Link from "next/link";
+import WithSpeechBubbles from './Testimonial';
+import InvisibleCityCard from './Card';
 
 
 export default function LandingPage() {
@@ -23,11 +25,12 @@ export default function LandingPage() {
           lineHeight={'110%'}>
           Italo Calvino
         </Heading>
-
-        <Button textAlign={"center"} color={"gray"}>
+        {/* <Button textAlign={"center"} color={"gray"}>
           <Link href={"/city"}>Invisible Cities</Link>
-        </Button>
+        </Button> */}
       </Stack>
+      <InvisibleCityCard/>
+      <WithSpeechBubbles/>
     </Container>
   )
 }
