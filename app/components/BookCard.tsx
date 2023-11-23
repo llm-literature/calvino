@@ -15,20 +15,20 @@ export default function InvisibleCityCard() {
   const IMAGE = "/logo.png"
 
   return (
-    <Center py={12}>
+    <Center py={1}>
       <Box
         role={'group'}
         p={6}
         maxW={'330px'}
         w={'full'}
-        bg={useColorModeValue('white', 'gray.800')}
+        bg={useColorModeValue('lightgrey', 'gray.800')}
         boxShadow={'2xl'}
         rounded={'lg'}
         pos={'relative'}
         zIndex={1}>
         <Box
           rounded={'lg'}
-          mt={-12}
+          mt={-1}
           pos={'relative'}
           height={'230px'}
           _after={{
@@ -58,7 +58,7 @@ export default function InvisibleCityCard() {
           />
         </Box>
         <Stack pt={10} align={'center'}>
-          <Text color={'gray.500'} fontSize={'sm'} textTransform={'uppercase'}>
+          <Text color={'gray.700'} fontSize={'xl'} textTransform={'uppercase'}>
             <LinkOverlay href={'/city'}>
                 Invisible City
             </LinkOverlay> 
