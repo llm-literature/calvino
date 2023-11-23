@@ -16,13 +16,11 @@ import data from '@/public/city/data.json';
 
 
 export async function generateStaticParams() {
-  // Replace this with the actual logic for getting city types and names
- const params = data.cities.map(city => ({
-   cityType: city.type,
-   cityName: city.name,
- }));
-
- return params;
+  const params = data.cities.map(city => ({
+    cityType: city.type,
+    cityName: city.name,
+  }));
+  return params;
 }
 
 
