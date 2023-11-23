@@ -11,6 +11,8 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react'
 
+import {cosBase} from "@/app/components/Util";
+
 interface Props {
   children: React.ReactNode
 }
@@ -135,7 +137,7 @@ export default function WithSpeechBubbles() {
             </TestimonialContent>
             <TestimonialAvatar
               src={
-                '/xiaobo.jpg'
+                `${cosBase}/xiaobo.jpg`
               }
               name={'王小波'}
               title={'作家'}

@@ -13,6 +13,7 @@ import {
 } from '@chakra-ui/react'
 
 import capitalizeString from "@/app/components/Util";
+import {cosBase} from "@/app/components/Util";
 
 interface CityCardProps {
   cityType: string
@@ -23,6 +24,7 @@ interface CityCardProps {
 export default function CityCard({cityType, cityName} : CityCardProps) {
   const href: string = `${cityName}.png`;
   const imagePath = `/city/${cityType}/${href}`;
+  const imageUrl = `${cosBase}${imagePath}`;
   return (
     <Center py={12}>
       <Box
@@ -49,7 +51,7 @@ export default function CityCard({cityType, cityName} : CityCardProps) {
             pos: 'absolute',
             top: 5,
             left: 0,
-            backgroundImage: `url(${imagePath})`,
+            backgroundImage: `url(${imageUrl})`,
             filter: 'blur(15px)',
             zIndex: -1,
           }}
@@ -63,7 +65,7 @@ export default function CityCard({cityType, cityName} : CityCardProps) {
             // height={230}
             // width={282}
             objectFit={'cover'}
-            src={imagePath}
+            src={imageUrl}
             alt="#"
           />
 

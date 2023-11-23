@@ -11,8 +11,10 @@ import {
   Image,
 } from '@chakra-ui/react'
 
+import {cosBase} from "@/app/components/Util";
+
 export default function InvisibleCityCard() {
-  const IMAGE = "/logo.png"
+  const IMAGE = `${cosBase}/logo.png`
 
   return (
     <Center py={1}>
