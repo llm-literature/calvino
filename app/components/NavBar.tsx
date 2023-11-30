@@ -227,6 +227,10 @@ const NAV_ITEMS: Array<NavItem> = [
     label: 'Invisible City',
     href: '/city',
     },
+    {
+      label: "❤️Star",
+      href: 'https://github.com/llm-literature/calvino',
+    },
   // {
   //   label: 'About',
   //   children: [
