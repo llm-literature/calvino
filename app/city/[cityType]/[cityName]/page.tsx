@@ -29,7 +29,8 @@ function getCityDescription(cityType: string, cityName: string): string | undefi
   const city = data.cities.find(
     (c) => c.type.toLowerCase() === cityType.toLowerCase() && c.name.toLowerCase() === cityName.toLowerCase()
   );
-  return city?.description;
+  // Process literal \n characters to actual newlines for proper text display
+  return city?.description?.replace(/\\n/g, '\n');
 }
 
 export default function CityPage({ params }: {params: { cityType: string, cityName: string }}) {
@@ -41,64 +42,77 @@ export default function CityPage({ params }: {params: { cityType: string, cityNa
   const imagePath = `/city/${cityType}/${href}`;
   const imageUrl = `${cosBase}${imagePath}`
   return (
-    <Container minW={'100%'} minH={"100vh"}>
-      <Box>
-      <Stack
-        textAlign={'center'}
-        align={'center'}
-        // spacing={{ base: 8, md: 10 }}
-        py={{ base: 5, md: 8 }}
-      >
-        {/*<Heading*/}
-        {/*  fontWeight={600}*/}
-        {/*  fontSize={{ base: '3xl', sm: '4xl', md: '6xl' }}*/}
-        {/*  lineHeight={'110%'}>*/}
-        {/*  Invisible Cities*/}
-        {/*</Heading>*/}
-        <Heading
-          fontWeight={600}
-          fontSize={{ base: '3xl', sm: '4xl', md: '6xl' }}
-          lineHeight={'110%'}>
-          {capitalizeString(cityType)}/{capitalizeString(cityName)}
-        </Heading>
-      </Stack>
+    <Container maxW={'7xl'} minH={"100vh"} py={{ base: 8, md: 12 }}>
+      {/* Title Section */}
+      <Box mb={{ base: 8, md: 12 }}>
+        <Stack
+          textAlign={'center'}
+          align={'center'}
+          py={{ base: 4, md: 6 }}
+        >
+          <Heading
+            fontWeight={600}
+            fontSize={{ base: '3xl', sm: '4xl', md: '6xl' }}
+            lineHeight={'110%'}
+            mb={{ base: 4, md: 6 }}>
+            {capitalizeString(cityType)}/{capitalizeString(cityName)}
+          </Heading>
+        </Stack>
       </Box>
 
-        <Center>
-          <SimpleGrid columns={1} spacing={1}>
-            <Box>
-              <Stack pt={1} align={'center'}>
-              <Image
-                rounded={'lg'}
-                height={500}
-                width={500}
-                objectFit={'cover'}
-                src={imageUrl}
-                alt="#"
-              />
-              </Stack>
-            </Box>
-            <Box maxW={'80%'} justifySelf={'center'}>
-                <Stack
-                  // pt={1}
-                  textAlign={'left'}
-                  align={'left'}
-                  textStyle="paragraph"
-                  sx={{
-                    textIndent: "2em",
-                  }}
-                >
-                  <ReactMarkdown
-                    components={{
-                      p: ({ node, ...props }) => (
-                        <Text fontSize="sm" color="gray.600" {...props} />
-                      ),
-                    }}>{description}</ReactMarkdown>
-                </Stack>
+      {/* Content Section */}
+      <SimpleGrid 
+        columns={{ base: 1, lg: 2 }} 
+        spacing={{ base: 8, md: 12, lg: 16 }}
+        alignItems={'start'}
+      >
+        {/* Image Section */}
+        <Box>
+          <Center>
+            <Image
+              rounded={'xl'}
+              height={{ base: 400, md: 500, lg: 600 }}
+              width={{ base: 400, md: 500, lg: 600 }}
+              objectFit={'cover'}
+              src={imageUrl}
+              alt={`${capitalizeString(cityName)} - ${capitalizeString(cityType)}`}
+              shadow={'xl'}
+              transition={'transform 0.3s ease'}
+              _hover={{ transform: 'scale(1.02)' }}
+            />
+          </Center>
+        </Box>
 
-            </Box>
-        </SimpleGrid>
-      </Center>
+        {/* Text Section */}
+        <Box>
+          <Stack
+            spacing={4}
+            textAlign={{ base: 'left', lg: 'left' }}
+            px={{ base: 4, md: 6, lg: 0 }}
+          >
+            <ReactMarkdown
+              components={{
+                p: ({ node, ...props }) => (
+                  <Text 
+                    fontSize={{ base: 'md', md: 'lg' }}
+                    lineHeight={1.8}
+                    color="gray.700"
+                    textAlign={'justify'}
+                    mb={4}
+                    sx={{
+                      textIndent: "2em",
+                      whiteSpace: 'pre-line' // This allows newlines to be displayed properly
+                    }}
+                    {...props} 
+                  />
+                ),
+              }}
+            >
+              {description}
+            </ReactMarkdown>
+          </Stack>
+        </Box>
+      </SimpleGrid>
     </Container>
   )
 }
