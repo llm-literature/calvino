@@ -1,75 +1,44 @@
 'use client'
 
-import {
-  Box,
-  Center,
-  useColorModeValue,
-  LinkOverlay,
-  Heading,
-  Text,
-  Stack,
-  Image,
-} from '@chakra-ui/react'
-
+import Link from 'next/link'
+import Image from 'next/image'
 import {cosBase} from "@/app/components/Util";
 
 export default function InvisibleCityCard() {
   const IMAGE = `${cosBase}/logo.png`
 
   return (
-    <Center py={1}>
-      <Box
-        role={'group'}
-        p={6}
-        maxW={'330px'}
-        w={'full'}
-        bg={useColorModeValue('lightgrey', 'gray.800')}
-        boxShadow={'2xl'}
-        rounded={'lg'}
-        pos={'relative'}
-        zIndex={1}>
-        <Box
-          rounded={'lg'}
-          mt={-1}
-          pos={'relative'}
-          height={'230px'}
-          _after={{
-            transition: 'all .3s ease',
-            content: '""',
-            w: 'full',
-            h: 'full',
-            pos: 'absolute',
-            top: 5,
-            left: 0,
-            backgroundImage: `url(${IMAGE})`,
-            filter: 'blur(15px)',
-            zIndex: -1,
-          }}
-          _groupHover={{
-            _after: {
-              filter: 'blur(20px)',
-            },
-          }}>
+    <div className="flex justify-center py-1">
+      <div
+        className="group relative p-6 max-w-[330px] w-full bg-gray-200 dark:bg-gray-800 shadow-2xl rounded-lg z-10"
+      >
+        <div
+          className="relative mt-[-4px] h-[230px] rounded-lg
+            after:transition-all after:duration-300 after:ease-out
+            after:content-[''] after:w-full after:h-full after:absolute after:top-5 after:left-0
+            after:bg-cover after:blur-[15px] after:-z-10
+            group-hover:after:blur-[20px]
+            after:bg-[image:var(--image-url)]"
+          style={{
+            '--image-url': `url(${IMAGE})`
+          } as React.CSSProperties}
+        >
           <Image
-            rounded={'lg'}
+            className="rounded-lg object-cover"
             height={230}
             width={282}
-            objectFit={'cover'}
             src={IMAGE}
             alt="#"
           />
-        </Box>
-        <Stack pt={10} align={'center'}>
-          <Text color={'gray.700'} fontSize={'xl'} textTransform={'uppercase'}>
-            <LinkOverlay href={'/city'}>
+        </div>
+        <div className="pt-10 flex flex-col items-center gap-2">
+          <p className="text-gray-700 text-xl uppercase">
+            <Link href={'/city'}>
                 Invisible City
-            </LinkOverlay> 
-          </Text>
-          {/* <Heading fontSize={'2xl'} fontFamily={'body'} fontWeight={500}>
-            Nice Chair, pink
-          </Heading> */}
-        </Stack>
-      </Box>
-    </Center>
+            </Link> 
+          </p>
+        </div>
+      </div>
+    </div>
   )
 }

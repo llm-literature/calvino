@@ -1,15 +1,5 @@
-import {
-  Container,
-  Heading,
-  Stack,
-  SimpleGrid,
-  Box,
-  Center,
-  Image,
-  Text
-} from '@chakra-ui/react'
-
 import ReactMarkdown from 'react-markdown';
+import Image from 'next/image';
 import capitalizeString from "@/app/components/Util";
 import {cosBase} from "@/app/components/Util";
 
@@ -33,87 +23,58 @@ function getCityDescription(cityType: string, cityName: string): string | undefi
   return city?.description?.replace(/\\n/g, '\n');
 }
 
-export default function CityPage({ params }: {params: { cityType: string, cityName: string }}) {
-  const cityType = params.cityType;
-  const cityName = params.cityName;
+export default async function CityPage({ params }: {params: Promise<{ cityType: string, cityName: string }>}) {
+  const { cityType, cityName } = await params;
 
   const description = getCityDescription(cityType, cityName);
   const href: string = `${cityName}.png`;
   const imagePath = `/city/${cityType}/${href}`;
   const imageUrl = `${cosBase}${imagePath}`
   return (
-    <Container maxW={'7xl'} minH={"100vh"} py={{ base: 8, md: 12 }}>
+    <div className="container mx-auto max-w-7xl min-h-screen py-8 md:py-12">
       {/* Title Section */}
-      <Box mb={{ base: 8, md: 12 }}>
-        <Stack
-          textAlign={'center'}
-          align={'center'}
-          py={{ base: 4, md: 6 }}
-        >
-          <Heading
-            fontWeight={600}
-            fontSize={{ base: '3xl', sm: '4xl', md: '6xl' }}
-            lineHeight={'110%'}
-            mb={{ base: 4, md: 6 }}>
+      <div className="mb-8 md:mb-12">
+        <div className="flex flex-col text-center items-center py-4 md:py-6">
+          <h1 className="font-semibold text-3xl sm:text-4xl md:text-6xl leading-[110%] mb-4 md:mb-6">
             {capitalizeString(cityType)}/{capitalizeString(cityName)}
-          </Heading>
-        </Stack>
-      </Box>
+          </h1>
+        </div>
+      </div>
 
       {/* Content Section */}
-      <SimpleGrid 
-        columns={{ base: 1, lg: 2 }} 
-        spacing={{ base: 8, md: 12, lg: 16 }}
-        alignItems={'start'}
-      >
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-start">
         {/* Image Section */}
-        <Box>
-          <Center>
-            <Image
-              rounded={'xl'}
-              height={{ base: 400, md: 500, lg: 600 }}
-              width={{ base: 400, md: 500, lg: 600 }}
-              objectFit={'cover'}
-              src={imageUrl}
-              alt={`${capitalizeString(cityName)} - ${capitalizeString(cityType)}`}
-              shadow={'xl'}
-              transition={'transform 0.3s ease'}
-              _hover={{ transform: 'scale(1.02)' }}
-            />
-          </Center>
-        </Box>
+        <div>
+          <div className="flex justify-center">
+            <div className="relative w-[400px] h-[400px] md:w-[500px] md:h-[500px] lg:w-[600px] lg:h-[600px] rounded-xl overflow-hidden shadow-xl transition-transform duration-300 hover:scale-102">
+                <Image
+                fill
+                className="object-cover"
+                src={imageUrl}
+                alt={`${capitalizeString(cityName)} - ${capitalizeString(cityType)}`}
+                />
+            </div>
+          </div>
+        </div>
 
         {/* Text Section */}
-        <Box>
-          <Stack
-            spacing={4}
-            textAlign={{ base: 'left', lg: 'left' }}
-            px={{ base: 4, md: 6, lg: 0 }}
-          >
+        <div>
+          <div className="flex flex-col gap-4 text-left px-4 md:px-6 lg:px-0">
             <ReactMarkdown
               components={{
                 p: ({ node, ...props }) => (
-                  <Text 
-                    fontSize={{ base: 'md', md: 'lg' }}
-                    lineHeight={1.8}
-                    color="gray.700"
-                    textAlign={'justify'}
-                    mb={4}
-                    sx={{
-                      textIndent: "2em",
-                      whiteSpace: 'pre-line' // This allows newlines to be displayed properly
-                    }}
-                    {...props} 
+                  <p
+                    className="text-base md:text-lg leading-[1.8] text-gray-700 dark:text-gray-300 text-justify"
+                    {...props}
                   />
-                ),
+                )
               }}
             >
               {description}
             </ReactMarkdown>
-          </Stack>
-        </Box>
-      </SimpleGrid>
-    </Container>
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }
-

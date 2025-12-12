@@ -1,5 +1,3 @@
-'use client';
-
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
@@ -10,7 +8,7 @@ import LargeWithLogoCentered from './components/Footer';
 
 const inter = Inter({ subsets: ['latin'] })
 
-const metadata: Metadata = {
+export const metadata: Metadata = {
   title: 'Calvino',
   description: 'LLM and Literature: Calvino',
 }
@@ -22,7 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body className={inter.className}>
         <Providers>
           <WithSubnavigation/>
           {children}
