@@ -1,24 +1,16 @@
-'use client'
+'use client';
 
-import * as React from "react"
-import Link from "next/link"
-import { Menu, X, ChevronDown, ChevronRight } from "lucide-react"
+import * as React from 'react';
+import Link from 'next/link';
+import { Menu, X, ChevronDown, ChevronRight } from 'lucide-react';
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible"
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 
 export default function WithSubnavigation() {
-  const [isOpen, setIsOpen] = React.useState(false)
+  const [isOpen, setIsOpen] = React.useState(false);
 
   return (
     <div className="border-b border-stone-200 dark:border-stone-800 bg-stone-50/80 dark:bg-stone-950/80 backdrop-blur-md sticky top-0 z-50">
@@ -34,9 +26,12 @@ export default function WithSubnavigation() {
             {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </Button>
         </div>
-        
+
         <div className="flex justify-center md:justify-start">
-          <Link href="/" className="text-center md:text-left font-display text-2xl font-bold text-stone-900 dark:text-stone-100 tracking-tight">
+          <Link
+            href="/"
+            className="text-center md:text-left font-display text-2xl font-bold text-stone-900 dark:text-stone-100 tracking-tight"
+          >
             Calvino
           </Link>
         </div>
@@ -44,18 +39,22 @@ export default function WithSubnavigation() {
         <div className="hidden md:flex">
           <DesktopNav />
         </div>
-        
+
         {/* Spacer for mobile layout balance */}
         <div className="w-10 md:hidden"></div>
       </div>
 
-      <Collapsible open={isOpen} onOpenChange={setIsOpen} className="md:hidden border-t border-stone-200 dark:border-stone-800">
+      <Collapsible
+        open={isOpen}
+        onOpenChange={setIsOpen}
+        className="md:hidden border-t border-stone-200 dark:border-stone-800"
+      >
         <CollapsibleContent>
           <MobileNav />
         </CollapsibleContent>
       </Collapsible>
     </div>
-  )
+  );
 }
 
 const DesktopNav = () => {
@@ -73,8 +72,8 @@ const DesktopNav = () => {
         </div>
       ))}
     </div>
-  )
-}
+  );
+};
 
 const MobileNav = () => {
   return (
@@ -83,11 +82,11 @@ const MobileNav = () => {
         <MobileNavItem key={navItem.label} {...navItem} />
       ))}
     </div>
-  )
-}
+  );
+};
 
 const MobileNavItem = ({ label, children, href }: NavItem) => {
-  const [isOpen, setIsOpen] = React.useState(false)
+  const [isOpen, setIsOpen] = React.useState(false);
 
   return (
     <div className="flex flex-col gap-4">
@@ -96,34 +95,34 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
         onClick={() => children && setIsOpen(!isOpen)}
       >
         <Link
-            href={href ?? '#'}
-            className="font-serif font-semibold text-stone-600 dark:text-stone-200"
+          href={href ?? '#'}
+          className="font-serif font-semibold text-stone-600 dark:text-stone-200"
         >
-            {label}
+          {label}
         </Link>
       </div>
     </div>
-  )
-}
+  );
+};
 
 interface NavItem {
-  label: string
-  subLabel?: string
-  children?: Array<NavItem>
-  href?: string
+  label: string;
+  subLabel?: string;
+  children?: Array<NavItem>;
+  href?: string;
 }
 
 const NAV_ITEMS: Array<NavItem> = [
-    {
-        label: '首页',
-        href: '/',
-    },
-    {
-        label: '图集',
-        href: '/city',
-    },
-    {
-        label: "GitHub",
-        href: 'https://github.com/llm-literature/calvino',
-    },
-]
+  {
+    label: '首页',
+    href: '/',
+  },
+  {
+    label: '图集',
+    href: '/city',
+  },
+  {
+    label: 'GitHub',
+    href: 'https://github.com/llm-literature/calvino',
+  },
+];

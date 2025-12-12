@@ -18,11 +18,19 @@ interface LayoutProps {
   theme: CityTheme;
 }
 
-export const BazaarLayout = ({ city, prevCity, nextCity, description, imageUrl, theme }: LayoutProps) => {
+export const BazaarLayout = ({
+  city,
+  prevCity,
+  nextCity,
+  description,
+  imageUrl,
+  theme,
+}: LayoutProps) => {
   return (
-    <div className={cn("min-h-screen font-sans overflow-x-hidden", theme.colors.bg, theme.colors.text)}>
+    <div
+      className={cn('min-h-screen font-sans overflow-x-hidden', theme.colors.bg, theme.colors.text)}
+    >
       <div className="grid grid-cols-1 lg:grid-cols-2 min-h-screen">
-        
         {/* Left: Image & Title (Sticky) */}
         <div className="relative h-[50vh] lg:h-screen lg:sticky lg:top-0 overflow-hidden">
           <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/80 via-transparent to-transparent lg:bg-gradient-to-r lg:from-transparent lg:to-black/80" />
@@ -32,16 +40,19 @@ export const BazaarLayout = ({ city, prevCity, nextCity, description, imageUrl, 
             alt={city.name}
             className="object-cover transition-transform duration-[20s] hover:scale-110"
           />
-          
+
           <div className="absolute bottom-0 left-0 w-full p-8 lg:p-16 z-20">
-            <motion.span 
+            <motion.span
               initial={{ x: -20, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
-              className={cn("inline-block px-3 py-1 mb-4 text-xs font-bold uppercase tracking-widest bg-white/10 backdrop-blur-md rounded-full", theme.colors.accent)}
+              className={cn(
+                'inline-block px-3 py-1 mb-4 text-xs font-bold uppercase tracking-widest bg-white/10 backdrop-blur-md rounded-full',
+                theme.colors.accent
+              )}
             >
               {theme.label}
             </motion.span>
-            <motion.h1 
+            <motion.h1
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.2 }}
@@ -54,37 +65,71 @@ export const BazaarLayout = ({ city, prevCity, nextCity, description, imageUrl, 
 
         {/* Right: Content (Scrollable) */}
         <div className="p-8 lg:p-20 flex flex-col justify-center">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="prose prose-lg dark:prose-invert max-w-xl"
           >
-             <ReactMarkdown
-                components={{
-                  p: ({ node, ...props }) => (
-                    <p className={cn("mb-6 text-lg leading-relaxed font-medium", theme.colors.text)} {...props} />
-                  )
-                }}
-              >
-                {description}
-              </ReactMarkdown>
+            <ReactMarkdown
+              components={{
+                p: ({ node, ...props }) => (
+                  <p
+                    className={cn('mb-6 text-lg leading-relaxed font-medium', theme.colors.text)}
+                    {...props}
+                  />
+                ),
+              }}
+            >
+              {description}
+            </ReactMarkdown>
           </motion.div>
 
-          <div className="mt-20 grid grid-cols-2 gap-4 border-t pt-8" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>
-             {prevCity ? (
-                <Link href={`/city/${prevCity.type}/${prevCity.name}`} className="group block p-4 rounded-lg hover:bg-white/5 transition-colors">
-                  <span className={cn("text-xs uppercase tracking-widest block mb-1 opacity-60", theme.colors.text)}>上一座</span>
-                  <span className="font-display text-xl font-bold">{capitalizeString(prevCity.name)}</span>
-                </Link>
-            ) : <div />}
+          <div
+            className="mt-20 grid grid-cols-2 gap-4 border-t pt-8"
+            style={{ borderColor: 'rgba(255,255,255,0.1)' }}
+          >
+            {prevCity ? (
+              <Link
+                href={`/city/${prevCity.type}/${prevCity.name}`}
+                className="group block p-4 rounded-lg hover:bg-white/5 transition-colors"
+              >
+                <span
+                  className={cn(
+                    'text-xs uppercase tracking-widest block mb-1 opacity-60',
+                    theme.colors.text
+                  )}
+                >
+                  上一座
+                </span>
+                <span className="font-display text-xl font-bold">
+                  {capitalizeString(prevCity.name)}
+                </span>
+              </Link>
+            ) : (
+              <div />
+            )}
 
             {nextCity ? (
-                <Link href={`/city/${nextCity.type}/${nextCity.name}`} className="group block p-4 rounded-lg hover:bg-white/5 transition-colors text-right">
-                  <span className={cn("text-xs uppercase tracking-widest block mb-1 opacity-60", theme.colors.text)}>下一座</span>
-                  <span className="font-display text-xl font-bold">{capitalizeString(nextCity.name)}</span>
-                </Link>
-            ) : <div />}
+              <Link
+                href={`/city/${nextCity.type}/${nextCity.name}`}
+                className="group block p-4 rounded-lg hover:bg-white/5 transition-colors text-right"
+              >
+                <span
+                  className={cn(
+                    'text-xs uppercase tracking-widest block mb-1 opacity-60',
+                    theme.colors.text
+                  )}
+                >
+                  下一座
+                </span>
+                <span className="font-display text-xl font-bold">
+                  {capitalizeString(nextCity.name)}
+                </span>
+              </Link>
+            ) : (
+              <div />
+            )}
           </div>
         </div>
       </div>

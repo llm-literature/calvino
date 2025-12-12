@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   --font-display: var(--font-cinzel), serif;
@@ -105,7 +105,7 @@
 @layer base {
   :root {
     /* Stone-50 as background, Stone-900 as foreground */
-    --background: 60 30% 96%; 
+    --background: 60 30% 96%;
     --foreground: 24 10% 10%;
 
     --card: 60 30% 96%;
@@ -176,7 +176,12 @@
   body {
     @apply bg-background text-foreground;
   }
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-display tracking-tight;
   }
 }

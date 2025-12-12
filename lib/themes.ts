@@ -1,4 +1,3 @@
-
 export type CityArchetype = 'ethereal' | 'labyrinth' | 'bazaar' | 'chronicle';
 
 export interface CityTheme {

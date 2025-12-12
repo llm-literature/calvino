@@ -1,0 +1,6 @@
+# Prettier ignore file
+.next
+out
+build
+node_modules
+*.md
