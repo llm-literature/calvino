@@ -1,17 +1,7 @@
 'use client'
 
-import {
-  Box,
-  Center,
-  useColorModeValue,
-  Heading,
-  Text,
-  Stack,
-  Image,
-  LinkBox,
-  LinkOverlay,
-} from '@chakra-ui/react'
-
+import Link from 'next/link'
+import Image from 'next/image'
 import capitalizeString from "@/app/components/Util";
 import {cosBase} from "@/app/components/Util";
 
@@ -20,73 +10,47 @@ interface CityCardProps {
   cityName: string
 }
 
-
 export default function CityCard({cityType, cityName} : CityCardProps) {
   const href: string = `${cityName}.png`;
   const imagePath = `/city/${cityType}/${href}`;
   const imageUrl = `${cosBase}${imagePath}`;
   return (
-    <Center py={12}>
-      <Box
-        role={'group'}
-        p={6}
-        maxW={'330px'}
-        maxH={'500px'}
-        w={'full'}
-        bg={useColorModeValue('white', 'gray.800')}
-        boxShadow={'2xl'}
-        rounded={'lg'}
-        pos={'relative'}
-        zIndex={1}>
-        <Box
-          rounded={'lg'}
-          mt={1}
-          pos={'relative'}
-          height={'300px'}
-          _after={{
-            transition: 'all .3s ease',
-            content: '""',
-            w: 'full',
-            h: 'full',
-            pos: 'absolute',
-            top: 5,
-            left: 0,
-            backgroundImage: `url(${imageUrl})`,
-            filter: 'blur(15px)',
-            zIndex: -1,
-          }}
-          _groupHover={{
-            _after: {
-              filter: 'blur(20px)',
-            },
-          }}>
+    <div className="flex justify-center py-12">
+      <div
+        className="group relative p-6 max-w-[330px] max-h-[500px] w-full bg-white dark:bg-gray-800 shadow-2xl rounded-lg z-10"
+      >
+        <div
+          className="relative mt-1 h-[300px] rounded-lg
+            after:transition-all after:duration-300 after:ease-out
+            after:content-[''] after:w-full after:h-full after:absolute after:top-5 after:left-0
+            after:bg-cover after:blur-[15px] after:-z-10
+            group-hover:after:blur-[20px]
+            after:bg-[image:var(--image-url)]"
+          style={{
+            '--image-url': `url(${imageUrl})`
+          } as React.CSSProperties}
+        >
           <Image
-            rounded={'full'}
-            // height={230}
-            // width={282}
-            objectFit={'cover'}
+            className="rounded-full object-cover"
+            fill
             src={imageUrl}
             alt="#"
           />
-
-        </Box>
-        <Stack pt={10} align={'center'}>
-
-          <Text fontWeight={300} fontSize={'l'}>
+        </div>
+        <div className="pt-10 flex flex-col items-center gap-2">
+          <p className="font-light text-lg uppercase">
             {cityType.toUpperCase()}
-          </Text>
-          <Heading fontSize={'2xl'} fontFamily={'body'} fontWeight={500}>
-            <LinkOverlay href={imagePath.split('.')[0]}>
+          </p>
+          <h2 className="text-2xl font-medium">
+            <Link href={imagePath.split('.')[0]}>
                 {capitalizeString(cityName)}
-            </LinkOverlay>
-          </Heading>
-        </Stack>
-      </Box>
-    </Center>
+            </Link>
+          </h2>
+        </div>
+      </div>
+    </div>
   )
 }
-
-
 
 const DemoCityCardComponent = () => {
   return (

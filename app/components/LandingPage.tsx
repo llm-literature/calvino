@@ -1,36 +1,22 @@
 'use client'
 
-import {
-  Container,
-  Heading,
-  Stack,
-  Button,
-} from '@chakra-ui/react'
 import Link from "next/link";
 import WithSpeechBubbles from './Testimonial';
 import InvisibleCityCard from './BookCard';
 
-
 export default function LandingPage() {
   return (
-    <Container minW={'100%'} minH={"100vh"}>
-      <Stack
-        textAlign={'center'}
-        align={'center'}
-        spacing={{ base: 8, md: 10 }}
-        py={{ base: 10, md: 12 }}>
-        <Heading
-          fontWeight={600}
-          fontSize={{ base: '3xl', sm: '4xl', md: '6xl' }}
-          lineHeight={'110%'}>
+    <div className="container mx-auto min-w-full min-h-screen">
+      <div className="flex flex-col text-center items-center gap-8 md:gap-10 py-10 md:py-12">
+        <h1 className="font-semibold text-3xl sm:text-4xl md:text-6xl leading-[110%]">
           Italo Calvino
-        </Heading>
-        {/* <Button textAlign={"center"} color={"gray"}>
+        </h1>
+        {/* <button className="text-center text-gray-500">
           <Link href={"/city"}>Invisible Cities</Link>
-        </Button> */}
-      </Stack>
+        </button> */}
+      </div>
       <InvisibleCityCard/>
       <WithSpeechBubbles/>
-    </Container>
+    </div>
   )
 }

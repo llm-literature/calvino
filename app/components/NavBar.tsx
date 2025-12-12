@@ -1,213 +1,158 @@
 'use client'
 
+import * as React from "react"
+import Link from "next/link"
+import { Menu, X, ChevronDown, ChevronRight } from "lucide-react"
+
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
 import {
-  Box,
-  Flex,
-  Text,
-  IconButton,
-  Button,
-  Stack,
-  Collapse,
-  Icon,
   Popover,
-  PopoverTrigger,
   PopoverContent,
-  useColorModeValue,
-  useBreakpointValue,
-  useDisclosure,
-} from '@chakra-ui/react'
+  PopoverTrigger,
+} from "@/components/ui/popover"
 import {
-  HamburgerIcon,
-  CloseIcon,
-  ChevronDownIcon,
-  ChevronRightIcon,
-} from '@chakra-ui/icons'
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible"
 
 export default function WithSubnavigation() {
-  const { isOpen, onToggle } = useDisclosure()
+  const [isOpen, setIsOpen] = React.useState(false)
 
   return (
-    <Box>
-      <Flex
-        // bg={useColorModeValue('rgba(214, 219, 220)', 'gray.800')}
-        // color={useColorModeValue('gray.600', 'white')}
-        minH={'60px'}
-        py={{ base: 2 }}
-        px={{ base: 4 }}
-        borderBottom={1}
-        borderStyle={'solid'}
-        borderColor={useColorModeValue('rgba(214, 219, 220)', 'gray.900')}
-        align={'center'}>
-        <Flex
-          flex={{ base: 1, md: 'auto' }}
-          ml={{ base: -2 }}
-          display={{ base: 'flex', md: 'none' }}>
-          <IconButton
-            onClick={onToggle}
-            icon={isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />}
-            variant={'ghost'}
-            aria-label={'Toggle Navigation'}
-          />
-        </Flex>
-        <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
-          <Text
-            textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
-            fontFamily={'heading'}
-            color={useColorModeValue('gray.800', 'white')}>
+    <div className="border-b border-gray-200 dark:border-gray-900 bg-white dark:bg-gray-800">
+      <div className="flex min-h-[60px] py-2 px-4 items-center">
+        <div className="flex flex-1 md:hidden ml-[-8px]">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setIsOpen(!isOpen)}
+            aria-label="Toggle Navigation"
+          >
+            {isOpen ? <X className="h-3 w-3" /> : <Menu className="h-5 w-5" />}
+          </Button>
+        </div>
+        <div className="flex flex-1 justify-center md:justify-start">
+          <p className="text-center md:text-left font-heading text-gray-800 dark:text-white">
             Calvino
-          </Text>
+          </p>
 
-          <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
+          <div className="hidden md:flex ml-10">
             <DesktopNav />
-          </Flex>
-        </Flex>
-      </Flex>
+          </div>
+        </div>
+      </div>
 
-      <Collapse in={isOpen} animateOpacity>
-        <MobileNav />
-      </Collapse>
-    </Box>
+      <Collapsible open={isOpen} onOpenChange={setIsOpen} className="md:hidden">
+        <CollapsibleContent>
+          <MobileNav />
+        </CollapsibleContent>
+      </Collapsible>
+    </div>
   )
 }
 
 const DesktopNav = () => {
-  const linkColor = useColorModeValue('gray.600', 'gray.200')
-  const linkHoverColor = useColorModeValue('gray.800', 'white')
-  const popoverContentBgColor = useColorModeValue('white', 'gray.800')
-
   return (
-    <Stack direction={'row'} spacing={4}>
+    <div className="flex flex-row gap-4">
       {NAV_ITEMS.map((navItem) => (
-        <Box key={navItem.label}>
-          <Popover trigger={'hover'} placement={'bottom-start'}>
-            <PopoverTrigger>
-              <Box
-                as="a"
-                p={2}
+        <div key={navItem.label}>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Link
                 href={navItem.href ?? '#'}
-                fontSize={'sm'}
-                fontWeight={500}
-                color={linkColor}
-                _hover={{
-                  textDecoration: 'none',
-                  color: linkHoverColor,
-                }}>
+                className="p-2 text-sm font-medium text-gray-600 hover:text-gray-800 dark:text-gray-200 dark:hover:text-white hover:no-underline"
+              >
                 {navItem.label}
-              </Box>
+              </Link>
             </PopoverTrigger>
 
             {navItem.children && (
-              <PopoverContent
-                border={0}
-                boxShadow={'xl'}
-                bg={popoverContentBgColor}
-                p={4}
-                rounded={'xl'}
-                minW={'sm'}>
-                <Stack>
+              <PopoverContent className="w-sm p-4 rounded-xl shadow-xl bg-white dark:bg-gray-800 border-0">
+                <div className="flex flex-col gap-2">
                   {navItem.children.map((child) => (
                     <DesktopSubNav key={child.label} {...child} />
                   ))}
-                </Stack>
+                </div>
               </PopoverContent>
             )}
           </Popover>
-        </Box>
+        </div>
       ))}
-    </Stack>
+    </div>
   )
 }
 
 const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
   return (
-    <Box
-      as="a"
-      href={href}
-      role={'group'}
-      display={'block'}
-      p={2}
-      rounded={'md'}
-      _hover={{ bg: useColorModeValue('pink.50', 'gray.900') }}>
-      <Stack direction={'row'} align={'center'}>
-        <Box>
-          <Text
-            transition={'all .3s ease'}
-            _groupHover={{ color: 'pink.400' }}
-            fontWeight={500}>
+    <Link
+      href={href ?? '#'}
+      className="group block p-2 rounded-md hover:bg-pink-50 dark:hover:bg-gray-900"
+    >
+      <div className="flex flex-row items-center">
+        <div>
+          <p className="font-medium transition-all duration-300 group-hover:text-pink-400">
             {label}
-          </Text>
-          <Text fontSize={'sm'}>{subLabel}</Text>
-        </Box>
-        <Flex
-          transition={'all .3s ease'}
-          transform={'translateX(-10px)'}
-          opacity={0}
-          _groupHover={{ opacity: '100%', transform: 'translateX(0)' }}
-          justify={'flex-end'}
-          align={'center'}
-          flex={1}>
-          <Icon color={'pink.400'} w={5} h={5} as={ChevronRightIcon} />
-        </Flex>
-      </Stack>
-    </Box>
+          </p>
+          <p className="text-sm">{subLabel}</p>
+        </div>
+        <div className="flex flex-1 justify-end items-center transition-all duration-300 transform translate-x-[-10px] opacity-0 group-hover:opacity-100 group-hover:translate-x-0">
+          <ChevronRight className="text-pink-400 h-5 w-5" />
+        </div>
+      </div>
+    </Link>
   )
 }
 
 const MobileNav = () => {
   return (
-    <Stack bg={useColorModeValue('white', 'gray.800')} p={4} display={{ md: 'none' }}>
+    <div className="bg-white dark:bg-gray-800 p-4 md:hidden flex flex-col gap-4">
       {NAV_ITEMS.map((navItem) => (
         <MobileNavItem key={navItem.label} {...navItem} />
       ))}
-    </Stack>
+    </div>
   )
 }
 
 const MobileNavItem = ({ label, children, href }: NavItem) => {
-  const { isOpen, onToggle } = useDisclosure()
+  const [isOpen, setIsOpen] = React.useState(false)
 
   return (
-    <Stack spacing={4} onClick={children && onToggle}>
-      <Box
-        py={2}
-        as="a"
-        href={href ?? '#'}
-        justifyContent="space-between"
-        alignItems="center"
-        _hover={{
-          textDecoration: 'none',
-        }}>
-        <Text fontWeight={600} color={useColorModeValue('gray.600', 'gray.200')}>
-          {label}
-        </Text>
+    <div className="flex flex-col gap-4">
+      <div
+        className="flex justify-between items-center py-2 cursor-pointer hover:no-underline"
+        onClick={() => children && setIsOpen(!isOpen)}
+      >
+        <Link
+            href={href ?? '#'}
+            className="font-semibold text-gray-600 dark:text-gray-200"
+        >
+            {label}
+        </Link>
         {children && (
-          <Icon
-            as={ChevronDownIcon}
-            transition={'all .25s ease-in-out'}
-            transform={isOpen ? 'rotate(180deg)' : ''}
-            w={6}
-            h={6}
+          <ChevronDown
+            className={cn(
+              "transition-all duration-250 ease-in-out h-6 w-6",
+              isOpen ? "rotate-180" : ""
+            )}
           />
         )}
-      </Box>
+      </div>
 
-      <Collapse in={isOpen} animateOpacity style={{ marginTop: '0!important' }}>
-        <Stack
-          mt={2}
-          pl={4}
-          borderLeft={1}
-          borderStyle={'solid'}
-          borderColor={useColorModeValue('gray.200', 'gray.700')}
-          align={'start'}>
-          {children &&
-            children.map((child) => (
-              <Box as="a" key={child.label} py={2} href={child.href}>
-                {child.label}
-              </Box>
-            ))}
-        </Stack>
-      </Collapse>
-    </Stack>
+      <Collapsible open={isOpen} onOpenChange={setIsOpen} className="mt-0!important">
+        <CollapsibleContent>
+          <div className="mt-2 pl-4 border-l border-gray-200 dark:border-gray-700 flex flex-col items-start gap-2">
+            {children &&
+              children.map((child) => (
+                <Link key={child.label} href={child.href ?? '#'} className="py-2">
+                  {child.label}
+                </Link>
+              ))}
+          </div>
+        </CollapsibleContent>
+      </Collapsible>
+    </div>
   )
 }
 
@@ -231,19 +176,4 @@ const NAV_ITEMS: Array<NavItem> = [
       label: "❤️Star",
       href: 'https://github.com/llm-literature/calvino',
     },
-  // {
-  //   label: 'About',
-  //   children: [
-  //     {
-  //       label: 'GitHub Repository',
-  //       subLabel: 'The LLM & Literature orgnization in GitHub',
-  //       href: 'https://github.com/llm-literature/calvino',
-  //     },
-  //     {
-  //       label: 'Me',
-  //       subLabel: 'Big fan of Calvino!',
-  //       href: 'datahonor.com',
-  //     },
-  //   ],
-  // },
 ]

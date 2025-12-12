@@ -1,15 +1,7 @@
 'use client'
 
-import {
-  Container,
-  Heading,
-  Stack,
-  Button,
-  Box,
-} from '@chakra-ui/react'
 import Link from "next/link";
 import CityCard, {DemoCityCardComponent} from '@/app/components/CityCard';
-import { SimpleGrid } from '@chakra-ui/react'
 
 import data from '@/public/city/data.json';
 
@@ -19,23 +11,16 @@ export default function InvisibleCityPage() {
   ));
 
   return (
-    <Container minW={'100%'} minH={"100vh"}>
-      <Stack
-        textAlign={'center'}
-        align={'center'}
-        spacing={{ base: 8, md: 10 }}
-        py={{ base: 10, md: 12 }}>
-        <Heading
-          fontWeight={600}
-          fontSize={{ base: '3xl', sm: '4xl', md: '6xl' }}
-          lineHeight={'110%'}>
+    <div className="container mx-auto min-w-full min-h-screen">
+      <div className="flex flex-col text-center items-center gap-8 md:gap-10 py-10 md:py-12">
+        <h1 className="font-semibold text-3xl sm:text-4xl md:text-6xl leading-[110%]">
           Invisible Cities
-        </Heading>
-      </Stack>
+        </h1>
+      </div>
 
-      <SimpleGrid minChildWidth={'300px'} spacing={5}>
+      <div className="grid gap-5" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))' }}>
         {cityCardComponents}
-      </SimpleGrid>
-    </Container>
+      </div>
+    </div>
   )
 }

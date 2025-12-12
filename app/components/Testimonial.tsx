@@ -1,16 +1,10 @@
 'use client'
 
 import {
-  Box,
-  Flex,
-  Heading,
-  Text,
-  Stack,
-  Container,
   Avatar,
-  useColorModeValue,
-} from '@chakra-ui/react'
-
+  AvatarImage,
+  AvatarFallback,
+} from "@/components/ui/avatar"
 import {cosBase} from "@/app/components/Util";
 
 interface Props {
@@ -20,38 +14,22 @@ interface Props {
 const Testimonial = (props: Props) => {
   const { children } = props
 
-  return <Box>{children}</Box>
+  return <div>{children}</div>
 }
 
 const TestimonialContent = (props: Props) => {
   const { children } = props
 
   return (
-    <Stack
-      bg={useColorModeValue('white', 'gray.800')}
-      boxShadow={'lg'}
-      p={8}
-      rounded={'xl'}
-      align={'center'}
-      pos={'relative'}
-      _after={{
-        content: `""`,
-        w: 0,
-        h: 0,
-        borderLeft: 'solid transparent',
-        borderLeftWidth: 16,
-        borderRight: 'solid transparent',
-        borderRightWidth: 16,
-        borderTop: 'solid',
-        borderTopWidth: 16,
-        borderTopColor: useColorModeValue('white', 'gray.800'),
-        pos: 'absolute',
-        bottom: '-16px',
-        left: '50%',
-        transform: 'translateX(-50%)',
-      }}>
+    <div
+      className="bg-white dark:bg-gray-800 shadow-lg p-8 rounded-xl flex flex-col items-center relative
+        after:content-[''] after:w-0 after:h-0 after:border-l-[16px] after:border-l-transparent
+        after:border-r-[16px] after:border-r-transparent after:border-t-[16px]
+        after:border-t-white dark:after:border-t-gray-800
+        after:absolute after:-bottom-[16px] after:left-1/2 after:-translate-x-1/2"
+    >
       {children}
-    </Stack>
+    </div>
   )
 }
 
@@ -59,9 +37,9 @@ const TestimonialHeading = (props: Props) => {
   const { children } = props
 
   return (
-    <Heading as={'h3'} fontSize={'xl'}>
+    <h3 className="text-xl font-bold">
       {children}
-    </Heading>
+    </h3>
   )
 }
 
@@ -69,12 +47,11 @@ const TestimonialText = (props: Props) => {
   const { children } = props
 
   return (
-    <Text
-      textAlign={'center'}
-      color={useColorModeValue('gray.600', 'gray.400')}
-      fontSize={'sm'}>
+    <p
+      className="text-center text-gray-600 dark:text-gray-400 text-sm"
+    >
       {children}
-    </Text>
+    </p>
   )
 }
 
@@ -88,31 +65,34 @@ const TestimonialAvatar = ({
   title: string
 }) => {
   return (
-    <Flex align={'center'} mt={8} direction={'column'}>
-      <Avatar src={src} mb={2} />
-      <Stack spacing={-1} align={'center'}>
-        <Text fontWeight={600}>{name}</Text>
-        <Text fontSize={'sm'} color={useColorModeValue('gray.600', 'gray.400')}>
+    <div className="flex flex-col items-center mt-8">
+      <Avatar className="mb-2">
+        <AvatarImage src={src} alt={name} />
+        <AvatarFallback>{name[0]}</AvatarFallback>
+      </Avatar>
+      <div className="flex flex-col items-center -space-y-1">
+        <p className="font-semibold">{name}</p>
+        <p className="text-sm text-gray-600 dark:text-gray-400">
           {title}
-        </Text>
-      </Stack>
-    </Flex>
+        </p>
+      </div>
+    </div>
   )
 }
 
 export default function WithSpeechBubbles() {
   return (
-    <Box 
-    // bg={useColorModeValue('gray.100', 'gray.700')}
-    >
-      <Container maxW={'7xl'} py={16} as={Stack} spacing={12} centerContent>
-        <Stack spacing={0} align={'center'}>
-          <Heading>他/她们说</Heading>
-          <Text>让世界听见你的声音</Text>
-        </Stack>
-        <Stack
-          direction={{ base: 'column', md: 'row' }}
-          spacing={{ base: 10, md: 4, lg: 10 }}>
+    <div className="bg-gray-100 dark:bg-gray-700 p-4">
+      <div className="container mx-auto py-16 md:py-24">
+        <div className="flex flex-col items-center gap-6 mb-10">
+          <h2 className="text-3xl font-bold text-center">
+            他/她们说
+          </h2>
+          <p className="text-center text-gray-600 dark:text-gray-400 text-lg">
+            让世界听见你的声音
+          </p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 justify-center max-w-4xl mx-auto">
           <Testimonial>
             <TestimonialContent>
               <TestimonialHeading>一直读下去</TestimonialHeading>
@@ -143,8 +123,8 @@ export default function WithSpeechBubbles() {
               title={'作家'}
             />
           </Testimonial>
-        </Stack>
-      </Container>
-    </Box>
+        </div>
+      </div>
+    </div>
   )
 }
