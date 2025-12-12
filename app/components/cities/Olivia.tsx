@@ -1,0 +1,87 @@
+'use client'
+
+import { City } from '@/lib/types'
+import { motion, AnimatePresence } from 'framer-motion'
+import Link from 'next/link'
+import { ArrowLeft, Sparkles, Settings } from 'lucide-react'
+import { useState } from 'react'
+import { cn } from '@/lib/utils'
+
+export default function Olivia({ city }: { city: City }) {
+  const [viewMode, setViewMode] = useState<'rich' | 'gritty'>('rich')
+
+  return (
+    <div className={cn(
+        "relative min-h-screen transition-colors duration-1000 overflow-hidden",
+        viewMode === 'rich' ? "bg-emerald-950 text-emerald-100" : "bg-neutral-900 text-neutral-400"
+    )}>
+      <Link
+        href={`/city/${city.type}`}
+        className="fixed top-8 left-8 z-50 rounded-full bg-white/10 p-2 backdrop-blur transition-colors hover:bg-white/20"
+      >
+        <ArrowLeft className="h-6 w-6" />
+      </Link>
+
+      <div className="absolute top-8 right-8 z-50 flex gap-4">
+          <button 
+            onClick={() => setViewMode('rich')}
+            className={cn("p-2 rounded-full transition-all", viewMode === 'rich' ? "bg-emerald-500 text-white" : "bg-white/5 text-white/50")}
+          >
+              <Sparkles className="w-6 h-6" />
+          </button>
+          <button 
+            onClick={() => setViewMode('gritty')}
+            className={cn("p-2 rounded-full transition-all", viewMode === 'gritty' ? "bg-neutral-500 text-white" : "bg-white/5 text-white/50")}
+          >
+              <Settings className="w-6 h-6" />
+          </button>
+      </div>
+
+      <div className="container mx-auto px-4 py-24 flex flex-col items-center justify-center min-h-screen text-center">
+        <AnimatePresence mode="wait">
+            {viewMode === 'rich' ? (
+                <motion.div 
+                    key="rich"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    className="max-w-3xl"
+                >
+                    <h1 className="text-6xl font-serif text-emerald-400 mb-8">OLIVIA</h1>
+                    <p className="text-2xl italic text-emerald-200/80 leading-relaxed mb-12">
+                        &quot;I must speak to you of filigree palaces, somersaulting peacocks, and the glint of gold...&quot;
+                    </p>
+                    <div className="grid grid-cols-3 gap-8 opacity-50">
+                        <div className="h-32 border border-emerald-500/30 rounded-lg flex items-center justify-center">Palaces</div>
+                        <div className="h-32 border border-emerald-500/30 rounded-lg flex items-center justify-center">Peacocks</div>
+                        <div className="h-32 border border-emerald-500/30 rounded-lg flex items-center justify-center">Gardens</div>
+                    </div>
+                </motion.div>
+            ) : (
+                <motion.div 
+                    key="gritty"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    className="max-w-3xl"
+                >
+                    <h1 className="text-6xl font-mono font-bold text-neutral-500 mb-8 tracking-tighter">OLIVIA</h1>
+                    <p className="text-xl font-mono text-neutral-500 leading-relaxed mb-12">
+                        &quot;...soot and grime, the creaking of wheels, the smell of leather, the repetitive motion of gears.&quot;
+                    </p>
+                    <div className="grid grid-cols-3 gap-8 opacity-50 font-mono text-sm">
+                        <div className="h-32 border border-neutral-700 bg-neutral-800/50 rounded flex items-center justify-center">SMOKE</div>
+                        <div className="h-32 border border-neutral-700 bg-neutral-800/50 rounded flex items-center justify-center">GEARS</div>
+                        <div className="h-32 border border-neutral-700 bg-neutral-800/50 rounded flex items-center justify-center">NOISE</div>
+                    </div>
+                </motion.div>
+            )}
+        </AnimatePresence>
+
+        <div className="mt-24 text-sm opacity-50 max-w-md mx-auto">
+            &quot;Falsehood is never in words; it is in things.&quot;
+        </div>
+      </div>
+    </div>
+  )
+}

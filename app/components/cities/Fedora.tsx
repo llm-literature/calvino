@@ -2,7 +2,9 @@
 
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Globe, X, Box, Layers, Grid, Hexagon } from 'lucide-react'
+import { Globe, X, Box, Layers, Grid, Hexagon, ArrowLeft } from 'lucide-react'
+import { City } from '@/lib/types'
+import Link from 'next/link'
 
 const POSSIBLE_CITIES = [
   {
@@ -43,11 +45,17 @@ const POSSIBLE_CITIES = [
   },
 ]
 
-export default function Fedora() {
+export default function Fedora({ city }: { city: City }) {
   const [selectedId, setSelectedId] = useState<number | null>(null)
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-slate-950 p-8 font-sans text-slate-200">
+      <Link
+        href={`/city/${city.type}`}
+        className="absolute top-8 left-8 z-50 rounded-full bg-white/10 p-2 transition-colors hover:bg-white/20"
+      >
+        <ArrowLeft className="h-6 w-6" />
+      </Link>
       {/* Background Grid */}
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:40px_40px] opacity-20"></div>
 

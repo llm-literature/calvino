@@ -1,0 +1,163 @@
+'use client'
+
+import { City } from '@/lib/types'
+import { motion, AnimatePresence } from 'framer-motion'
+import Link from 'next/link'
+import { ArrowLeft, RefreshCw } from 'lucide-react'
+import { useState, useRef } from 'react'
+import { cn } from '@/lib/utils'
+
+type Node = {
+  id: number
+  x: number
+  y: number
+}
+
+type Edge = {
+  id: string
+  from: number
+  to: number
+  color: string
+}
+
+const COLORS = ['#ef4444', '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6']
+
+export default function Ersilia({ city }: { city: City }) {
+  const [nodes, setNodes] = useState<Node[]>([])
+  const [edges, setEdges] = useState<Edge[]>([])
+  const [history, setHistory] = useState<Edge[]>([])
+  const [selectedNode, setSelectedNode] = useState<number | null>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  const handleCanvasClick = (e: React.MouseEvent) => {
+    if (selectedNode !== null) {
+      setSelectedNode(null)
+      return
+    }
+    
+    if (!containerRef.current) return
+    const rect = containerRef.current.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+
+    const newNode: Node = {
+      id: Date.now(),
+      x,
+      y
+    }
+    setNodes([...nodes, newNode])
+  }
+
+  const handleNodeClick = (e: React.MouseEvent, id: number) => {
+    e.stopPropagation()
+    if (selectedNode === null) {
+      setSelectedNode(id)
+    } else if (selectedNode !== id) {
+      const newEdge: Edge = {
+        id: `${selectedNode}-${id}-${Date.now()}`,
+        from: selectedNode,
+        to: id,
+        color: COLORS[Math.floor(Math.random() * COLORS.length)]
+      }
+      setEdges([...edges, newEdge])
+      setSelectedNode(null)
+    } else {
+      setSelectedNode(null)
+    }
+  }
+
+  const handleAbandon = () => {
+    setHistory([...history, ...edges])
+    setNodes([])
+    setEdges([])
+    setSelectedNode(null)
+  }
+
+  return (
+    <div className="relative min-h-screen bg-[#fdf6e3] text-neutral-800 font-sans overflow-hidden selection:bg-neutral-300">
+      <Link
+        href={`/city/${city.type}`}
+        className="fixed top-8 left-8 z-50 rounded-full bg-white p-2 shadow-md transition-colors hover:bg-neutral-200"
+      >
+        <ArrowLeft className="h-6 w-6" />
+      </Link>
+
+      <div className="absolute top-8 right-8 z-50 flex gap-4">
+        <button 
+            onClick={handleAbandon}
+            className="bg-neutral-800 text-white px-4 py-2 rounded-full shadow-lg flex items-center gap-2 hover:bg-neutral-700 transition-colors"
+            disabled={nodes.length === 0}
+        >
+            <RefreshCw className="w-4 h-4" />
+            Abandon & Rebuild
+        </button>
+      </div>
+
+      <div 
+        ref={containerRef}
+        onClick={handleCanvasClick}
+        className="w-full h-screen cursor-crosshair relative"
+      >
+        {nodes.length === 0 && history.length === 0 && (
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div className="text-center opacity-50">
+                    <h1 className="text-6xl font-serif mb-4">ERSILIA</h1>
+                    <p>Click to build houses. Click two houses to connect them with a relationship.</p>
+                </div>
+            </div>
+        )}
+
+        {/* History Edges (Ghost) - Simplified for now as we don't track node history positions perfectly in this version */}
+        <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-20 grayscale">
+             {/* Placeholder for history visualization if we tracked coordinates */}
+        </svg>
+
+        {/* Active Edges */}
+        <svg className="absolute inset-0 w-full h-full pointer-events-none">
+            {edges.map(edge => {
+                const fromNode = nodes.find(n => n.id === edge.from)
+                const toNode = nodes.find(n => n.id === edge.to)
+                if (!fromNode || !toNode) return null
+                return (
+                    <motion.line 
+                        key={edge.id}
+                        x1={fromNode.x}
+                        y1={fromNode.y}
+                        x2={toNode.x}
+                        y2={toNode.y}
+                        stroke={edge.color}
+                        strokeWidth="2"
+                        initial={{ pathLength: 0 }}
+                        animate={{ pathLength: 1 }}
+                    />
+                )
+            })}
+        </svg>
+
+        {/* Nodes */}
+        <AnimatePresence>
+            {nodes.map(node => (
+                <motion.div
+                    key={node.id}
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    exit={{ scale: 0, opacity: 0 }}
+                    className={cn(
+                        "absolute w-4 h-4 -ml-2 -mt-2 rounded-full border-2 border-white shadow-sm cursor-pointer transition-colors",
+                        selectedNode === node.id ? "bg-neutral-800 scale-125" : "bg-neutral-400 hover:bg-neutral-600"
+                    )}
+                    style={{ left: node.x, top: node.y }}
+                    onClick={(e) => handleNodeClick(e, node.id)}
+                />
+            ))}
+        </AnimatePresence>
+
+        <div className="absolute bottom-12 left-0 right-0 text-center pointer-events-none">
+             <p className="text-neutral-500 italic max-w-xl mx-auto bg-white/50 backdrop-blur p-4 rounded-xl">
+                &quot;When the strings become so numerous that you can no longer pass among them, the inhabitants leave: the houses are dismantled; only the strings and their supports remain.&quot;
+             </p>
+        </div>
+      </div>
+    </div>
+  )
+}

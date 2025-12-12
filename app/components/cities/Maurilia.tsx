@@ -2,9 +2,11 @@
 
 import React, { useState, useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Image as ImageIcon, Map, Calendar, MousePointer2 } from 'lucide-react'
+import { Image as ImageIcon, Map, Calendar, MousePointer2, ArrowLeft } from 'lucide-react'
+import { City } from '@/lib/types'
+import Link from 'next/link'
 
-export default function Maurilia() {
+export default function Maurilia({ city }: { city: City }) {
   const [sliderPosition, setSliderPosition] = useState(50)
   const containerRef = useRef<HTMLDivElement>(null)
   const isDragging = useRef(false)
@@ -37,12 +39,18 @@ export default function Maurilia() {
   }, [])
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-stone-100 p-8 font-serif text-stone-800">
+    <div className="relative flex min-h-screen flex-col items-center justify-center bg-stone-100 p-8 font-serif text-stone-800">
+      <Link
+        href={`/city/${city.type}`}
+        className="absolute top-8 left-8 z-50 rounded-full bg-black/5 p-2 transition-colors hover:bg-black/10"
+      >
+        <ArrowLeft className="h-6 w-6" />
+      </Link>
+
       <header className="mb-12 text-center">
-        <h1 className="mb-4 text-5xl font-bold text-stone-900">MAURILIA</h1>
-        <p className="max-w-2xl text-xl text-stone-600 italic">
-          "The traveler is invited to visit the city and, at the same time, to examine some old
-          postcards that show it as it used to be."
+        <h1 className="mb-4 text-5xl font-bold text-stone-900">{city.name.toUpperCase()}</h1>
+        <p className="max-w-2xl text-xl text-stone-600 italic whitespace-pre-line">
+          {city.description}
         </p>
       </header>
 
