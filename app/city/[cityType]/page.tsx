@@ -4,7 +4,12 @@ import MemoryCityPage from '@/app/components/categories/MemoryCityPage';
 import TradingCityPage from '@/app/components/categories/TradingCityPage';
 import DesireCityPage from '@/app/components/categories/DesireCityPage';
 import SignsCityPage from '@/app/components/categories/SignsCityPage';
-import DefaultCategoryPage from '@/app/components/categories/DefaultCategoryPage';
+import SkyCityPage from '@/app/components/categories/SkyCityPage';
+import EyesCityPage from '@/app/components/categories/EyesCityPage';
+import HiddenCityPage from '@/app/components/categories/HiddenCityPage';
+import ContinuousCityPage from '@/app/components/categories/ContinuousCityPage';
+import DeadCityPage from '@/app/components/categories/DeadCityPage';
+import NamesCityPage from '@/app/components/categories/NamesCityPage';
 
 export function generateStaticParams() {
   const types = new Set(data.cities.map(city => city.type));
@@ -17,27 +22,33 @@ export default async function CategoryPage({ params }: { params: Promise<{ cityT
 
   switch (cityType) {
     case 'thin':
-    case 'sky':
-    case 'eyes':
       return <ThinCityPage cities={cities} category={cityType} />;
+    case 'sky':
+      return <SkyCityPage cities={cities} category={cityType} />;
+    case 'eyes':
+      return <EyesCityPage cities={cities} category={cityType} />;
     
     case 'memory':
-    case 'hidden':
       return <MemoryCityPage cities={cities} category={cityType} />;
+    case 'hidden':
+      return <HiddenCityPage cities={cities} category={cityType} />;
     
     case 'trading':
-    case 'continuous':
       return <TradingCityPage cities={cities} category={cityType} />;
+    case 'continuous':
+      return <ContinuousCityPage cities={cities} category={cityType} />;
     
     case 'desire':
-    case 'dead':
       return <DesireCityPage cities={cities} category={cityType} />;
+    case 'dead':
+      return <DeadCityPage cities={cities} category={cityType} />;
     
     case 'signs':
-    case 'names':
       return <SignsCityPage cities={cities} category={cityType} />;
+    case 'names':
+      return <NamesCityPage cities={cities} category={cityType} />;
       
     default:
-      return <DefaultCategoryPage cities={cities} category={cityType} />;
+      return <ThinCityPage cities={cities} category={cityType} />;
   }
 }
