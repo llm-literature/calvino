@@ -4,7 +4,7 @@ import { City } from '@/lib/types'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft, Map, Tent } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { cn } from '@/lib/utils'
 
 export default function Dorothea({ city }: { city: City }) {
@@ -179,6 +179,19 @@ function StructuralView({ city }: { city: City }) {
 }
 
 function ExperientialView({ city }: { city: City }) {
+  const [decorationItems, setDecorationItems] = useState<{ x: string; rotateInitial: number; rotateAnimate: number; duration: number }[]>([])
+
+  useEffect(() => {
+    setDecorationItems(
+      Array.from({ length: 5 }).map(() => ({
+        x: Math.random() * 100 - 50 + '%',
+        rotateInitial: Math.random() * 30 - 15,
+        rotateAnimate: Math.random() * 30 - 15 + (Math.random() > 0.5 ? 360 : -360),
+        duration: 15 + Math.random() * 10,
+      }))
+    )
+  }, [])
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -203,8 +216,8 @@ function ExperientialView({ city }: { city: City }) {
         className="prose prose-lg prose-amber mx-auto font-serif text-xl leading-loose text-amber-800"
       >
         <p>
-          "I arrived here in my early youth, one morning when many people were hurrying along the
-          streets toward the market..."
+          &quot;I arrived here in my early youth, one morning when many people were hurrying along the
+          streets toward the market...&quot;
         </p>
         <p className="mt-8 text-2xl text-amber-600 italic">
           The women had fine teeth and looked you straight in the eye.
@@ -217,21 +230,21 @@ function ExperientialView({ city }: { city: City }) {
 
       {/* Decorative Elements */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        {[...Array(5)].map((_, i) => (
+        {decorationItems.map((decoration, i) => (
           <motion.div
             key={i}
             className="absolute text-amber-900/10"
             initial={{
-              x: Math.random() * 100 - 50 + '%',
+              x: decoration.x,
               y: '120%',
-              rotate: Math.random() * 30 - 15,
+              rotate: decoration.rotateInitial,
             }}
             animate={{
               y: '-20%',
-              rotate: Math.random() * 30 - 15 + (Math.random() > 0.5 ? 360 : -360),
+              rotate: decoration.rotateAnimate,
             }}
             transition={{
-              duration: 15 + Math.random() * 10,
+              duration: decoration.duration,
               delay: i * 2,
               repeat: Infinity,
               ease: 'linear',

@@ -75,8 +75,8 @@ export default function Isaura() {
         <div className="relative z-10 max-w-2xl text-center text-white">
           <Droplet className="mx-auto mb-6 h-16 w-16 text-cyan-200" />
           <p className="font-serif text-3xl leading-relaxed">
-            "The inhabitants dig long vertical holes in the ground and succeed in drawing up water,
-            as far as the city extends..."
+            &quot;The inhabitants dig long vertical holes in the ground and succeed in drawing up water,
+            as far as the city extends...&quot;
           </p>
         </div>
       </div>
@@ -93,7 +93,7 @@ export default function Isaura() {
             underground streams.
             <br />
             <span className="text-cyan-500 italic">
-              Here, the city's reflection is its only reality.
+              Here, the city&apos;s reflection is its only reality.
             </span>
           </p>
         </motion.div>

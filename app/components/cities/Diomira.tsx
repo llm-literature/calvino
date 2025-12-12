@@ -57,7 +57,7 @@ export default function Diomira({ city }: { city: City }) {
           transition={{ duration: 1 }}
           className="mb-12 text-center"
         >
-          <h1 className="bg-gradient-to-b from-slate-100 to-slate-500 bg-clip-text font-serif text-7xl text-transparent md:text-9xl">
+          <h1 className="bg-linear-to-b from-slate-100 to-slate-500 bg-clip-text font-serif text-7xl text-transparent md:text-9xl">
             {city.name.toUpperCase()}
           </h1>
           <p className="mt-4 text-sm tracking-[1em] text-slate-400 uppercase">Sixty Silver Domes</p>

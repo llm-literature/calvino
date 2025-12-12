@@ -4,10 +4,21 @@ import { City } from '@/lib/types'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft, BookOpen, Cat, Dog, Bird, Bug } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 export default function Theodora({ city }: { city: City }) {
   const [invaded, setInvaded] = useState(false)
+  const [eyes, setEyes] = useState<{ left: string; top: string; delay: string }[]>([])
+
+  useEffect(() => {
+    setEyes(
+      Array.from({ length: 20 }).map(() => ({
+        left: `${Math.random() * 80 + 10}%`,
+        top: `${Math.random() * 80 + 10}%`,
+        delay: `${Math.random() * 2}s`,
+      }))
+    )
+  }, [])
 
   return (
     <div className="relative min-h-screen bg-emerald-900 text-emerald-100 font-serif overflow-hidden selection:bg-emerald-700">
@@ -49,14 +60,14 @@ export default function Theodora({ city }: { city: City }) {
                 <div className="absolute bottom-1/3 left-1/3 animate-spin-slow"><Bug className="w-10 h-10 text-red-400" /></div>
                 
                 {/* Eyes in the dark */}
-                {Array.from({ length: 20 }).map((_, i) => (
+                {eyes.map((eye, i) => (
                     <div 
                         key={i}
                         className="absolute w-2 h-2 bg-yellow-400 rounded-full shadow-[0_0_10px_yellow]"
                         style={{ 
-                            left: `${Math.random() * 80 + 10}%`, 
-                            top: `${Math.random() * 80 + 10}%`,
-                            animationDelay: `${Math.random() * 2}s`
+                            left: eye.left, 
+                            top: eye.top,
+                            animationDelay: eye.delay
                         }}
                     />
                 ))}
@@ -68,7 +79,7 @@ export default function Theodora({ city }: { city: City }) {
         </div>
 
         <p className="mt-12 max-w-xl text-center text-emerald-400 italic">
-            "The fauna has been driven out... but the sphinxes, griffons, chimeras, and dragons have returned to repossess the city."
+            &quot;The fauna has been driven out... but the sphinxes, griffons, chimeras, and dragons have returned to repossess the city.&quot;
         </p>
 
       </div>

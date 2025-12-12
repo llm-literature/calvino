@@ -1,8 +1,7 @@
 'use client'
 
 import React, { useState, useRef, useEffect } from 'react'
-import { motion } from 'framer-motion'
-import { Image as ImageIcon, Map, Calendar, MousePointer2, ArrowLeft } from 'lucide-react'
+import { Map, Calendar, MousePointer2, ArrowLeft } from 'lucide-react'
 import { City } from '@/lib/types'
 import Link from 'next/link'
 
@@ -138,8 +137,8 @@ export default function Maurilia({ city }: { city: City }) {
 
       <div className="mt-12 max-w-2xl space-y-6 text-center">
         <p className="text-lg text-stone-700">
-          "Beware of saying to them that sometimes different cities follow one another on the same
-          site and under the same name, born and dying without knowing one another."
+          &quot;Beware of saying to them that sometimes different cities follow one another on the same
+          site and under the same name, born and dying without knowing one another.&quot;
         </p>
         <div className="flex justify-center gap-8 text-sm tracking-widest text-stone-500 uppercase">
           <div className="flex items-center gap-2">

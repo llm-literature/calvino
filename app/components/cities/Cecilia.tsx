@@ -3,11 +3,15 @@
 import { City } from '@/lib/types'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { ArrowLeft, HelpCircle } from 'lucide-react'
-import { useState } from 'react'
+import { ArrowLeft } from 'lucide-react'
+import { useState, useEffect } from 'react'
 
 export default function Cecilia({ city }: { city: City }) {
-  const [grid, setGrid] = useState(Array.from({ length: 25 }).map(() => Math.random() > 0.5 ? 'city' : 'pasture'))
+  const [grid, setGrid] = useState<string[]>([])
+
+  useEffect(() => {
+    setGrid(Array.from({ length: 25 }).map(() => Math.random() > 0.5 ? 'city' : 'pasture'))
+  }, [])
 
   return (
     <div className="relative min-h-screen bg-stone-100 text-stone-800 font-sans overflow-hidden selection:bg-stone-300">
@@ -44,7 +48,7 @@ export default function Cecilia({ city }: { city: City }) {
 
         <div className="mt-12 max-w-xl text-center text-stone-500">
             <p className="italic mb-4">
-                "I have been wandering for days among the streets of Cecilia... I cannot distinguish the city from the pastures."
+                &quot;I have been wandering for days among the streets of Cecilia... I cannot distinguish the city from the pastures.&quot;
             </p>
             <p className="text-sm">
                 Places have mingled. There is no inside or outside.

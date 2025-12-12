@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Ship, Tent, Anchor, Compass, Wind, Sun, Waves, Mountain } from 'lucide-react'
-import { cn } from '@/lib/utils'
 
 export default function Despina() {
   const [mouseX, setMouseX] = useState(0)
@@ -22,9 +21,6 @@ export default function Despina() {
 
   // Calculate percentage (0 to 1) of mouse position across screen
   const percentage = Math.min(Math.max(mouseX / windowWidth, 0), 1)
-
-  // Determine dominant perspective
-  const isSeaPerspective = percentage > 0.5
 
   return (
     <div
@@ -68,8 +64,8 @@ export default function Despina() {
               <h2 className="font-serif text-4xl">The Camel Driver</h2>
             </div>
             <p className="text-center font-serif text-2xl leading-relaxed italic">
-              "He sees a ship; he knows it is a city, but he thinks of it as a vessel that will take
-              him away from the desert..."
+              &quot;He sees a ship; he knows it is a city, but he thinks of it as a vessel that will take
+              him away from the desert...&quot;
             </p>
             <div className="mt-12 grid grid-cols-3 gap-8">
               <div className="flex flex-col items-center">
@@ -97,8 +93,8 @@ export default function Despina() {
               <h2 className="font-serif text-4xl">The Sailor</h2>
             </div>
             <p className="text-center font-serif text-2xl leading-relaxed italic">
-              "He sees a camel; he knows it is a city, but he thinks of it as a beast from whose
-              pack he can drink wine and oil..."
+              &quot;He sees a camel; he knows it is a city, but he thinks of it as a beast from whose
+              pack he can drink wine and oil...&quot;
             </p>
             <div className="mt-12 grid grid-cols-3 gap-8">
               <div className="flex flex-col items-center">

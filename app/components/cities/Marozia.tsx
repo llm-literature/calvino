@@ -52,7 +52,7 @@ export default function Marozia({ city }: { city: City }) {
         </div>
 
         <p className="mt-12 max-w-xl text-center text-slate-400 italic">
-            "Marozia consists of two cities: the city of the rat and the city of the swallow. The latter is the one that will break free from the first."
+            &quot;Marozia consists of two cities: the city of the rat and the city of the swallow. The latter is the one that will break free from the first.&quot;
         </p>
 
       </div>

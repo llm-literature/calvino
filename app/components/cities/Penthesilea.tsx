@@ -21,7 +21,7 @@ export default function Penthesilea({ city }: { city: City }) {
       <div className="container mx-auto px-4 py-24 min-h-screen flex flex-col items-center justify-center overflow-hidden">
         <h1 className="text-6xl font-bold mb-8 text-stone-600 z-10">PENTHESILEA</h1>
 
-        <div className="relative w-full h-[600px] overflow-hidden border-4 border-stone-400 rounded-lg bg-stone-300">
+        <div className="relative w-full h-150 overflow-hidden border-4 border-stone-400 rounded-lg bg-stone-300">
             <motion.div 
                 className="absolute inset-0 flex flex-wrap content-center justify-center"
                 style={{ scale: zoom }}
@@ -52,7 +52,7 @@ export default function Penthesilea({ city }: { city: City }) {
         </div>
 
         <p className="mt-8 max-w-xl text-center text-stone-600 italic z-10">
-            "You advance for hours and it is not clear to you whether you are already in the city's midst or still outside it... Penthesilea is only the outskirts of itself."
+            &quot;You advance for hours and it is not clear to you whether you are already in the city&apos;s midst or still outside it... Penthesilea is only the outskirts of itself.&quot;
         </p>
 
       </div>

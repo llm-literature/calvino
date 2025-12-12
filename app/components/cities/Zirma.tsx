@@ -74,7 +74,7 @@ export default function Zirma() {
       </div>
 
       <div className="mx-auto mt-16 max-w-2xl text-center text-neutral-500 italic">
-        "The city is redundant: it repeats itself so that something will stick in the mind."
+        &quot;The city is redundant: it repeats itself so that something will stick in the mind.&quot;
       </div>
     </div>
   )

@@ -11,17 +11,20 @@ const FUNCTIONS = [
   'Palace', 'Prison', 'School', 'Brothel', 'Bank', 'Hospital', 'Barracks', 'Temple', 'Market', 'Library', 'Museum', 'Factory'
 ]
 
+const getRandomFunction = (current: string) => {
+    let newFunc = FUNCTIONS[Math.floor(Math.random() * FUNCTIONS.length)]
+    while (newFunc === current) {
+        newFunc = FUNCTIONS[Math.floor(Math.random() * FUNCTIONS.length)]
+    }
+    return newFunc
+}
+
 export default function Zoe({ city }: { city: City }) {
   const [grid, setGrid] = useState<string[]>(Array(24).fill('Unknown'))
 
   const randomize = (index: number) => {
     const newGrid = [...grid]
-    // Randomly pick a function, but ensure it changes
-    let newFunc = FUNCTIONS[Math.floor(Math.random() * FUNCTIONS.length)]
-    while (newFunc === newGrid[index]) {
-        newFunc = FUNCTIONS[Math.floor(Math.random() * FUNCTIONS.length)]
-    }
-    newGrid[index] = newFunc
+    newGrid[index] = getRandomFunction(newGrid[index])
     setGrid(newGrid)
   }
 

@@ -4,7 +4,7 @@ import { City } from '@/lib/types'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft, Gem, Utensils, User } from 'lucide-react'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { cn } from '@/lib/utils'
 
 type DesireItem = {
@@ -40,9 +40,20 @@ const desires: DesireItem[] = [
 ]
 
 export default function Anastasia({ city }: { city: City }) {
-  const [hoveredItem, setHoveredItem] = useState<string | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({ target: containerRef })
+  const [kites, setKites] = useState<{ x: string; duration: number; delay: number; animateX: string }[]>([])
+
+  useEffect(() => {
+    setKites(
+      Array.from({ length: 8 }).map((_, i) => ({
+        x: Math.random() * 100 + '%',
+        duration: 20 + Math.random() * 10,
+        delay: i * 2,
+        animateX: Math.random() * 20 - 10 + '%',
+      }))
+    )
+  }, [])
 
   const opacity = useTransform(scrollYProgress, [0, 0.5], [0, 1])
 
@@ -60,27 +71,27 @@ export default function Anastasia({ city }: { city: City }) {
 
       {/* Kites Background */}
       <div className="pointer-events-none fixed inset-0">
-        {[...Array(8)].map((_, i) => (
+        {kites.map((kite, i) => (
           <motion.div
             key={i}
             className="absolute"
             initial={{
-              x: Math.random() * 100 + '%',
+              x: kite.x,
               y: '120%',
               rotate: 45,
             }}
             animate={{
               y: '-20%',
-              x: Math.random() * 20 - 10 + '%',
+              x: kite.animateX,
             }}
             transition={{
-              duration: 20 + Math.random() * 10,
-              delay: i * 2,
+              duration: kite.duration,
+              delay: kite.delay,
               repeat: Infinity,
               ease: 'linear',
             }}
           >
-            <div className="h-12 w-12 rotate-45 border border-white/10 bg-gradient-to-br from-pink-500/20 to-purple-500/20 backdrop-blur-sm" />
+            <div className="h-12 w-12 rotate-45 border border-white/10 bg-linear-to-br from-pink-500/20 to-purple-500/20 backdrop-blur-sm" />
             <div className="mx-auto -mt-2 h-32 w-1 bg-white/5" />
           </motion.div>
         ))}
@@ -92,7 +103,7 @@ export default function Anastasia({ city }: { city: City }) {
           animate={{ opacity: 1, scale: 1 }}
           className="mb-24 text-center"
         >
-          <h1 className="mb-6 bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-300 bg-clip-text text-7xl font-bold text-transparent md:text-9xl">
+          <h1 className="mb-6 bg-linear-to-r from-pink-300 via-purple-300 to-indigo-300 bg-clip-text text-7xl font-bold text-transparent md:text-9xl">
             ANASTASIA
           </h1>
           <p className="text-xl text-slate-400 italic">The City of Deceptive Desire</p>
@@ -103,8 +114,6 @@ export default function Anastasia({ city }: { city: City }) {
             <motion.div
               key={item.id}
               className="group perspective-1000 relative h-64"
-              onMouseEnter={() => setHoveredItem(item.id)}
-              onMouseLeave={() => setHoveredItem(null)}
             >
               <div
                 className={cn(
@@ -137,12 +146,12 @@ export default function Anastasia({ city }: { city: City }) {
           className="max-w-2xl pb-32 text-center text-lg leading-loose text-slate-300"
         >
           <p className="mb-8">
-            "The city appears to you as a whole where no desire is lost and of which you are a part,
+            &quot;The city appears to you as a whole where no desire is lost and of which you are a part,
             and since it enjoys everything you do not enjoy, you can do nothing but inhabit this
-            desire and be content."
+            desire and be content.&quot;
           </p>
           <p className="text-2xl font-light text-purple-200">
-            "You believe you are enjoying Anastasia wholly when you are only its slave."
+            &quot;You believe you are enjoying Anastasia wholly when you are only its slave.&quot;
           </p>
         </motion.div>
       </div>

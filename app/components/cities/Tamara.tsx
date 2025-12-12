@@ -144,7 +144,7 @@ export default function Tamara({ city }: { city: City }) {
 
           {/* Floating Text */}
           <div className="pointer-events-none absolute right-4 bottom-4 max-w-xs text-right font-mono text-xs text-neutral-400">
-            "The eye does not see things but images of things that mean other things."
+            &quot;The eye does not see things but images of things that mean other things.&quot;
           </div>
         </div>
       </div>

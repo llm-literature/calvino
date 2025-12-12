@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import {
   Clock,
   Scissors,
@@ -84,8 +84,8 @@ export default function Zora() {
 
         <div className="mx-auto max-w-2xl space-y-6 text-center">
           <p className="text-lg leading-relaxed text-slate-300">
-            "This city which cannot be expunged from the mind is like an armature, a honeycomb in
-            whose cells each of us can place the things he wants to remember..."
+            &quot;This city which cannot be expunged from the mind is like an armature, a honeycomb in
+            whose cells each of us can place the things he wants to remember...&quot;
           </p>
 
           <div className="rounded-lg border border-amber-900/30 bg-amber-950/10 p-6">

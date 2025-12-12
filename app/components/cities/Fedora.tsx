@@ -57,7 +57,7 @@ export default function Fedora({ city }: { city: City }) {
         <ArrowLeft className="h-6 w-6" />
       </Link>
       {/* Background Grid */}
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:40px_40px] opacity-20"></div>
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-size-[40px_40px] opacity-20"></div>
 
       <header className="relative z-10 mb-16 pt-8 text-center">
         <h1 className="mb-4 text-5xl font-thin tracking-[0.5em] text-blue-200">FEDORA</h1>
@@ -77,11 +77,11 @@ export default function Fedora({ city }: { city: City }) {
             {/* The Sphere */}
             <div className="relative mb-6 h-40 w-40 transition-transform duration-500 group-hover:scale-110">
               <div className="absolute inset-0 rounded-full bg-blue-500/10 blur-xl transition-colors group-hover:bg-blue-400/20"></div>
-              <div className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-full border border-blue-500/30 bg-gradient-to-br from-blue-500/10 to-transparent shadow-[0_0_30px_rgba(59,130,246,0.2)] backdrop-blur-sm">
+              <div className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-full border border-blue-500/30 bg-linear-to-br from-blue-500/10 to-transparent shadow-[0_0_30px_rgba(59,130,246,0.2)] backdrop-blur-sm">
                 <city.icon className="h-16 w-16 text-blue-300/50 transition-colors group-hover:text-blue-200" />
 
                 {/* Internal Reflections */}
-                <div className="absolute top-4 left-6 h-4 w-8 rotate-[-45deg] rounded-full bg-white/20 blur-md"></div>
+                <div className="absolute top-4 left-6 h-4 w-8 -rotate-45 rounded-full bg-white/20 blur-md"></div>
                 <div className="absolute right-6 bottom-4 h-12 w-12 rounded-full bg-blue-400/10 blur-xl"></div>
               </div>
             </div>
@@ -136,8 +136,8 @@ export default function Fedora({ city }: { city: City }) {
                 </p>
 
                 <div className="rounded-lg border border-blue-900/50 bg-blue-950/30 p-4 text-sm text-blue-400 italic">
-                  "On the map of your empire, O Great Khan, there must be room both for the big,
-                  stone Fedora and the little Fedoras in glass globes."
+                  &quot;On the map of your empire, O Great Khan, there must be room both for the big,
+                  stone Fedora and the little Fedoras in glass globes.&quot;
                 </div>
               </div>
             </motion.div>

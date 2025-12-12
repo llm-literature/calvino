@@ -22,6 +22,19 @@ type Edge = {
 
 const COLORS = ['#ef4444', '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6']
 
+const createNode = (x: number, y: number): Node => ({
+  id: Date.now(),
+  x,
+  y
+})
+
+const createEdge = (from: number, to: number): Edge => ({
+  id: `${from}-${to}-${Date.now()}`,
+  from,
+  to,
+  color: COLORS[Math.floor(Math.random() * COLORS.length)]
+})
+
 export default function Ersilia({ city }: { city: City }) {
   const [nodes, setNodes] = useState<Node[]>([])
   const [edges, setEdges] = useState<Edge[]>([])
@@ -40,12 +53,7 @@ export default function Ersilia({ city }: { city: City }) {
     const x = e.clientX - rect.left
     const y = e.clientY - rect.top
 
-    const newNode: Node = {
-      id: Date.now(),
-      x,
-      y
-    }
-    setNodes([...nodes, newNode])
+    setNodes([...nodes, createNode(x, y)])
   }
 
   const handleNodeClick = (e: React.MouseEvent, id: number) => {
@@ -53,13 +61,7 @@ export default function Ersilia({ city }: { city: City }) {
     if (selectedNode === null) {
       setSelectedNode(id)
     } else if (selectedNode !== id) {
-      const newEdge: Edge = {
-        id: `${selectedNode}-${id}-${Date.now()}`,
-        from: selectedNode,
-        to: id,
-        color: COLORS[Math.floor(Math.random() * COLORS.length)]
-      }
-      setEdges([...edges, newEdge])
+      setEdges([...edges, createEdge(selectedNode, id)])
       setSelectedNode(null)
     } else {
       setSelectedNode(null)

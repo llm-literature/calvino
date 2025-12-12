@@ -64,7 +64,7 @@ export default function Berenice({ city }: { city: City }) {
         </button>
 
         <p className="mt-12 max-w-xl text-center text-rose-700 italic">
-            "In the seed of the city of the just, a malignant seed is hidden... and from this seed of injustice, a new just city will be born."
+            &quot;In the seed of the city of the just, a malignant seed is hidden... and from this seed of injustice, a new just city will be born.&quot;
         </p>
 
       </div>
