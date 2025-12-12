@@ -21,30 +21,35 @@ export default function WithSubnavigation() {
   const [isOpen, setIsOpen] = React.useState(false)
 
   return (
-    <div className="border-b border-gray-200 dark:border-gray-900 bg-white dark:bg-gray-800">
-      <div className="flex min-h-[60px] py-2 px-4 items-center">
-        <div className="flex flex-1 md:hidden ml-[-8px]">
+    <div className="border-b border-stone-200 dark:border-stone-800 bg-stone-50/80 dark:bg-stone-950/80 backdrop-blur-md sticky top-0 z-50">
+      <div className="container mx-auto flex min-h-[60px] py-2 px-4 items-center justify-between">
+        <div className="flex md:hidden">
           <Button
             variant="ghost"
             size="icon"
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Toggle Navigation"
+            className="text-stone-900 dark:text-stone-100"
           >
-            {isOpen ? <X className="h-3 w-3" /> : <Menu className="h-5 w-5" />}
+            {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </Button>
         </div>
-        <div className="flex flex-1 justify-center md:justify-start">
-          <p className="text-center md:text-left font-heading text-gray-800 dark:text-white">
+        
+        <div className="flex justify-center md:justify-start">
+          <Link href="/" className="text-center md:text-left font-display text-2xl font-bold text-stone-900 dark:text-stone-100 tracking-tight">
             Calvino
-          </p>
-
-          <div className="hidden md:flex ml-10">
-            <DesktopNav />
-          </div>
+          </Link>
         </div>
+
+        <div className="hidden md:flex">
+          <DesktopNav />
+        </div>
+        
+        {/* Spacer for mobile layout balance */}
+        <div className="w-10 md:hidden"></div>
       </div>
 
-      <Collapsible open={isOpen} onOpenChange={setIsOpen} className="md:hidden">
+      <Collapsible open={isOpen} onOpenChange={setIsOpen} className="md:hidden border-t border-stone-200 dark:border-stone-800">
         <CollapsibleContent>
           <MobileNav />
         </CollapsibleContent>
@@ -55,59 +60,25 @@ export default function WithSubnavigation() {
 
 const DesktopNav = () => {
   return (
-    <div className="flex flex-row gap-4">
+    <div className="flex flex-row gap-8">
       {NAV_ITEMS.map((navItem) => (
         <div key={navItem.label}>
-          <Popover>
-            <PopoverTrigger asChild>
-              <Link
-                href={navItem.href ?? '#'}
-                className="p-2 text-sm font-medium text-gray-600 hover:text-gray-800 dark:text-gray-200 dark:hover:text-white hover:no-underline"
-              >
-                {navItem.label}
-              </Link>
-            </PopoverTrigger>
-
-            {navItem.children && (
-              <PopoverContent className="w-sm p-4 rounded-xl shadow-xl bg-white dark:bg-gray-800 border-0">
-                <div className="flex flex-col gap-2">
-                  {navItem.children.map((child) => (
-                    <DesktopSubNav key={child.label} {...child} />
-                  ))}
-                </div>
-              </PopoverContent>
-            )}
-          </Popover>
+          <Link
+            href={navItem.href ?? '#'}
+            className="relative group py-2 text-sm font-serif font-medium text-stone-600 hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-100 transition-colors"
+          >
+            {navItem.label}
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-amber-500 transition-all duration-300 group-hover:w-full"></span>
+          </Link>
         </div>
       ))}
     </div>
   )
 }
 
-const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
-  return (
-    <Link
-      href={href ?? '#'}
-      className="group block p-2 rounded-md hover:bg-pink-50 dark:hover:bg-gray-900"
-    >
-      <div className="flex flex-row items-center">
-        <div>
-          <p className="font-medium transition-all duration-300 group-hover:text-pink-400">
-            {label}
-          </p>
-          <p className="text-sm">{subLabel}</p>
-        </div>
-        <div className="flex flex-1 justify-end items-center transition-all duration-300 transform translate-x-[-10px] opacity-0 group-hover:opacity-100 group-hover:translate-x-0">
-          <ChevronRight className="text-pink-400 h-5 w-5" />
-        </div>
-      </div>
-    </Link>
-  )
-}
-
 const MobileNav = () => {
   return (
-    <div className="bg-white dark:bg-gray-800 p-4 md:hidden flex flex-col gap-4">
+    <div className="bg-stone-50 dark:bg-stone-950 p-4 md:hidden flex flex-col gap-4">
       {NAV_ITEMS.map((navItem) => (
         <MobileNavItem key={navItem.label} {...navItem} />
       ))}
@@ -126,32 +97,11 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
       >
         <Link
             href={href ?? '#'}
-            className="font-semibold text-gray-600 dark:text-gray-200"
+            className="font-serif font-semibold text-stone-600 dark:text-stone-200"
         >
             {label}
         </Link>
-        {children && (
-          <ChevronDown
-            className={cn(
-              "transition-all duration-250 ease-in-out h-6 w-6",
-              isOpen ? "rotate-180" : ""
-            )}
-          />
-        )}
       </div>
-
-      <Collapsible open={isOpen} onOpenChange={setIsOpen} className="mt-0!important">
-        <CollapsibleContent>
-          <div className="mt-2 pl-4 border-l border-gray-200 dark:border-gray-700 flex flex-col items-start gap-2">
-            {children &&
-              children.map((child) => (
-                <Link key={child.label} href={child.href ?? '#'} className="py-2">
-                  {child.label}
-                </Link>
-              ))}
-          </div>
-        </CollapsibleContent>
-      </Collapsible>
     </div>
   )
 }
@@ -165,15 +115,15 @@ interface NavItem {
 
 const NAV_ITEMS: Array<NavItem> = [
     {
-        label: 'Home',
+        label: '首页',
         href: '/',
-        },
-    {
-    label: 'Invisible City',
-    href: '/city',
     },
     {
-      label: "❤️Star",
-      href: 'https://github.com/llm-literature/calvino',
+        label: '图集',
+        href: '/city',
+    },
+    {
+        label: "GitHub",
+        href: 'https://github.com/llm-literature/calvino',
     },
 ]
