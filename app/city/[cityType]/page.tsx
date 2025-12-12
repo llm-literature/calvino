@@ -17,15 +17,26 @@ export default async function CategoryPage({ params }: { params: Promise<{ cityT
 
   switch (cityType) {
     case 'thin':
+    case 'sky':
+    case 'eyes':
       return <ThinCityPage cities={cities} category={cityType} />;
+    
     case 'memory':
+    case 'hidden':
       return <MemoryCityPage cities={cities} category={cityType} />;
+    
     case 'trading':
+    case 'continuous':
       return <TradingCityPage cities={cities} category={cityType} />;
+    
     case 'desire':
+    case 'dead':
       return <DesireCityPage cities={cities} category={cityType} />;
+    
     case 'signs':
+    case 'names':
       return <SignsCityPage cities={cities} category={cityType} />;
+      
     default:
       return <DefaultCategoryPage cities={cities} category={cityType} />;
   }

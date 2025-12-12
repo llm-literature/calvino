@@ -1,56 +1,82 @@
 'use client';
 
 import { CategoryPageProps } from '@/lib/types';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { cn } from '@/lib/utils';
 
 export default function DesireCityPage({ cities, category }: CategoryPageProps) {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({ target: ref });
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
 
   return (
-    <div ref={ref} className="min-h-screen bg-fuchsia-950 text-fuchsia-100 overflow-hidden relative">
-      <motion.div style={{ y }} className="absolute inset-0 opacity-30">
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/diamond-upholstery.png')]" />
-      </motion.div>
+    <div className="min-h-screen bg-black text-white overflow-hidden relative cursor-none">
+      {/* Spotlight Effect */}
+      <div 
+        className="fixed pointer-events-none z-20 mix-blend-overlay transition-opacity duration-300"
+        style={{
+          background: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(255, 40, 100, 0.15), transparent 40%)`
+        }}
+      />
+      
+      {/* Cursor Follower */}
+      <div 
+        className="fixed w-8 h-8 border border-pink-500/50 rounded-full pointer-events-none z-50 -translate-x-1/2 -translate-y-1/2 mix-blend-difference"
+        style={{ left: mousePosition.x, top: mousePosition.y }}
+      />
 
       <div className="container mx-auto px-4 py-20 relative z-10">
-        <h1 className="text-6xl md:text-9xl font-serif text-center mb-20 text-fuchsia-200/50 italic">
-          {category}
+        <h1 className="text-6xl md:text-9xl font-display font-bold text-center mb-32 text-transparent bg-clip-text bg-gradient-to-b from-pink-900 to-black tracking-tighter select-none">
+          {category.toUpperCase()}
         </h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
           {cities.map((city, index) => (
-            <motion.div
-              key={city.name}
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: index * 0.2 }}
-              className={`${index % 2 === 1 ? 'md:translate-y-20' : ''}`}
-            >
-              <Link href={`/city/${city.type}/${city.name}`}>
-                <div className="group relative aspect-[3/4] bg-fuchsia-900/40 border border-fuchsia-500/30 p-8 flex flex-col justify-center items-center text-center hover:bg-fuchsia-800/50 transition-colors duration-500 overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-fuchsia-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  
-                  <h2 className="text-4xl font-display mb-4 relative z-10 group-hover:scale-110 transition-transform duration-500">
-                    {city.name}
-                  </h2>
-                  <p className="font-serif text-sm opacity-0 group-hover:opacity-80 transition-opacity duration-500 relative z-10 line-clamp-6">
-                    {city.description}
-                  </p>
-                  
-                  <div className="absolute bottom-4 left-0 w-full text-center text-xs tracking-[0.3em] text-fuchsia-300/50">
-                    DESIRE • {index + 1}
-                  </div>
-                </div>
-              </Link>
-            </motion.div>
+            <DesireCard key={city.name} city={city} index={index} />
           ))}
         </div>
       </div>
     </div>
+  );
+}
+
+function DesireCard({ city, index }: { city: any, index: number }) {
+  return (
+    <Link href={`/city/${city.type}/${city.name}`}>
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ margin: "-10%" }}
+        className="group relative aspect-[3/4] overflow-hidden border border-pink-900/20 bg-zinc-950"
+      >
+        {/* Hidden Image/Texture */}
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/dark-leather.png')] opacity-50" />
+        
+        {/* Content that reveals on hover */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center p-8 transition-all duration-700 group-hover:bg-pink-950/30">
+          <h2 className="text-3xl font-display text-pink-800 group-hover:text-pink-200 transition-colors duration-500 mb-4">
+            {city.name}
+          </h2>
+          
+          <div className="w-px h-12 bg-pink-900/50 group-hover:h-24 group-hover:bg-pink-500 transition-all duration-500" />
+          
+          <p className="mt-6 text-sm font-serif text-pink-200/0 group-hover:text-pink-200/80 transition-all duration-700 translate-y-4 group-hover:translate-y-0 text-center line-clamp-4">
+            {city.description}
+          </p>
+        </div>
+
+        {/* Glowing Edges on Hover */}
+        <div className="absolute inset-0 border border-pink-500/0 group-hover:border-pink-500/50 transition-colors duration-500" />
+        <div className="absolute inset-0 bg-gradient-to-t from-pink-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      </motion.div>
+    </Link>
   );
 }

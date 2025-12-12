@@ -1,61 +1,85 @@
 'use client';
 
 import { CategoryPageProps } from '@/lib/types';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { useRef } from 'react';
+import { useState, useEffect } from 'react';
+import { cn } from '@/lib/utils';
 
 export default function MemoryCityPage({ cities, category }: CategoryPageProps) {
-  const containerRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"]
-  });
+  // Generate random positions and rotations only on client side to avoid hydration mismatch
+  const [mounted, setMounted] = useState(false);
+  
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
-    <div ref={containerRef} className="min-h-[200vh] bg-[#f4ecd8] text-[#5c4b35]">
-      <div className="fixed top-0 left-0 w-full h-full pointer-events-none opacity-20 bg-[url('https://www.transparenttextures.com/patterns/aged-paper.png')] mix-blend-multiply" />
+    <div className="min-h-screen bg-[#e6e0d4] overflow-hidden relative selection:bg-[#8c7b6c] selection:text-white">
+      {/* Texture Background */}
+      <div className="absolute inset-0 opacity-40 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/paper.png')]" />
       
-      <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
-        <motion.h1 
-          style={{ opacity: useTransform(scrollYProgress, [0, 0.2], [1, 0]) }}
-          className="text-[15vw] font-serif italic absolute z-0 text-[#5c4b35]/10 select-none"
-        >
+      {/* Title Watermark */}
+      <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0">
+        <h1 className="text-[20vw] font-serif italic text-[#8c7b6c]/5 whitespace-nowrap">
           {category}
-        </motion.h1>
+        </h1>
       </div>
 
-      <div className="relative z-10 container mx-auto px-4 py-20">
-        <div className="max-w-4xl mx-auto space-y-40">
-          {cities.map((city, index) => (
-            <MemoryCard key={city.name} city={city} index={index} />
-          ))}
-        </div>
+      <div className="relative z-10 container mx-auto px-4 py-20 min-h-screen flex flex-wrap items-center justify-center gap-12 md:gap-24">
+        {cities.map((city, index) => (
+          <Polaroid key={city.name} city={city} index={index} mounted={mounted} />
+        ))}
+      </div>
+      
+      <div className="fixed bottom-8 left-0 w-full text-center text-[#8c7b6c]/60 font-serif italic text-sm pointer-events-none">
+        "Memory's images, once they are fixed in words, are erased."
       </div>
     </div>
   );
 }
 
-function MemoryCard({ city, index }: { city: any, index: number }) {
+function Polaroid({ city, index, mounted }: { city: any, index: number, mounted: boolean }) {
+  // Random rotation between -6 and 6 degrees
+  const rotation = mounted ? (index % 2 === 0 ? -1 : 1) * (Math.random() * 6 + 2) : 0;
+  
   return (
     <motion.div
-      initial={{ opacity: 0, filter: 'blur(10px)' }}
-      whileInView={{ opacity: 1, filter: 'blur(0px)' }}
-      viewport={{ once: true, margin: "-20%" }}
-      transition={{ duration: 1.5 }}
-      className={`flex ${index % 2 === 0 ? 'justify-start' : 'justify-end'}`}
+      initial={{ opacity: 0, scale: 0.8, y: 50 }}
+      animate={{ opacity: 1, scale: 1, y: 0, rotate: rotation }}
+      whileHover={{ scale: 1.1, rotate: 0, zIndex: 50 }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      className="relative group cursor-pointer"
+      drag
+      dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
+      dragElastic={0.2}
     >
-      <Link href={`/city/${city.type}/${city.name}`} className="block w-full md:w-2/3">
-        <div className="bg-[#e8dec0] p-8 md:p-12 shadow-[10px_10px_0px_0px_rgba(92,75,53,0.2)] hover:shadow-[15px_15px_0px_0px_rgba(92,75,53,0.3)] hover:-translate-y-1 transition-all duration-300 border border-[#5c4b35]/20">
-          <div className="flex items-baseline justify-between border-b border-[#5c4b35]/20 pb-4 mb-6">
-            <h2 className="text-4xl font-serif capitalize">{city.name}</h2>
-            <span className="font-mono text-sm opacity-60">NO. {index + 1}</span>
+      <Link href={`/city/${city.type}/${city.name}`}>
+        <div className="bg-white p-4 pb-12 shadow-lg w-64 md:w-72 transform transition-transform duration-300 ease-out">
+          {/* "Photo" Area */}
+          <div className="bg-[#2a2a2a] aspect-square w-full mb-4 overflow-hidden relative grayscale group-hover:grayscale-0 transition-all duration-700">
+             {/* Placeholder for city image or abstract pattern */}
+             <div className="absolute inset-0 opacity-50 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]" />
+             <div className="absolute inset-0 flex items-center justify-center">
+                <span className="font-display text-4xl text-white/20 group-hover:text-white/80 transition-colors duration-500">
+                    {city.name[0].toUpperCase()}
+                </span>
+             </div>
+             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60" />
+             
+             <p className="absolute bottom-2 left-2 right-2 text-xs text-white/80 line-clamp-3 font-serif italic opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                {city.description}
+             </p>
           </div>
-          <p className="font-serif text-lg leading-relaxed line-clamp-4 opacity-80">
-            {city.description}
-          </p>
-          <div className="mt-6 text-right">
-            <span className="inline-block border-b border-[#5c4b35] text-sm uppercase tracking-widest">Read Memory</span>
+          
+          {/* Handwritten Label */}
+          <div className="text-center">
+            <h2 className="font-serif text-2xl text-[#2a2a2a] font-bold" style={{ fontFamily: 'var(--font-serif)' }}>
+              {city.name}
+            </h2>
+            <p className="text-[10px] text-gray-400 uppercase tracking-widest mt-1">
+              Fig. {index + 1}
+            </p>
           </div>
         </div>
       </Link>
