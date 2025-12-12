@@ -6,6 +6,14 @@ import { LabyrinthLayout } from '@/app/components/layouts/LabyrinthLayout'
 import { cosBase } from '@/app/components/Util'
 import Diomira from '@/app/components/cities/Diomira'
 import Isidora from '@/app/components/cities/Isidora'
+import Dorothea from '@/app/components/cities/Dorothea'
+import Zaira from '@/app/components/cities/Zaira'
+import Anastasia from '@/app/components/cities/Anastasia'
+import Tamara from '@/app/components/cities/Tamara'
+import Zora from '@/app/components/cities/Zora'
+import Despina from '@/app/components/cities/Despina'
+import Zirma from '@/app/components/cities/Zirma'
+import Isaura from '@/app/components/cities/Isaura'
 import { City } from '@/lib/types'
 
 import data from '@/public/city/data.json'
@@ -42,6 +50,14 @@ function getCityData(cityType: string, cityName: string) {
 const SpecificCityComponents: Record<string, React.ComponentType<{ city: City }>> = {
   diomira: Diomira,
   isidora: Isidora,
+  dorothea: Dorothea,
+  zaira: Zaira,
+  anastasia: Anastasia,
+  tamara: Tamara,
+  zora: Zora,
+  despina: Despina,
+  zirma: Zirma,
+  isaura: Isaura,
 }
 
 export default async function CityPage({

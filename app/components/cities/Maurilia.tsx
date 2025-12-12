@@ -1,0 +1,149 @@
+'use client'
+
+import React, { useState, useRef, useEffect } from 'react'
+import { motion } from 'framer-motion'
+import { Image as ImageIcon, Map, Calendar, MousePointer2 } from 'lucide-react'
+
+export default function Maurilia() {
+  const [sliderPosition, setSliderPosition] = useState(50)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const isDragging = useRef(false)
+
+  const handleMouseDown = () => {
+    isDragging.current = true
+  }
+  const handleMouseUp = () => {
+    isDragging.current = false
+  }
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging.current || !containerRef.current) return
+    const rect = containerRef.current.getBoundingClientRect()
+    const x = Math.max(0, Math.min(e.clientX - rect.left, rect.width))
+    setSliderPosition((x / rect.width) * 100)
+  }
+
+  // Touch support
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!containerRef.current) return
+    const rect = containerRef.current.getBoundingClientRect()
+    const x = Math.max(0, Math.min(e.touches[0].clientX - rect.left, rect.width))
+    setSliderPosition((x / rect.width) * 100)
+  }
+
+  useEffect(() => {
+    window.addEventListener('mouseup', handleMouseUp)
+    return () => window.removeEventListener('mouseup', handleMouseUp)
+  }, [])
+
+  return (
+    <div className="flex min-h-screen flex-col items-center justify-center bg-stone-100 p-8 font-serif text-stone-800">
+      <header className="mb-12 text-center">
+        <h1 className="mb-4 text-5xl font-bold text-stone-900">MAURILIA</h1>
+        <p className="max-w-2xl text-xl text-stone-600 italic">
+          "The traveler is invited to visit the city and, at the same time, to examine some old
+          postcards that show it as it used to be."
+        </p>
+      </header>
+
+      <div
+        ref={containerRef}
+        className="group relative aspect-video w-full max-w-4xl cursor-col-resize overflow-hidden rounded-xl shadow-2xl select-none"
+        onMouseMove={handleMouseMove}
+        onMouseDown={handleMouseDown}
+        onTouchMove={handleTouchMove}
+      >
+        {/* Layer 1: The Present (Underneath, but revealed on the right) */}
+        <div className="absolute inset-0 flex items-center justify-center bg-slate-900">
+          <div className="p-12 text-center">
+            <h2 className="mb-4 text-4xl font-bold tracking-tighter text-white">THE METROPOLIS</h2>
+            <div className="grid grid-cols-2 gap-8 text-left text-slate-400">
+              <div>
+                <p className="mb-1 font-mono text-xs text-slate-500 uppercase">Infrastructure</p>
+                <p>Concrete Overpasses</p>
+              </div>
+              <div>
+                <p className="mb-1 font-mono text-xs text-slate-500 uppercase">Atmosphere</p>
+                <p>Neon & Smog</p>
+              </div>
+              <div>
+                <p className="mb-1 font-mono text-xs text-slate-500 uppercase">Population</p>
+                <p>Millions, Anonymous</p>
+              </div>
+              <div>
+                <p className="mb-1 font-mono text-xs text-slate-500 uppercase">Reality</p>
+                <p>Prosperous & Vast</p>
+              </div>
+            </div>
+          </div>
+          {/* Background Pattern for Present */}
+          <div className="pointer-events-none absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
+        </div>
+
+        {/* Layer 2: The Past (Clipped) */}
+        <div
+          className="bg-sepia-50 absolute inset-0 flex items-center justify-center border-r-4 border-white"
+          style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
+        >
+          <div className="p-12 text-center">
+            <h2 className="mb-4 font-serif text-4xl font-bold text-amber-900">The Old Postcard</h2>
+            <div className="grid grid-cols-2 gap-8 text-left text-amber-800/80">
+              <div>
+                <p className="mb-1 font-mono text-xs text-amber-900/40 uppercase">Landmark</p>
+                <p>The Hen House</p>
+              </div>
+              <div>
+                <p className="mb-1 font-mono text-xs text-amber-900/40 uppercase">Atmosphere</p>
+                <p>Quiet & Provincial</p>
+              </div>
+              <div>
+                <p className="mb-1 font-mono text-xs text-amber-900/40 uppercase">Population</p>
+                <p>Three Spinsters</p>
+              </div>
+              <div>
+                <p className="mb-1 font-mono text-xs text-amber-900/40 uppercase">Memory</p>
+                <p>Lost Grace</p>
+              </div>
+            </div>
+          </div>
+          {/* Background Pattern for Past */}
+          <div className="pointer-events-none absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/aged-paper.png')] opacity-20"></div>
+
+          {/* Postcard Stamp */}
+          <div className="absolute top-8 right-12 flex h-32 w-24 rotate-12 items-center justify-center border-4 border-amber-900/20 opacity-50">
+            <span className="rotate-45 text-xs font-bold text-amber-900/40 uppercase">
+              Postage Paid
+            </span>
+          </div>
+        </div>
+
+        {/* Slider Handle */}
+        <div
+          className="absolute top-0 bottom-0 z-20 w-1 cursor-col-resize bg-white shadow-[0_0_20px_rgba(0,0,0,0.5)]"
+          style={{ left: `${sliderPosition}%` }}
+        >
+          <div className="absolute top-1/2 left-1/2 flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white text-stone-800 shadow-lg">
+            <MousePointer2 className="h-5 w-5 rotate-90" />
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-12 max-w-2xl space-y-6 text-center">
+        <p className="text-lg text-stone-700">
+          "Beware of saying to them that sometimes different cities follow one another on the same
+          site and under the same name, born and dying without knowing one another."
+        </p>
+        <div className="flex justify-center gap-8 text-sm tracking-widest text-stone-500 uppercase">
+          <div className="flex items-center gap-2">
+            <Calendar className="h-4 w-4" />
+            <span>The Past</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Map className="h-4 w-4" />
+            <span>The Present</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
