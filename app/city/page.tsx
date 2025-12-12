@@ -1,102 +1,73 @@
 'use client'
 
-import { useState, useMemo } from 'react';
-import CityCard from '@/app/components/CityCard';
+import { useMemo } from 'react';
+import Link from 'next/link';
+import { motion } from 'framer-motion';
 import data from '@/public/city/data.json';
+import { getCityTheme } from '@/lib/themes';
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 
-export default function InvisibleCityPage() {
-  const [selectedType, setSelectedType] = useState<string | 'all'>('all');
-
-  const typeMapping: Record<string, string> = {
-    'memory': '记忆',
-    'desire': '欲望',
-    'signs': '符号',
-    'thin': '轻盈',
-    'trading': '贸易',
-    'eyes': '眼睛',
-    'names': '名字',
-    'dead': '死亡',
-    'sky': '天空',
-    'continuous': '连绵',
-    'hidden': '隐蔽'
-  };
-
+export default function CityCategoriesPage() {
   // Extract unique city types
   const cityTypes = useMemo(() => {
     const types = new Set(data.cities.map(city => city.type));
     return Array.from(types).sort();
   }, []);
 
-  // Filter cities based on selection
-  const filteredCities = useMemo(() => {
-    if (selectedType === 'all') return data.cities;
-    return data.cities.filter(city => city.type === selectedType);
-  }, [selectedType]);
-
   return (
-    <div className="min-h-screen bg-stone-50 dark:bg-stone-950 py-12 md:py-20">
+    <div className="min-h-screen bg-stone-50 dark:bg-stone-950 py-20">
       <div className="container mx-auto px-4">
-        {/* Header */}
-        <div className="flex flex-col text-center items-center gap-6 mb-16 animate-fade-in">
-          <h1 className="font-display text-4xl sm:text-5xl md:text-7xl text-stone-900 dark:text-stone-100">
-            城市图集
+        <div className="flex flex-col text-center items-center gap-6 mb-20">
+          <h1 className="font-display text-5xl md:text-7xl text-stone-900 dark:text-stone-100">
+            城市分类
           </h1>
-          <p className="font-serif text-lg text-stone-600 dark:text-stone-400 max-w-2xl italic">
-            "构成这个城市的不是这些，而是她的空间量度与历史事件之间的关系。"
+          <p className="font-serif text-xl text-stone-600 dark:text-stone-400 max-w-2xl italic">
+            "目录本身就是一种迷宫。"
           </p>
         </div>
 
-        {/* Filter Tabs */}
-        <div className="flex flex-wrap justify-center gap-2 mb-12 animate-slide-up" style={{ animationDelay: '0.1s' }}>
-          <Button
-            variant="ghost"
-            onClick={() => setSelectedType('all')}
-            className={cn(
-              "font-serif text-sm uppercase tracking-widest hover:bg-stone-200 dark:hover:bg-stone-800 transition-all",
-              selectedType === 'all' 
-                ? "bg-stone-900 text-stone-50 hover:bg-stone-800 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-stone-200" 
-                : "text-stone-500 dark:text-stone-400"
-            )}
-          >
-            全部
-          </Button>
-          {cityTypes.map((type) => (
-            <Button
-              key={type}
-              variant="ghost"
-              onClick={() => setSelectedType(type)}
-              className={cn(
-                "font-serif text-sm uppercase tracking-widest hover:bg-stone-200 dark:hover:bg-stone-800 transition-all",
-                selectedType === type 
-                  ? "bg-stone-900 text-stone-50 hover:bg-stone-800 dark:bg-stone-100 dark:text-stone-900 dark:hover:bg-stone-200" 
-                  : "text-stone-500 dark:text-stone-400"
-              )}
-            >
-              {typeMapping[type] || type}
-            </Button>
-          ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {cityTypes.map((type, index) => {
+            const theme = getCityTheme(type);
+            return (
+              <Link key={type} href={`/city/${type}`}>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  className={cn(
+                    "group relative h-64 overflow-hidden rounded-xl border-2 transition-all duration-500 hover:scale-[1.02]",
+                    theme.colors.bg,
+                    theme.colors.border
+                  )}
+                >
+                  <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
+                    <h2 className={cn(
+                      "text-4xl font-display mb-2 transition-transform duration-500 group-hover:-translate-y-2",
+                      theme.colors.text
+                    )}>
+                      {theme.label}
+                    </h2>
+                    <span className={cn(
+                      "font-mono text-sm uppercase tracking-widest opacity-60",
+                      theme.colors.muted
+                    )}>
+                      {type}
+                    </span>
+                    
+                    <div className={cn(
+                      "absolute bottom-6 opacity-0 transform translate-y-4 transition-all duration-500 group-hover:opacity-100 group-hover:translate-y-0",
+                      theme.colors.accent
+                    )}>
+                      Explore &rarr;
+                    </div>
+                  </div>
+                </motion.div>
+              </Link>
+            );
+          })}
         </div>
-
-        {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 animate-slide-up" style={{ animationDelay: '0.2s' }}>
-          {filteredCities.map((city) => (
-            <CityCard 
-              key={`${city.type}.${city.name}`}
-              cityType={typeMapping[city.type] || city.type} 
-              cityName={city.name} 
-              originalType={city.type}
-            />
-          ))}
-        </div>
-        
-        {filteredCities.length === 0 && (
-          <div className="text-center py-20 text-stone-500 font-serif italic">
-            该分类下暂无城市。
-          </div>
-        )}
       </div>
     </div>
-  )
+  );
 }

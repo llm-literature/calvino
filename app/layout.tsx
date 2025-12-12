@@ -3,8 +3,7 @@ import type { Metadata } from 'next'
 import { Cinzel, Lora } from 'next/font/google'
 import React from "react";
 import { Providers } from "./providers";
-import WithSubnavigation from './components/NavBar';
-import LargeWithLogoCentered from './components/Footer';
+import ClientLayout from './components/ClientLayout';
 
 const cinzel = Cinzel({ 
   subsets: ['latin'],
@@ -32,11 +31,9 @@ export default function RootLayout({
     <html lang="en" className={`${cinzel.variable} ${lora.variable}`}>
       <body className="font-serif bg-stone-50 text-stone-900 antialiased selection:bg-amber-200 selection:text-amber-900">
         <Providers>
-          <WithSubnavigation/>
-          <main className="min-h-screen">
+          <ClientLayout>
             {children}
-          </main>
-          <LargeWithLogoCentered/>
+          </ClientLayout>
         </Providers>
       </body>
     </html>

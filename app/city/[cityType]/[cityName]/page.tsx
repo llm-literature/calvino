@@ -4,6 +4,8 @@ import { EtherealLayout } from '@/app/components/layouts/EtherealLayout';
 import { BazaarLayout } from '@/app/components/layouts/BazaarLayout';
 import { LabyrinthLayout } from '@/app/components/layouts/LabyrinthLayout';
 import { cosBase } from "@/app/components/Util";
+import Diomira from '@/app/components/cities/Diomira';
+import Isidora from '@/app/components/cities/Isidora';
 
 import data from '@/public/city/data.json';
 
@@ -34,6 +36,11 @@ function getCityData(cityType: string, cityName: string) {
   };
 }
 
+const SpecificCityComponents: Record<string, React.ComponentType<any>> = {
+  'diomira': Diomira,
+  'isidora': Isidora,
+};
+
 export default async function CityPage({ params }: {params: Promise<{ cityType: string, cityName: string }>}) {
   const { cityType, cityName } = await params;
   const cityData = getCityData(cityType, cityName);
@@ -41,6 +48,13 @@ export default async function CityPage({ params }: {params: Promise<{ cityType: 
   if (!cityData) return <div>未找到该城市</div>;
 
   const { city, description, prevCity, nextCity } = cityData;
+  
+  // Check for specific city component first
+  const SpecificComponent = SpecificCityComponents[cityName.toLowerCase()];
+  if (SpecificComponent) {
+    return <SpecificComponent city={city} />;
+  }
+
   const href: string = `${cityName}.png`;
   const imagePath = `/city/${cityType}/${href}`;
   const imageUrl = `${cosBase}${imagePath}`
