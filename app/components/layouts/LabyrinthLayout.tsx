@@ -1,21 +1,21 @@
-'use client';
+'use client'
 
-import { motion } from 'framer-motion';
-import Image from 'next/image';
-import ReactMarkdown from 'react-markdown';
-import { CityTheme } from '@/lib/themes';
-import { cn } from '@/lib/utils';
-import { MapPin } from 'lucide-react';
-import Link from 'next/link';
-import { City } from '@/lib/types';
+import { motion } from 'framer-motion'
+import Image from 'next/image'
+import ReactMarkdown from 'react-markdown'
+import { CityTheme } from '@/lib/themes'
+import { cn } from '@/lib/utils'
+import { MapPin } from 'lucide-react'
+import Link from 'next/link'
+import { City } from '@/lib/types'
 
 interface LayoutProps {
-  city: City;
-  prevCity: City | null;
-  nextCity: City | null;
-  description: string;
-  imageUrl: string;
-  theme: CityTheme;
+  city: City
+  prevCity: City | null
+  nextCity: City | null
+  description: string
+  imageUrl: string
+  theme: CityTheme
 }
 
 export const LabyrinthLayout = ({
@@ -29,39 +29,39 @@ export const LabyrinthLayout = ({
   return (
     <div
       className={cn(
-        'min-h-screen font-mono relative overflow-hidden',
+        'relative min-h-screen overflow-hidden font-mono',
         theme.colors.bg,
         theme.colors.text
       )}
     >
       {/* Grid Background */}
       <div
-        className="absolute inset-0 opacity-10 pointer-events-none"
+        className="pointer-events-none absolute inset-0 opacity-10"
         style={{
           backgroundImage: `linear-gradient(${theme.colors.border.replace('border-', '')} 1px, transparent 1px), linear-gradient(90deg, ${theme.colors.border.replace('border-', '')} 1px, transparent 1px)`,
           backgroundSize: '40px 40px',
         }}
       />
 
-      <div className="container mx-auto px-4 py-12 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+      <div className="relative z-10 container mx-auto px-4 py-12">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-12">
           {/* Sidebar Info */}
-          <div className="md:col-span-3 flex flex-col justify-between h-full min-h-[50vh]">
+          <div className="flex h-full min-h-[50vh] flex-col justify-between md:col-span-3">
             <div>
               <div
                 className={cn(
-                  'w-12 h-12 border-2 flex items-center justify-center mb-8',
+                  'mb-8 flex h-12 w-12 items-center justify-center border-2',
                   theme.colors.border
                 )}
               >
-                <MapPin className="w-6 h-6" />
+                <MapPin className="h-6 w-6" />
               </div>
-              <div className="space-y-2 mb-12">
-                <p className="text-xs uppercase tracking-widest opacity-50">Classification</p>
+              <div className="mb-12 space-y-2">
+                <p className="text-xs tracking-widest uppercase opacity-50">Classification</p>
                 <p className={cn('text-xl font-bold', theme.colors.accent)}>{theme.label}</p>
               </div>
               <div className="space-y-2">
-                <p className="text-xs uppercase tracking-widest opacity-50">Coordinates</p>
+                <p className="text-xs tracking-widest uppercase opacity-50">Coordinates</p>
                 <p className="font-mono text-sm">UNKNOWN</p>
               </div>
             </div>
@@ -70,7 +70,7 @@ export const LabyrinthLayout = ({
               {prevCity && (
                 <Link
                   href={`/city/${prevCity.type}/${prevCity.name}`}
-                  className="block mb-4 opacity-50 hover:opacity-100"
+                  className="mb-4 block opacity-50 hover:opacity-100"
                 >
                   &lt; {prevCity.name.toUpperCase()}
                 </Link>
@@ -91,12 +91,12 @@ export const LabyrinthLayout = ({
             <motion.h1
               initial={{ x: -50, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
-              className="text-6xl md:text-9xl font-black uppercase tracking-tighter mb-12 break-all leading-[0.8]"
+              className="mb-12 text-6xl leading-[0.8] font-black tracking-tighter break-all uppercase md:text-9xl"
             >
               {city.name}
             </motion.h1>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
               <motion.div
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
@@ -104,7 +104,7 @@ export const LabyrinthLayout = ({
                 className="relative aspect-square border-2 p-2"
                 style={{ borderColor: 'currentColor' }}
               >
-                <div className="relative w-full h-full grayscale hover:grayscale-0 transition-all duration-500">
+                <div className="relative h-full w-full grayscale transition-all duration-500 hover:grayscale-0">
                   <Image fill src={imageUrl} alt={city.name} className="object-cover" />
                   {/* Glitch overlay effect could go here */}
                 </div>
@@ -121,7 +121,7 @@ export const LabyrinthLayout = ({
                     p: ({ ...props }) => (
                       <p
                         className={cn(
-                          'mb-6 text-sm md:text-base leading-loose text-justify',
+                          'mb-6 text-justify text-sm leading-loose md:text-base',
                           theme.colors.text
                         )}
                         {...props}
@@ -137,5 +137,5 @@ export const LabyrinthLayout = ({
         </div>
       </div>
     </div>
-  );
-};
+  )
+}

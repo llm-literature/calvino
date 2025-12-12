@@ -1,42 +1,42 @@
-'use client';
+'use client'
 
-import Link from 'next/link';
-import Image from 'next/image';
-import capitalizeString from '@/app/components/Util';
-import { cosBase } from '@/app/components/Util';
-import { cn } from '@/lib/utils';
-import { getCityTheme } from '@/lib/themes';
+import Link from 'next/link'
+import Image from 'next/image'
+import capitalizeString from '@/app/components/Util'
+import { cosBase } from '@/app/components/Util'
+import { cn } from '@/lib/utils'
+import { getCityTheme } from '@/lib/themes'
 
 interface CityCardProps {
-  cityType: string;
-  cityName: string;
-  className?: string;
-  originalType?: string;
+  cityType: string
+  cityName: string
+  className?: string
+  originalType?: string
 }
 
 export default function CityCard({ cityType, cityName, className, originalType }: CityCardProps) {
   // Use originalType if provided (for image paths), otherwise fallback to cityType
-  const typeForPath = originalType || cityType;
-  const theme = getCityTheme(typeForPath);
+  const typeForPath = originalType || cityType
+  const theme = getCityTheme(typeForPath)
 
-  const href: string = `${cityName}.png`;
-  const imagePath = `/city/${typeForPath}/${href}`;
-  const imageUrl = `${cosBase}${imagePath}`;
-  const linkPath = `/city/${typeForPath}/${cityName}`;
+  const href: string = `${cityName}.png`
+  const imagePath = `/city/${typeForPath}/${href}`
+  const imageUrl = `${cosBase}${imagePath}`
+  const linkPath = `/city/${typeForPath}/${cityName}`
 
   return (
-    <Link href={linkPath} className={cn('block group', className)}>
+    <Link href={linkPath} className={cn('group block', className)}>
       <div
         className={cn(
-          'relative flex flex-col h-full border p-4 transition-all duration-500 hover:shadow-2xl hover:-translate-y-2',
+          'relative flex h-full flex-col border p-4 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl',
           theme.colors.bg,
           theme.colors.border
         )}
       >
         {/* Image Container */}
-        <div className={cn('relative aspect-[4/3] w-full overflow-hidden mb-4', theme.colors.bg)}>
+        <div className={cn('relative mb-4 aspect-[4/3] w-full overflow-hidden', theme.colors.bg)}>
           <Image
-            className="object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0"
+            className="object-cover grayscale transition-transform duration-700 group-hover:scale-110 group-hover:grayscale-0"
             fill
             src={imageUrl}
             alt={`${cityName} - ${cityType}`}
@@ -44,17 +44,17 @@ export default function CityCard({ cityType, cityName, className, originalType }
           />
           <div
             className={cn(
-              'absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-300 mix-blend-overlay',
+              'absolute inset-0 opacity-0 mix-blend-overlay transition-opacity duration-300 group-hover:opacity-20',
               theme.colors.accent.replace('text-', 'bg-')
             )}
           />
         </div>
 
         {/* Text Content */}
-        <div className="flex flex-col items-center text-center gap-2 mt-auto">
+        <div className="mt-auto flex flex-col items-center gap-2 text-center">
           <span
             className={cn(
-              'font-serif text-xs tracking-widest uppercase border-b pb-1',
+              'border-b pb-1 font-serif text-xs tracking-widest uppercase',
               theme.colors.muted,
               theme.colors.border
             )}
@@ -75,35 +75,35 @@ export default function CityCard({ cityType, cityName, className, originalType }
         {/* Decorative corners */}
         <div
           className={cn(
-            'absolute top-2 left-2 w-2 h-2 border-t border-l opacity-0 group-hover:opacity-100 transition-opacity',
+            'absolute top-2 left-2 h-2 w-2 border-t border-l opacity-0 transition-opacity group-hover:opacity-100',
             theme.colors.border
           )}
         />
         <div
           className={cn(
-            'absolute top-2 right-2 w-2 h-2 border-t border-r opacity-0 group-hover:opacity-100 transition-opacity',
+            'absolute top-2 right-2 h-2 w-2 border-t border-r opacity-0 transition-opacity group-hover:opacity-100',
             theme.colors.border
           )}
         />
         <div
           className={cn(
-            'absolute bottom-2 left-2 w-2 h-2 border-b border-l opacity-0 group-hover:opacity-100 transition-opacity',
+            'absolute bottom-2 left-2 h-2 w-2 border-b border-l opacity-0 transition-opacity group-hover:opacity-100',
             theme.colors.border
           )}
         />
         <div
           className={cn(
-            'absolute bottom-2 right-2 w-2 h-2 border-b border-r opacity-0 group-hover:opacity-100 transition-opacity',
+            'absolute right-2 bottom-2 h-2 w-2 border-r border-b opacity-0 transition-opacity group-hover:opacity-100',
             theme.colors.border
           )}
         />
       </div>
     </Link>
-  );
+  )
 }
 
 const DemoCityCardComponent = () => {
-  return <CityCard cityType="demo" cityName="hello" />;
-};
+  return <CityCard cityType="demo" cityName="hello" />
+}
 
-export { CityCard, DemoCityCardComponent };
+export { CityCard, DemoCityCardComponent }

@@ -10,7 +10,10 @@ const eslintConfig = defineConfig([
   {
     rules: {
       // Allow unused variables prefixed with underscore
-      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+      ],
       // Allow any type for flexibility (can be stricter in production)
       '@typescript-eslint/no-explicit-any': 'warn',
       // Disable img element rule since we use unoptimized images in static export

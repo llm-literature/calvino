@@ -1,17 +1,17 @@
-export type CityArchetype = 'ethereal' | 'labyrinth' | 'bazaar' | 'chronicle';
+export type CityArchetype = 'ethereal' | 'labyrinth' | 'bazaar' | 'chronicle'
 
 export interface CityTheme {
-  id: string;
-  label: string;
-  archetype: CityArchetype;
+  id: string
+  label: string
+  archetype: CityArchetype
   colors: {
-    bg: string;
-    text: string;
-    accent: string;
-    muted: string;
-    border: string;
-  };
-  pattern?: string;
+    bg: string
+    text: string
+    accent: string
+    muted: string
+    border: string
+  }
+  pattern?: string
 }
 
 export const cityThemes: Record<string, CityTheme> = {
@@ -147,8 +147,8 @@ export const cityThemes: Record<string, CityTheme> = {
       border: 'border-[#44403C]',
     },
   },
-};
+}
 
 export const getCityTheme = (type: string): CityTheme => {
-  return cityThemes[type.toLowerCase()] || cityThemes.memory;
-};
+  return cityThemes[type.toLowerCase()] || cityThemes.memory
+}

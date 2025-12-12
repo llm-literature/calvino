@@ -2,36 +2,29 @@
 # See https://pre-commit.com for more information
 
 repos:
-  # Prettier - Code formatter
-  - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: v3.1.0
-    hooks:
-      - id: prettier
-        types_or: [javascript, jsx, ts, tsx, json, css, markdown, yaml]
-        exclude: ^(\.next|out|node_modules|\.git)/
-
-  # ESLint - Linter
-  - repo: https://github.com/pre-commit/mirrors-eslint
-    rev: v9.15.0
-    hooks:
-      - id: eslint
-        files: \.(js|jsx|ts|tsx)$
-        types: [file]
-        exclude: ^(\.next|out|node_modules|\.git)/
-        additional_dependencies:
-          - eslint@9.39.1
-          - eslint-config-next@16.0.10
-          - eslint-config-prettier@10.1.8
-          - typescript@5.9.3
-          - "@typescript-eslint/parser"
-          - "@typescript-eslint/eslint-plugin"
-
-  # Local hooks for TypeScript type checking
+  # Local hooks using bun
   - repo: local
     hooks:
+      # Prettier - Code formatter
+      - id: format
+        name: Prettier Formater
+        entry: bun run format
+        language: system
+        files: \.(js|jsx|ts|tsx|json|css|md|yaml)$
+        pass_filenames: false
+
+      # ESLint - Linter
+      - id: lint
+        name: ESLint
+        entry: bun run lint
+        language: system
+        files: \.(js|jsx|ts|tsx)$
+        pass_filenames: false
+
+      # TypeScript - Type checker
       - id: typecheck
         name: TypeScript Type Check
-        entry: bunx tsc --noEmit
+        entry: bun run typecheck
         language: system
         files: \.(ts|tsx)$
         pass_filenames: false

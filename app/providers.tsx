@@ -1,6 +1,6 @@
 // app/providers.tsx
-'use client';
+'use client'
 
 export function Providers({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+  return <>{children}</>
 }

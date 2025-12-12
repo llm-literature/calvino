@@ -1,21 +1,21 @@
-'use client';
+'use client'
 
-import { motion } from 'framer-motion';
-import Image from 'next/image';
-import ReactMarkdown from 'react-markdown';
-import { CityTheme } from '@/lib/themes';
-import { cn } from '@/lib/utils';
-import Link from 'next/link';
-import capitalizeString from '@/app/components/Util';
-import { City } from '@/lib/types';
+import { motion } from 'framer-motion'
+import Image from 'next/image'
+import ReactMarkdown from 'react-markdown'
+import { CityTheme } from '@/lib/themes'
+import { cn } from '@/lib/utils'
+import Link from 'next/link'
+import capitalizeString from '@/app/components/Util'
+import { City } from '@/lib/types'
 
 interface LayoutProps {
-  city: City;
-  prevCity: City | null;
-  nextCity: City | null;
-  description: string;
-  imageUrl: string;
-  theme: CityTheme;
+  city: City
+  prevCity: City | null
+  nextCity: City | null
+  description: string
+  imageUrl: string
+  theme: CityTheme
 }
 
 export const BazaarLayout = ({
@@ -28,11 +28,11 @@ export const BazaarLayout = ({
 }: LayoutProps) => {
   return (
     <div
-      className={cn('min-h-screen font-sans overflow-x-hidden', theme.colors.bg, theme.colors.text)}
+      className={cn('min-h-screen overflow-x-hidden font-sans', theme.colors.bg, theme.colors.text)}
     >
-      <div className="grid grid-cols-1 lg:grid-cols-2 min-h-screen">
+      <div className="grid min-h-screen grid-cols-1 lg:grid-cols-2">
         {/* Left: Image & Title (Sticky) */}
-        <div className="relative h-[50vh] lg:h-screen lg:sticky lg:top-0 overflow-hidden">
+        <div className="relative h-[50vh] overflow-hidden lg:sticky lg:top-0 lg:h-screen">
           <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/80 via-transparent to-transparent lg:bg-gradient-to-r lg:from-transparent lg:to-black/80" />
           <Image
             fill
@@ -41,12 +41,12 @@ export const BazaarLayout = ({
             className="object-cover transition-transform duration-[20s] hover:scale-110"
           />
 
-          <div className="absolute bottom-0 left-0 w-full p-8 lg:p-16 z-20">
+          <div className="absolute bottom-0 left-0 z-20 w-full p-8 lg:p-16">
             <motion.span
               initial={{ x: -20, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               className={cn(
-                'inline-block px-3 py-1 mb-4 text-xs font-bold uppercase tracking-widest bg-white/10 backdrop-blur-md rounded-full',
+                'mb-4 inline-block rounded-full bg-white/10 px-3 py-1 text-xs font-bold tracking-widest uppercase backdrop-blur-md',
                 theme.colors.accent
               )}
             >
@@ -56,7 +56,7 @@ export const BazaarLayout = ({
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.2 }}
-              className="font-display text-6xl md:text-8xl font-black text-white leading-none"
+              className="font-display text-6xl leading-none font-black text-white md:text-8xl"
             >
               {capitalizeString(city.name)}
             </motion.h1>
@@ -64,7 +64,7 @@ export const BazaarLayout = ({
         </div>
 
         {/* Right: Content (Scrollable) */}
-        <div className="p-8 lg:p-20 flex flex-col justify-center">
+        <div className="flex flex-col justify-center p-8 lg:p-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -92,11 +92,11 @@ export const BazaarLayout = ({
             {prevCity ? (
               <Link
                 href={`/city/${prevCity.type}/${prevCity.name}`}
-                className="group block p-4 rounded-lg hover:bg-white/5 transition-colors"
+                className="group block rounded-lg p-4 transition-colors hover:bg-white/5"
               >
                 <span
                   className={cn(
-                    'text-xs uppercase tracking-widest block mb-1 opacity-60',
+                    'mb-1 block text-xs tracking-widest uppercase opacity-60',
                     theme.colors.text
                   )}
                 >
@@ -113,11 +113,11 @@ export const BazaarLayout = ({
             {nextCity ? (
               <Link
                 href={`/city/${nextCity.type}/${nextCity.name}`}
-                className="group block p-4 rounded-lg hover:bg-white/5 transition-colors text-right"
+                className="group block rounded-lg p-4 text-right transition-colors hover:bg-white/5"
               >
                 <span
                   className={cn(
-                    'text-xs uppercase tracking-widest block mb-1 opacity-60',
+                    'mb-1 block text-xs tracking-widest uppercase opacity-60',
                     theme.colors.text
                   )}
                 >
@@ -134,5 +134,5 @@ export const BazaarLayout = ({
         </div>
       </div>
     </div>
-  );
-};
+  )
+}

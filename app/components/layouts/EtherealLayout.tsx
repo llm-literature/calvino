@@ -1,23 +1,23 @@
-'use client';
+'use client'
 
-import { motion, useScroll, useTransform } from 'framer-motion';
-import Image from 'next/image';
-import ReactMarkdown from 'react-markdown';
-import { CityTheme } from '@/lib/themes';
-import { cn } from '@/lib/utils';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import Link from 'next/link';
-import capitalizeString from '@/app/components/Util';
-import { useRef } from 'react';
-import { City } from '@/lib/types';
+import { motion, useScroll, useTransform } from 'framer-motion'
+import Image from 'next/image'
+import ReactMarkdown from 'react-markdown'
+import { CityTheme } from '@/lib/themes'
+import { cn } from '@/lib/utils'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
+import Link from 'next/link'
+import capitalizeString from '@/app/components/Util'
+import { useRef } from 'react'
+import { City } from '@/lib/types'
 
 interface LayoutProps {
-  city: City;
-  prevCity: City | null;
-  nextCity: City | null;
-  description: string;
-  imageUrl: string;
-  theme: CityTheme;
+  city: City
+  prevCity: City | null
+  nextCity: City | null
+  description: string
+  imageUrl: string
+  theme: CityTheme
 }
 
 export const EtherealLayout = ({
@@ -28,56 +28,56 @@ export const EtherealLayout = ({
   imageUrl,
   theme,
 }: LayoutProps) => {
-  const ref = useRef(null);
+  const ref = useRef(null)
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ['start start', 'end start'],
-  });
+  })
 
-  const y = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const y = useTransform(scrollYProgress, [0, 1], ['0%', '50%'])
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
 
   return (
     <div
       ref={ref}
       className={cn(
-        'min-h-screen font-sans overflow-hidden relative',
+        'relative min-h-screen overflow-hidden font-sans',
         theme.colors.bg,
         theme.colors.text
       )}
     >
       {/* Floating Background Elements */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+      <div className="pointer-events-none fixed inset-0 overflow-hidden">
         <div
           className={cn(
-            'absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full blur-[100px] opacity-20',
+            'absolute top-[-10%] left-[-10%] h-[50vw] w-[50vw] rounded-full opacity-20 blur-[100px]',
             theme.colors.accent.replace('text-', 'bg-')
           )}
         />
         <div
           className={cn(
-            'absolute bottom-[-10%] right-[-10%] w-[60vw] h-[60vw] rounded-full blur-[120px] opacity-10',
+            'absolute right-[-10%] bottom-[-10%] h-[60vw] w-[60vw] rounded-full opacity-10 blur-[120px]',
             theme.colors.text.replace('text-', 'bg-')
           )}
         />
       </div>
 
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="relative z-10 container mx-auto px-6">
         {/* Hero Section */}
-        <div className="h-screen flex flex-col items-center justify-center relative">
-          <motion.div style={{ y, opacity }} className="text-center z-10">
+        <div className="relative flex h-screen flex-col items-center justify-center">
+          <motion.div style={{ y, opacity }} className="z-10 text-center">
             <span
               className={cn(
-                'text-sm uppercase tracking-[0.5em] mb-6 block opacity-60',
+                'mb-6 block text-sm tracking-[0.5em] uppercase opacity-60',
                 theme.colors.text
               )}
             >
               {theme.label}
             </span>
-            <h1 className="font-display text-7xl md:text-9xl font-light tracking-tight mb-8">
+            <h1 className="font-display mb-8 text-7xl font-light tracking-tight md:text-9xl">
               {capitalizeString(city.name)}
             </h1>
-            <div className="w-[1px] h-24 mx-auto bg-current opacity-20" />
+            <div className="mx-auto h-24 w-[1px] bg-current opacity-20" />
           </motion.div>
 
           {/* Image as subtle background or floating element */}
@@ -103,19 +103,19 @@ export const EtherealLayout = ({
         </div>
 
         {/* Content Section */}
-        <div className="max-w-2xl mx-auto pb-32 relative">
+        <div className="relative mx-auto max-w-2xl pb-32">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="prose prose-lg prose-stone dark:prose-invert leading-loose text-center"
+            className="prose prose-lg prose-stone dark:prose-invert text-center leading-loose"
           >
             <ReactMarkdown
               components={{
                 p: ({ ...props }) => (
                   <p
-                    className={cn('mb-8 text-xl md:text-2xl font-light', theme.colors.text)}
+                    className={cn('mb-8 text-xl font-light md:text-2xl', theme.colors.text)}
                     {...props}
                   />
                 ),
@@ -126,13 +126,13 @@ export const EtherealLayout = ({
           </motion.div>
 
           {/* Navigation */}
-          <div className="mt-32 flex justify-between items-center">
+          <div className="mt-32 flex items-center justify-between">
             {prevCity ? (
               <Link
                 href={`/city/${prevCity.type}/${prevCity.name}`}
-                className="group flex items-center gap-2 opacity-50 hover:opacity-100 transition-opacity"
+                className="group flex items-center gap-2 opacity-50 transition-opacity hover:opacity-100"
               >
-                <ChevronLeft className="w-4 h-4" />
+                <ChevronLeft className="h-4 w-4" />
                 <span className="font-display text-lg">{capitalizeString(prevCity.name)}</span>
               </Link>
             ) : (
@@ -142,10 +142,10 @@ export const EtherealLayout = ({
             {nextCity ? (
               <Link
                 href={`/city/${nextCity.type}/${nextCity.name}`}
-                className="group flex items-center gap-2 opacity-50 hover:opacity-100 transition-opacity"
+                className="group flex items-center gap-2 opacity-50 transition-opacity hover:opacity-100"
               >
                 <span className="font-display text-lg">{capitalizeString(nextCity.name)}</span>
-                <ChevronRight className="w-4 h-4" />
+                <ChevronRight className="h-4 w-4" />
               </Link>
             ) : (
               <div />
@@ -154,5 +154,5 @@ export const EtherealLayout = ({
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
