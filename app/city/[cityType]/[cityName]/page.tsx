@@ -6,6 +6,7 @@ import { LabyrinthLayout } from '@/app/components/layouts/LabyrinthLayout'
 import { cosBase } from '@/app/components/Util'
 import Diomira from '@/app/components/cities/Diomira'
 import Isidora from '@/app/components/cities/Isidora'
+import { City } from '@/lib/types'
 
 import data from '@/public/city/data.json'
 
@@ -38,7 +39,7 @@ function getCityData(cityType: string, cityName: string) {
   }
 }
 
-const SpecificCityComponents: Record<string, React.ComponentType<any>> = {
+const SpecificCityComponents: Record<string, React.ComponentType<{ city: City }>> = {
   diomira: Diomira,
   isidora: Isidora,
 }

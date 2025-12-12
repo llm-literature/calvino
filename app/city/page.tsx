@@ -9,7 +9,7 @@ import { cn } from '@/lib/utils'
 import { Sparkles, Wind, Eye, Scroll, Map, Box, Cloud, Activity, Ghost, Lock } from 'lucide-react'
 
 // Map icons to city types
-const TYPE_ICONS: Record<string, any> = {
+const TYPE_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
   memory: Scroll,
   desire: Sparkles,
   signs: Map,

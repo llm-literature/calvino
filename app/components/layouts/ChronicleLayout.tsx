@@ -8,11 +8,12 @@ import { cn } from '@/lib/utils';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import capitalizeString from '@/app/components/Util';
+import { City } from '@/lib/types';
 
 interface LayoutProps {
-  city: any;
-  prevCity: any;
-  nextCity: any;
+  city: City;
+  prevCity: City | null;
+  nextCity: City | null;
   description: string;
   imageUrl: string;
   theme: CityTheme;
@@ -77,7 +78,7 @@ export const ChronicleLayout = ({
           >
             <ReactMarkdown
               components={{
-                p: ({ node, ...props }) => (
+                p: ({ ...props }) => (
                   <p
                     className={cn(
                       'mb-6 first-letter:text-6xl first-letter:font-display first-letter:font-bold first-letter:mr-3 first-letter:float-left first-letter:leading-none',

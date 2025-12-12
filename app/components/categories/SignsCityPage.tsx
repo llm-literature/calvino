@@ -1,12 +1,11 @@
 'use client'
 
-import { CategoryPageProps } from '@/lib/types'
+import { CategoryPageProps, City } from '@/lib/types'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useState } from 'react'
-import { cn } from '@/lib/utils'
 
-export default function SignsCityPage({ cities, category }: CategoryPageProps) {
+export default function SignsCityPage({ cities }: CategoryPageProps) {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-neutral-950 py-20 font-mono text-neutral-200">
       <div className="pointer-events-none absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20" />
@@ -16,8 +15,8 @@ export default function SignsCityPage({ cities, category }: CategoryPageProps) {
       </h1>
 
       <div className="mx-auto grid w-full max-w-6xl grid-cols-2 gap-px border border-neutral-800 bg-neutral-800 md:grid-cols-3 lg:grid-cols-4">
-        {cities.map((city, index) => (
-          <SignCell key={city.name} city={city} index={index} />
+        {cities.map((city) => (
+          <SignCell key={city.name} city={city} />
         ))}
         {/* Fillers to complete the grid visually */}
         {Array.from({ length: 12 - cities.length }).map((_, i) => (
@@ -33,7 +32,7 @@ export default function SignsCityPage({ cities, category }: CategoryPageProps) {
   )
 }
 
-function SignCell({ city, index }: { city: any; index: number }) {
+function SignCell({ city }: { city: City }) {
   const [isHovered, setIsHovered] = useState(false)
 
   // Generate a "symbol" based on the city name (first letter + length or something)

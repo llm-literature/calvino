@@ -5,14 +5,14 @@ import Image from 'next/image';
 import ReactMarkdown from 'react-markdown';
 import { CityTheme } from '@/lib/themes';
 import { cn } from '@/lib/utils';
-import { ChevronLeft, ChevronRight, MapPin } from 'lucide-react';
+import { MapPin } from 'lucide-react';
 import Link from 'next/link';
-import capitalizeString from '@/app/components/Util';
+import { City } from '@/lib/types';
 
 interface LayoutProps {
-  city: any;
-  prevCity: any;
-  nextCity: any;
+  city: City;
+  prevCity: City | null;
+  nextCity: City | null;
   description: string;
   imageUrl: string;
   theme: CityTheme;
@@ -118,7 +118,7 @@ export const LabyrinthLayout = ({
               >
                 <ReactMarkdown
                   components={{
-                    p: ({ node, ...props }) => (
+                    p: ({ ...props }) => (
                       <p
                         className={cn(
                           'mb-6 text-sm md:text-base leading-loose text-justify',

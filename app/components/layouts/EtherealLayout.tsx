@@ -9,11 +9,12 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import capitalizeString from '@/app/components/Util';
 import { useRef } from 'react';
+import { City } from '@/lib/types';
 
 interface LayoutProps {
-  city: any;
-  prevCity: any;
-  nextCity: any;
+  city: City;
+  prevCity: City | null;
+  nextCity: City | null;
   description: string;
   imageUrl: string;
   theme: CityTheme;
@@ -112,7 +113,7 @@ export const EtherealLayout = ({
           >
             <ReactMarkdown
               components={{
-                p: ({ node, ...props }) => (
+                p: ({ ...props }) => (
                   <p
                     className={cn('mb-8 text-xl md:text-2xl font-light', theme.colors.text)}
                     {...props}

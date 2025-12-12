@@ -3,7 +3,6 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { City } from '@/lib/types'
-import { cn } from '@/lib/utils'
 import { VenetianMask } from 'lucide-react'
 import {
   Dialog,
@@ -40,7 +39,7 @@ export default function HiddenCityPage({ cities, category }: HiddenCityPageProps
         </motion.div>
 
         <div className="mx-auto grid max-w-4xl grid-cols-1 gap-12 md:grid-cols-2">
-          {cities.map((city, index) => (
+          {cities.map((city) => (
             <HiddenCityCard key={city.name} city={city} onSelect={() => setSelectedCity(city)} />
           ))}
         </div>

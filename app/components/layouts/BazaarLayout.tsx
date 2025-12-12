@@ -5,14 +5,14 @@ import Image from 'next/image';
 import ReactMarkdown from 'react-markdown';
 import { CityTheme } from '@/lib/themes';
 import { cn } from '@/lib/utils';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import capitalizeString from '@/app/components/Util';
+import { City } from '@/lib/types';
 
 interface LayoutProps {
-  city: any;
-  prevCity: any;
-  nextCity: any;
+  city: City;
+  prevCity: City | null;
+  nextCity: City | null;
   description: string;
   imageUrl: string;
   theme: CityTheme;
@@ -73,7 +73,7 @@ export const BazaarLayout = ({
           >
             <ReactMarkdown
               components={{
-                p: ({ node, ...props }) => (
+                p: ({ ...props }) => (
                   <p
                     className={cn('mb-6 text-lg leading-relaxed font-medium', theme.colors.text)}
                     {...props}

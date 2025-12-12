@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect, useRef, useMemo } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { City } from '@/lib/types'
 import { Star, Moon } from 'lucide-react'
@@ -40,7 +40,6 @@ function generateBackgroundStars(count: number, seed: number) {
 export default function SkyCityPage({ cities, category }: SkyCityPageProps) {
   const [selectedCity, setSelectedCity] = useState<City | null>(null)
   const [stars, setStars] = useState<{ x: number; y: number; size: number; delay: number }[]>([])
-  const [isClient, setIsClient] = useState(false)
 
   // Background stars - deterministic
   const backgroundStars = useMemo(() => generateBackgroundStars(50, 12345), [])
@@ -54,7 +53,6 @@ export default function SkyCityPage({ cities, category }: SkyCityPageProps) {
       delay: Math.random() * 2,
     }))
     setStars(newStars)
-    setIsClient(true)
   }, [cities])
 
   return (

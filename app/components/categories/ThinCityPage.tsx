@@ -1,6 +1,6 @@
 'use client'
 
-import { CategoryPageProps } from '@/lib/types'
+import { CategoryPageProps, City } from '@/lib/types'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
@@ -43,13 +43,19 @@ export default function ThinCityPage({ cities, category }: CategoryPageProps) {
   )
 }
 
+// Deterministic pseudo-random based on seed
+function seededRandom(seed: number) {
+  const x = Math.sin(seed * 9999) * 10000
+  return x - Math.floor(x)
+}
+
 function HangingCity({
   city,
   index,
   total,
   mounted,
 }: {
-  city: any
+  city: City
   index: number
   total: number
   mounted: boolean
@@ -59,8 +65,10 @@ function HangingCity({
   const sectionWidth = 100 / total
   const leftPos = sectionWidth * index + sectionWidth / 2
 
-  // Random string length (height from top)
-  const stringLength = mounted ? 20 + Math.random() * 40 : 30 // 20% to 60% down the screen
+  // Deterministic string length based on index
+  const stringLength = mounted ? 20 + seededRandom(index * 3 + 1) * 40 : 30 // 20% to 60% down the screen
+  const animDuration = 8 + seededRandom(index * 3 + 2) * 4
+  const animDelay = seededRandom(index * 3 + 3) * 2
 
   return (
     <div className="absolute top-0" style={{ left: `${leftPos}%` }}>
@@ -85,10 +93,10 @@ function HangingCity({
             y: [0, 5, 0, 5, 0],
           }}
           transition={{
-            duration: 8 + Math.random() * 4,
+            duration: animDuration,
             repeat: Infinity,
             ease: 'easeInOut',
-            delay: Math.random() * 2,
+            delay: animDelay,
           }}
           className="group relative"
         >

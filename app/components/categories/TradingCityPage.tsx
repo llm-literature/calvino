@@ -1,13 +1,10 @@
 'use client'
 
-import { CategoryPageProps } from '@/lib/types'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { CategoryPageProps, City } from '@/lib/types'
+import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { useRef } from 'react'
 
 export default function TradingCityPage({ cities, category }: CategoryPageProps) {
-  const containerRef = useRef<HTMLDivElement>(null)
-
   // We can't easily do horizontal scroll with just CSS in Next.js without some setup,
   // but we can use a simple flex container with overflow-x-auto.
 
@@ -48,7 +45,7 @@ export default function TradingCityPage({ cities, category }: CategoryPageProps)
   )
 }
 
-function TradingCard({ city, index }: { city: any; index: number }) {
+function TradingCard({ city, index }: { city: City; index: number }) {
   return (
     <motion.div
       className="group relative h-[60vh] w-[85vw] flex-shrink-0 snap-center md:w-[400px]"

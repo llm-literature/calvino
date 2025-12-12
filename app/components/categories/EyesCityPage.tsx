@@ -1,9 +1,8 @@
 'use client'
 
 import React, { useState, useEffect, useRef } from 'react'
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
+import { motion, useMotionValue, MotionValue } from 'framer-motion'
 import { City } from '@/lib/types'
-import { cn } from '@/lib/utils'
 import { Eye } from 'lucide-react'
 import {
   Dialog,
@@ -53,7 +52,7 @@ export default function EyesCityPage({ cities, category }: EyesCityPageProps) {
         </motion.div>
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {cities.map((city, index) => (
+          {cities.map((city) => (
             <EyeCard
               key={city.name}
               city={city}
@@ -90,8 +89,8 @@ function EyeCard({
   onSelect,
 }: {
   city: City
-  mouseX: any
-  mouseY: any
+  mouseX: MotionValue<number>
+  mouseY: MotionValue<number>
   onSelect: () => void
 }) {
   const cardRef = useRef<HTMLDivElement>(null)

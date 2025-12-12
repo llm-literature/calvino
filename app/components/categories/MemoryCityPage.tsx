@@ -3,7 +3,7 @@
 import { City, CategoryPageProps } from '@/lib/types'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { useEffect, useRef, useState, useMemo } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 
 // Deterministic pseudo-random based on index
 function seededRandom(seed: number) {

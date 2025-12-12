@@ -1,10 +1,9 @@
 'use client'
 
-import { CategoryPageProps } from '@/lib/types'
+import { CategoryPageProps, City } from '@/lib/types'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { useState, useEffect, useRef } from 'react'
-import { cn } from '@/lib/utils'
+import { useState, useEffect } from 'react'
 
 export default function DesireCityPage({ cities, category }: CategoryPageProps) {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
@@ -39,8 +38,8 @@ export default function DesireCityPage({ cities, category }: CategoryPageProps) 
         </h1>
 
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
-          {cities.map((city, index) => (
-            <DesireCard key={city.name} city={city} index={index} />
+          {cities.map((city) => (
+            <DesireCard key={city.name} city={city} />
           ))}
         </div>
       </div>
@@ -48,7 +47,7 @@ export default function DesireCityPage({ cities, category }: CategoryPageProps) 
   )
 }
 
-function DesireCard({ city, index }: { city: any; index: number }) {
+function DesireCard({ city }: { city: City }) {
   return (
     <Link href={`/city/${city.type}/${city.name}`}>
       <motion.div
