@@ -1,0 +1,30 @@
+# Pre-commit configuration for Calvino project
+# See https://pre-commit.com for more information
+
+repos:
+  # Local hooks using bun
+  - repo: local
+    hooks:
+      # Prettier - Code formatter
+      - id: format
+        name: Prettier Formater
+        entry: bun run format
+        language: system
+        files: \.(js|jsx|ts|tsx|json|css|md|yaml)$
+        pass_filenames: false
+
+      # ESLint - Linter
+      - id: lint
+        name: ESLint
+        entry: bun run lint
+        language: system
+        files: \.(js|jsx|ts|tsx)$
+        pass_filenames: false
+
+      # TypeScript - Type checker
+      - id: typecheck
+        name: TypeScript Type Check
+        entry: bun run typecheck
+        language: system
+        files: \.(ts|tsx)$
+        pass_filenames: false

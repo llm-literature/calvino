@@ -1,32 +1,35 @@
 import './globals.css'
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import React from "react";
-import { Providers } from "./providers";
-import WithSubnavigation from './components/NavBar';
-import LargeWithLogoCentered from './components/Footer';
+import { Cinzel, Lora } from 'next/font/google'
+import React from 'react'
+import { Providers } from './providers'
+import ClientLayout from './components/ClientLayout'
 
-const inter = Inter({ subsets: ['latin'] })
+const cinzel = Cinzel({
+  subsets: ['latin'],
+  variable: '--font-cinzel',
+  display: 'swap',
+})
+
+const lora = Lora({
+  subsets: ['latin'],
+  variable: '--font-lora',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
-  title: 'Calvino',
-  description: 'LLM and Literature: Calvino',
+  title: 'Calvino - 看不见的城市',
+  description: '伊塔洛·卡尔维诺《看不见的城市》数字档案馆',
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
+    <html lang="en" className={`${cinzel.variable} ${lora.variable}`}>
+      <body className="bg-stone-50 font-serif text-stone-900 antialiased selection:bg-amber-200 selection:text-amber-900">
         <Providers>
-          <WithSubnavigation/>
-          {children}
-          <LargeWithLogoCentered/>
+          <ClientLayout>{children}</ClientLayout>
         </Providers>
       </body>
     </html>
-  );
+  )
 }

@@ -1,14 +1,8 @@
 // app/providers.tsx
 'use client'
 
-export function Providers({
-    children
-  }: {
-  children: React.ReactNode
-  }) {
-  return (
-    <>
-      {children}
-    </>
-  )
+import { LanguageProvider } from '@/app/context/LanguageContext'
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  return <LanguageProvider>{children}</LanguageProvider>
 }

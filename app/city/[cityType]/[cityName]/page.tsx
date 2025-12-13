@@ -1,80 +1,202 @@
-import ReactMarkdown from 'react-markdown';
-import Image from 'next/image';
-import capitalizeString from "@/app/components/Util";
-import {cosBase} from "@/app/components/Util";
+import { getCityTheme } from '@/lib/themes'
+import { ChronicleLayout } from '@/app/components/layouts/ChronicleLayout'
+import { EtherealLayout } from '@/app/components/layouts/EtherealLayout'
+import { BazaarLayout } from '@/app/components/layouts/BazaarLayout'
+import { LabyrinthLayout } from '@/app/components/layouts/LabyrinthLayout'
+import { cosBase } from '@/app/components/Util'
+import Diomira from '@/app/components/cities/Diomira'
+import Isidora from '@/app/components/cities/Isidora'
+import Dorothea from '@/app/components/cities/Dorothea'
+import Zaira from '@/app/components/cities/Zaira'
+import Anastasia from '@/app/components/cities/Anastasia'
+import Tamara from '@/app/components/cities/Tamara'
+import Zora from '@/app/components/cities/Zora'
+import Despina from '@/app/components/cities/Despina'
+import Zirma from '@/app/components/cities/Zirma'
+import Isaura from '@/app/components/cities/Isaura'
+import Maurilia from '@/app/components/cities/Maurilia'
+import Fedora from '@/app/components/cities/Fedora'
+import Zoe from '@/app/components/cities/Zoe'
+import Zenodia from '@/app/components/cities/Zenodia'
+import Euphemia from '@/app/components/cities/Euphemia'
+import Zobeide from '@/app/components/cities/Zobeide'
+import Hypatia from '@/app/components/cities/Hypatia'
+import Armilla from '@/app/components/cities/Armilla'
+import Chloe from '@/app/components/cities/Chloe'
+import Valdrada from '@/app/components/cities/Valdrada'
+import Olivia from '@/app/components/cities/Olivia'
+import Sophronia from '@/app/components/cities/Sophronia'
+import Eutropia from '@/app/components/cities/Eutropia'
+import Zemrude from '@/app/components/cities/Zemrude'
+import Aglaura from '@/app/components/cities/Aglaura'
+import Octavia from '@/app/components/cities/Octavia'
+import Ersilia from '@/app/components/cities/Ersilia'
+import Baucis from '@/app/components/cities/Baucis'
+import Leandra from '@/app/components/cities/Leandra'
+import Melania from '@/app/components/cities/Melania'
+import Esmeralda from '@/app/components/cities/Esmeralda'
+import Phyllis from '@/app/components/cities/Phyllis'
+import Pyrrha from '@/app/components/cities/Pyrrha'
+import Adelma from '@/app/components/cities/Adelma'
+import Eudoxia from '@/app/components/cities/Eudoxia'
+import Moriana from '@/app/components/cities/Moriana'
+import Clarice from '@/app/components/cities/Clarice'
+import Eusapia from '@/app/components/cities/Eusapia'
+import Beersheba from '@/app/components/cities/Beersheba'
+import Leonia from '@/app/components/cities/Leonia'
+import Irene from '@/app/components/cities/Irene'
+import Argia from '@/app/components/cities/Argia'
+import Thekla from '@/app/components/cities/Thekla'
+import Trude from '@/app/components/cities/Trude'
+import Olinda from '@/app/components/cities/Olinda'
+import Laudomia from '@/app/components/cities/Laudomia'
+import Perinthia from '@/app/components/cities/Perinthia'
+import Procopia from '@/app/components/cities/Procopia'
+import Raissa from '@/app/components/cities/Raissa'
+import Andria from '@/app/components/cities/Andria'
+import Cecilia from '@/app/components/cities/Cecilia'
+import Marozia from '@/app/components/cities/Marozia'
+import Penthesilea from '@/app/components/cities/Penthesilea'
+import Theodora from '@/app/components/cities/Theodora'
+import Berenice from '@/app/components/cities/Berenice'
+import { City } from '@/lib/types'
+import CityViewerWrapper from '@/app/components/CityViewerWrapper'
 
-import data from '@/public/city/data.json';
-
+import data from '@/public/city/data.json'
 
 export async function generateStaticParams() {
-  const params = data.cities.map(city => ({
+  const params = data.cities.map((city) => ({
     cityType: city.type,
     cityName: city.name,
-  }));
-  return params;
+  }))
+  return params
 }
 
+function getCityData(cityType: string, cityName: string) {
+  const index = data.cities.findIndex(
+    (c) =>
+      c.type.toLowerCase() === cityType.toLowerCase() &&
+      c.name.toLowerCase() === cityName.toLowerCase()
+  )
 
-function getCityDescription(cityType: string, cityName: string): string | undefined {
-  const city = data.cities.find(
-    (c) => c.type.toLowerCase() === cityType.toLowerCase() && c.name.toLowerCase() === cityName.toLowerCase()
-  );
-  // Process literal \n characters to actual newlines for proper text display
-  return city?.description?.replace(/\\n/g, '\n');
+  if (index === -1) return null
+
+  const city = data.cities[index]
+  const prevCity = index > 0 ? data.cities[index - 1] : null
+  const nextCity = index < data.cities.length - 1 ? data.cities[index + 1] : null
+
+  return {
+    city,
+    prevCity,
+    nextCity,
+  }
 }
 
-export default async function CityPage({ params }: {params: Promise<{ cityType: string, cityName: string }>}) {
-  const { cityType, cityName } = await params;
+const SpecificCityComponents: Record<string, React.ComponentType<{ city: City }>> = {
+  diomira: Diomira,
+  isidora: Isidora,
+  dorothea: Dorothea,
+  zaira: Zaira,
+  anastasia: Anastasia,
+  tamara: Tamara,
+  zora: Zora,
+  despina: Despina,
+  zirma: Zirma,
+  isaura: Isaura,
+  maurilia: Maurilia,
+  fedora: Fedora,
+  zoe: Zoe,
+  zenodia: Zenodia,
+  euphemia: Euphemia,
+  zobeide: Zobeide,
+  hypatia: Hypatia,
+  armilla: Armilla,
+  chloe: Chloe,
+  valdrada: Valdrada,
+  olivia: Olivia,
+  sophronia: Sophronia,
+  eutropia: Eutropia,
+  zemrude: Zemrude,
+  aglaura: Aglaura,
+  octavia: Octavia,
+  ersilia: Ersilia,
+  baucis: Baucis,
+  leandra: Leandra,
+  melania: Melania,
+  esmeralda: Esmeralda,
+  phyllis: Phyllis,
+  pyrrha: Pyrrha,
+  adelma: Adelma,
+  eudoxia: Eudoxia,
+  moriana: Moriana,
+  clarice: Clarice,
+  eusapia: Eusapia,
+  beersheba: Beersheba,
+  leonia: Leonia,
+  irene: Irene,
+  argia: Argia,
+  thekla: Thekla,
+  trude: Trude,
+  olinda: Olinda,
+  laudomia: Laudomia,
+  perinthia: Perinthia,
+  procopia: Procopia,
+  raissa: Raissa,
+  andria: Andria,
+  cecilia: Cecilia,
+  marozia: Marozia,
+  penthesilea: Penthesilea,
+  theodora: Theodora,
+  berenice: Berenice,
+}
 
-  const description = getCityDescription(cityType, cityName);
-  const href: string = `${cityName}.png`;
-  const imagePath = `/city/${cityType}/${href}`;
+export default async function CityPage({
+  params,
+}: {
+  params: Promise<{ cityType: string; cityName: string }>
+}) {
+  const { cityType, cityName } = await params
+  const cityData = getCityData(cityType, cityName)
+
+  if (!cityData) return <div>未找到该城市</div>
+
+  const { city, prevCity, nextCity } = cityData
+
+  const href: string = `${cityName}.png`
+  const imagePath = `/city/${cityType}/${href}`
   const imageUrl = `${cosBase}${imagePath}`
+
+  // Check for specific city component first
+  const SpecificComponent = SpecificCityComponents[cityName.toLowerCase()]
+  if (SpecificComponent) {
+    return (
+      <CityViewerWrapper city={city} imageUrl={imageUrl}>
+        <SpecificComponent city={city} />
+      </CityViewerWrapper>
+    )
+  }
+
+  const theme = getCityTheme(cityType)
+
+  const LayoutComponents = {
+    chronicle: ChronicleLayout,
+    ethereal: EtherealLayout,
+    bazaar: BazaarLayout,
+    labyrinth: LabyrinthLayout,
+  }
+
+  const SelectedLayout = LayoutComponents[theme.archetype] || ChronicleLayout
+
   return (
-    <div className="container mx-auto max-w-7xl min-h-screen py-8 md:py-12">
-      {/* Title Section */}
-      <div className="mb-8 md:mb-12">
-        <div className="flex flex-col text-center items-center py-4 md:py-6">
-          <h1 className="font-semibold text-3xl sm:text-4xl md:text-6xl leading-[110%] mb-4 md:mb-6">
-            {capitalizeString(cityType)}/{capitalizeString(cityName)}
-          </h1>
-        </div>
-      </div>
-
-      {/* Content Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-start">
-        {/* Image Section */}
-        <div>
-          <div className="flex justify-center">
-            <div className="relative w-[400px] h-[400px] md:w-[500px] md:h-[500px] lg:w-[600px] lg:h-[600px] rounded-xl overflow-hidden shadow-xl transition-transform duration-300 hover:scale-102">
-                <Image
-                fill
-                className="object-cover"
-                src={imageUrl}
-                alt={`${capitalizeString(cityName)} - ${capitalizeString(cityType)}`}
-                />
-            </div>
-          </div>
-        </div>
-
-        {/* Text Section */}
-        <div>
-          <div className="flex flex-col gap-4 text-left px-4 md:px-6 lg:px-0">
-            <ReactMarkdown
-              components={{
-                p: ({ node, ...props }) => (
-                  <p
-                    className="text-base md:text-lg leading-[1.8] text-gray-700 dark:text-gray-300 text-justify"
-                    {...props}
-                  />
-                )
-              }}
-            >
-              {description}
-            </ReactMarkdown>
-          </div>
-        </div>
-      </div>
-    </div>
+    <CityViewerWrapper city={city} imageUrl={imageUrl}>
+      <SelectedLayout
+        city={city}
+        prevCity={prevCity}
+        nextCity={nextCity}
+        description={city.cnDescription}
+        imageUrl={imageUrl}
+        theme={theme}
+      />
+    </CityViewerWrapper>
   )
 }

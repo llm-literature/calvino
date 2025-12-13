@@ -2,60 +2,108 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import capitalizeString from "@/app/components/Util";
-import {cosBase} from "@/app/components/Util";
+import capitalizeString from '@/app/components/Util'
+import { cosBase } from '@/app/components/Util'
+import { cn } from '@/lib/utils'
+import { getCityTheme } from '@/lib/themes'
 
 interface CityCardProps {
   cityType: string
   cityName: string
+  className?: string
+  originalType?: string
 }
 
-export default function CityCard({cityType, cityName} : CityCardProps) {
-  const href: string = `${cityName}.png`;
-  const imagePath = `/city/${cityType}/${href}`;
-  const imageUrl = `${cosBase}${imagePath}`;
+export default function CityCard({ cityType, cityName, className, originalType }: CityCardProps) {
+  // Use originalType if provided (for image paths), otherwise fallback to cityType
+  const typeForPath = originalType || cityType
+  const theme = getCityTheme(typeForPath)
+
+  const href: string = `${cityName}.png`
+  const imagePath = `/city/${typeForPath}/${href}`
+  const imageUrl = `${cosBase}${imagePath}`
+  const linkPath = `/city/${typeForPath}/${cityName}`
+
   return (
-    <div className="flex justify-center py-12">
+    <Link href={linkPath} className={cn('group block', className)}>
       <div
-        className="group relative p-6 max-w-[330px] max-h-[500px] w-full bg-white dark:bg-gray-800 shadow-2xl rounded-lg z-10"
+        className={cn(
+          'relative flex h-full flex-col border p-4 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl',
+          theme.colors.bg,
+          theme.colors.border
+        )}
       >
-        <div
-          className="relative mt-1 h-[300px] rounded-lg
-            after:transition-all after:duration-300 after:ease-out
-            after:content-[''] after:w-full after:h-full after:absolute after:top-5 after:left-0
-            after:bg-cover after:blur-[15px] after:-z-10
-            group-hover:after:blur-[20px]
-            after:bg-[image:var(--image-url)]"
-          style={{
-            '--image-url': `url(${imageUrl})`
-          } as React.CSSProperties}
-        >
+        {/* Image Container */}
+        <div className={cn('relative mb-4 aspect-4/3 w-full overflow-hidden', theme.colors.bg)}>
           <Image
-            className="rounded-full object-cover"
+            className="object-cover grayscale transition-transform duration-700 group-hover:scale-110 group-hover:grayscale-0"
             fill
             src={imageUrl}
-            alt="#"
+            alt={`${cityName} - ${cityType}`}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          />
+          <div
+            className={cn(
+              'absolute inset-0 opacity-0 mix-blend-overlay transition-opacity duration-300 group-hover:opacity-20',
+              theme.colors.accent.replace('text-', 'bg-')
+            )}
           />
         </div>
-        <div className="pt-10 flex flex-col items-center gap-2">
-          <p className="font-light text-lg uppercase">
-            {cityType.toUpperCase()}
-          </p>
-          <h2 className="text-2xl font-medium">
-            <Link href={imagePath.split('.')[0]}>
-                {capitalizeString(cityName)}
-            </Link>
+
+        {/* Text Content */}
+        <div className="mt-auto flex flex-col items-center gap-2 text-center">
+          <span
+            className={cn(
+              'border-b pb-1 font-serif text-xs tracking-widest uppercase',
+              theme.colors.muted,
+              theme.colors.border
+            )}
+          >
+            {cityType}
+          </span>
+          <h2
+            className={cn(
+              'font-display text-2xl font-bold transition-colors',
+              theme.colors.text,
+              `group-hover:${theme.colors.accent}`
+            )}
+          >
+            {capitalizeString(cityName)}
           </h2>
         </div>
+
+        {/* Decorative corners */}
+        <div
+          className={cn(
+            'absolute top-2 left-2 h-2 w-2 border-t border-l opacity-0 transition-opacity group-hover:opacity-100',
+            theme.colors.border
+          )}
+        />
+        <div
+          className={cn(
+            'absolute top-2 right-2 h-2 w-2 border-t border-r opacity-0 transition-opacity group-hover:opacity-100',
+            theme.colors.border
+          )}
+        />
+        <div
+          className={cn(
+            'absolute bottom-2 left-2 h-2 w-2 border-b border-l opacity-0 transition-opacity group-hover:opacity-100',
+            theme.colors.border
+          )}
+        />
+        <div
+          className={cn(
+            'absolute right-2 bottom-2 h-2 w-2 border-r border-b opacity-0 transition-opacity group-hover:opacity-100',
+            theme.colors.border
+          )}
+        />
       </div>
-    </div>
+    </Link>
   )
 }
 
 const DemoCityCardComponent = () => {
-  return (
-    <CityCard cityType="demo" cityName="hello"/>
-  );
-};
+  return <CityCard cityType="demo" cityName="hello" />
+}
 
-export { CityCard, DemoCityCardComponent };
+export { CityCard, DemoCityCardComponent }
