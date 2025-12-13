@@ -27,7 +27,6 @@ const getRandomFunction = (current: string, language: 'en' | 'cn') => {
 
 export default function Zoe({ city }: { city: City }) {
   const { language } = useLanguage()
-  const displayDescription = language === 'en' ? city.enDescription : city.cnDescription
 
   const [grid, setGrid] = useState<string[]>(Array(24).fill('Unknown'))
 
@@ -96,9 +95,7 @@ export default function Zoe({ city }: { city: City }) {
             transition={{ delay: 1 }}
             className="mx-auto max-w-3xl prose prose-invert prose-lg text-center text-neutral-400"
         >
-           {displayDescription.split('\n').map((p, i) => (
-             <p key={i}>{p}</p>
-           ))}
+           {/* Description removed as it is now in the sidebar */}
         </motion.div>
       </div>
     </div>

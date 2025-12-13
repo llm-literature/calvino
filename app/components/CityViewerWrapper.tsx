@@ -122,7 +122,7 @@ export default function CityViewerWrapper({ city, imageUrl, children }: CityView
                 onClick={() => setIsJournalOpen(true)}
                 title={language === 'en' ? 'City Notes' : '城市笔记'}
               >
-                <div className="absolute inset-0 bg-linear-to-tr from-amber-200/0 via-amber-200/30 to-amber-200/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+                <div className="absolute inset-0 bg-linear-to-tr from-amber-200/0 via-amber-200/30 to-amber-200/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
                 <Feather className="h-7 w-7 stroke-[1.5]" />
               </Button>
             </motion.div>

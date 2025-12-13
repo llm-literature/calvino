@@ -9,7 +9,6 @@ import { useLanguage } from '@/app/context/LanguageContext'
 
 export default function Zenodia({ city }: { city: City }) {
   const { language } = useLanguage()
-  const displayDescription = language === 'en' ? city.enDescription : city.cnDescription
 
   const containerRef = useRef(null)
   const { scrollYProgress } = useScroll({
@@ -77,11 +76,7 @@ export default function Zenodia({ city }: { city: City }) {
             </div>
 
             <div className="space-y-12 pt-48 md:pt-96">
-                 <div className="prose prose-lg prose-stone bg-white/50 p-8 rounded-lg backdrop-blur-sm shadow-sm">
-                    {displayDescription.split('\n').map((p, i) => (
-                        <p key={i}>{p}</p>
-                    ))}
-                 </div>
+                 {/* Description removed as it is now in the sidebar */}
             </div>
         </div>
       </div>

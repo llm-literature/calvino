@@ -8,7 +8,6 @@ import { useLanguage } from '@/app/context/LanguageContext'
 
 export default function Maurilia({ city }: { city: City }) {
   const { language } = useLanguage()
-  const displayDescription = language === 'en' ? city.enDescription : city.cnDescription
 
   const [sliderPosition, setSliderPosition] = useState(50)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -52,9 +51,6 @@ export default function Maurilia({ city }: { city: City }) {
 
       <header className="mb-12 text-center">
         <h1 className="mb-4 text-5xl font-bold text-stone-900">{city.name.toUpperCase()}</h1>
-        <p className="max-w-2xl text-xl text-stone-600 italic whitespace-pre-line">
-          {displayDescription}
-        </p>
       </header>
 
       <div

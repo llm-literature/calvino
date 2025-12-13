@@ -4,12 +4,8 @@ import { City } from '@/lib/types'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
-import { useLanguage } from '@/app/context/LanguageContext'
 
 export default function DefaultCityDetail({ city }: { city: City }) {
-  const { language } = useLanguage()
-  const displayDescription = language === 'en' ? city.enDescription : city.cnDescription
-
   return (
     <div className="flex min-h-screen items-center justify-center bg-stone-50 p-8 dark:bg-stone-950">
       <Link
@@ -29,9 +25,6 @@ export default function DefaultCityDetail({ city }: { city: City }) {
             {city.name}
           </h1>
           <div className="mb-12 h-1 w-20 bg-stone-900 dark:bg-stone-100" />
-          <p className="font-serif text-xl leading-relaxed whitespace-pre-line text-stone-700 md:text-2xl dark:text-stone-300">
-            {displayDescription}
-          </p>
         </motion.div>
       </div>
     </div>
