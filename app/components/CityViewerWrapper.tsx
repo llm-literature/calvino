@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { City } from '@/lib/types'
-import { Feather, X, Maximize2, ChevronRight, ChevronDown, GripVertical } from 'lucide-react'
+import { Feather, X, Maximize2, ChevronRight, ChevronDown } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useLanguage } from '@/app/context/LanguageContext'
 import { Button } from '@/components/ui/button'
@@ -15,14 +15,40 @@ interface CityViewerWrapperProps {
 }
 
 export default function CityViewerWrapper({ city, imageUrl, children }: CityViewerWrapperProps) {
-  const [isJournalOpen, setIsJournalOpen] = useState(false)
+  const [isJournalOpen, setIsJournalOpen] = useState(true)
   const [isLightboxOpen, setIsLightboxOpen] = useState(false)
   const [sidebarWidth, setSidebarWidth] = useState(400)
   const [isResizing, setIsResizing] = useState(false)
+  const [isLargeScreen, setIsLargeScreen] = useState(false)
   const sidebarRef = useRef<HTMLDivElement>(null)
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
 
   const { language } = useLanguage()
   const description = language === 'en' ? city.enDescription : city.cnDescription
+
+  const scrollToBottom = useCallback(() => {
+    if (scrollContainerRef.current) {
+      const { scrollHeight, clientHeight } = scrollContainerRef.current
+      const maxScrollTop = scrollHeight - clientHeight
+      
+      // Only scroll if we are near the bottom or if it's the initial load
+      // But for "auto-scroll" feature, we usually want to force it unless user scrolled up?
+      // Let's just scroll to bottom for now as requested.
+      scrollContainerRef.current.scrollTo({
+        top: maxScrollTop,
+        behavior: 'smooth'
+      })
+    }
+  }, [])
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsLargeScreen(window.innerWidth >= 1024)
+    }
+    checkScreenSize()
+    window.addEventListener('resize', checkScreenSize)
+    return () => window.removeEventListener('resize', checkScreenSize)
+  }, [])
 
   const startResizing = useCallback((e: React.MouseEvent) => {
     e.preventDefault()
@@ -64,7 +90,7 @@ export default function CityViewerWrapper({ city, imageUrl, children }: CityView
           "min-h-screen w-full transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]",
         )}
         style={{
-          paddingRight: isJournalOpen ? (typeof window !== 'undefined' && window.innerWidth >= 1024 ? `${sidebarWidth}px` : '0px') : '0px'
+          paddingRight: isJournalOpen && isLargeScreen ? `${sidebarWidth}px` : '0px'
         }}
       >
         {children}
@@ -74,10 +100,10 @@ export default function CityViewerWrapper({ city, imageUrl, children }: CityView
       <AnimatePresence>
         {!isJournalOpen && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+            initial={{ opacity: 0, scale: 0.8, y: -20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.8, y: 20 }}
-            className="fixed bottom-8 right-8 z-40"
+            exit={{ opacity: 0, scale: 0.8, y: -20 }}
+            className="fixed top-8 right-8 z-40"
           >
             <motion.div
               animate={{
@@ -168,7 +194,10 @@ export default function CityViewerWrapper({ city, imageUrl, children }: CityView
               </div>
 
               {/* Scrollable Content */}
-              <div className="flex-1 overflow-y-auto p-6 space-y-8 custom-scrollbar">
+              <div 
+                ref={scrollContainerRef}
+                className="flex-1 overflow-y-auto p-6 space-y-8 no-scrollbar"
+              >
                 {/* Image Preview */}
                 <div 
                   className="relative aspect-3/4 w-full overflow-hidden rounded-lg shadow-lg cursor-zoom-in group border border-stone-200 dark:border-stone-800 bg-stone-100 dark:bg-stone-900"
@@ -196,12 +225,36 @@ export default function CityViewerWrapper({ city, imageUrl, children }: CityView
                     </span>
                     <div className="h-px flex-1 bg-stone-300 dark:bg-stone-700"></div>
                   </div>
-                  <p className="font-serif text-lg leading-loose whitespace-pre-line text-justify text-stone-700 dark:text-stone-300">
-                    {description}
-                  </p>
-                  <div className="flex justify-center mt-8 opacity-50">
-                    <span className="text-2xl text-stone-400">❦</span>
+                  <div className="font-serif text-lg leading-loose text-justify text-stone-700 dark:text-stone-300 space-y-4">
+                    {(() => {
+                      const lines = description.split('\n')
+                      let currentDelay = 0.5
+                      return lines.map((line, index) => {
+                        const delay = currentDelay
+                        // Calculate delay for next line: length * speed + pause
+                        // Slowed down to 80ms per character for a more soothing pace
+                        currentDelay += line.length * 0.08 + 0.5
+                        
+                        return (
+                          <TypewriterLine 
+                            key={index} 
+                            text={line} 
+                            delay={delay} 
+                            speed={80}
+                            onUpdate={scrollToBottom}
+                          />
+                        )
+                      })
+                    })()}
                   </div>
+                  <motion.div 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 0.5 }}
+                    transition={{ delay: description.length * 0.08 + 1, duration: 1 }}
+                    className="flex justify-center mt-8"
+                  >
+                    <span className="text-2xl text-stone-400">❦</span>
+                  </motion.div>
                 </div>
               </div>
             </motion.div>
@@ -248,5 +301,45 @@ export default function CityViewerWrapper({ city, imageUrl, children }: CityView
         )}
       </AnimatePresence>
     </div>
+  )
+}
+
+function TypewriterLine({ text, delay, speed = 30, onUpdate }: { text: string; delay: number; speed?: number; onUpdate?: () => void }) {
+  const [visibleCount, setVisibleCount] = useState(0)
+  const [started, setStarted] = useState(false)
+
+  useEffect(() => {
+    const startTimeout = setTimeout(() => {
+      setStarted(true)
+    }, delay * 1000)
+
+    return () => clearTimeout(startTimeout)
+  }, [delay])
+
+  useEffect(() => {
+    if (!started) return
+
+    if (visibleCount < text.length) {
+      const timeout = setTimeout(() => {
+        setVisibleCount(prev => prev + 1)
+        onUpdate?.()
+      }, speed)
+      return () => clearTimeout(timeout)
+    }
+  }, [started, visibleCount, text.length, speed, onUpdate])
+
+  return (
+    <p className="inline-block w-full min-h-[1.5em]">
+      {text.split('').slice(0, visibleCount).map((char, index) => (
+        <motion.span
+          key={index}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.2 }}
+        >
+          {char}
+        </motion.span>
+      ))}
+    </p>
   )
 }
