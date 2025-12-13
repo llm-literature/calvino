@@ -60,6 +60,7 @@ import Penthesilea from '@/app/components/cities/Penthesilea'
 import Theodora from '@/app/components/cities/Theodora'
 import Berenice from '@/app/components/cities/Berenice'
 import { City } from '@/lib/types'
+import CityViewerWrapper from '@/app/components/CityViewerWrapper'
 
 import data from '@/public/city/data.json'
 
@@ -161,15 +162,19 @@ export default async function CityPage({
 
   const { city, prevCity, nextCity } = cityData
 
-  // Check for specific city component first
-  const SpecificComponent = SpecificCityComponents[cityName.toLowerCase()]
-  if (SpecificComponent) {
-    return <SpecificComponent city={city} />
-  }
-
   const href: string = `${cityName}.png`
   const imagePath = `/city/${cityType}/${href}`
   const imageUrl = `${cosBase}${imagePath}`
+
+  // Check for specific city component first
+  const SpecificComponent = SpecificCityComponents[cityName.toLowerCase()]
+  if (SpecificComponent) {
+    return (
+      <CityViewerWrapper city={city} imageUrl={imageUrl}>
+        <SpecificComponent city={city} />
+      </CityViewerWrapper>
+    )
+  }
 
   const theme = getCityTheme(cityType)
 
@@ -183,13 +188,15 @@ export default async function CityPage({
   const SelectedLayout = LayoutComponents[theme.archetype] || ChronicleLayout
 
   return (
-    <SelectedLayout
-      city={city}
-      prevCity={prevCity}
-      nextCity={nextCity}
-      description={city.cnDescription}
-      imageUrl={imageUrl}
-      theme={theme}
-    />
+    <CityViewerWrapper city={city} imageUrl={imageUrl}>
+      <SelectedLayout
+        city={city}
+        prevCity={prevCity}
+        nextCity={nextCity}
+        description={city.cnDescription}
+        imageUrl={imageUrl}
+        theme={theme}
+      />
+    </CityViewerWrapper>
   )
 }
