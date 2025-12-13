@@ -11,6 +11,8 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog'
+import { useLanguage } from '@/app/context/LanguageContext'
+import { getCityTheme } from '@/lib/themes'
 
 interface DeadCityPageProps {
   cities: City[]
@@ -19,6 +21,21 @@ interface DeadCityPageProps {
 
 export default function DeadCityPage({ cities, category }: DeadCityPageProps) {
   const [selectedCity, setSelectedCity] = useState<City | null>(null)
+  const { language } = useLanguage()
+  const theme = getCityTheme(category)
+  const displayCategory = language === 'en' ? theme.label : theme.cnLabel
+
+  const selectedCityDescription = selectedCity
+    ? language === 'en'
+      ? selectedCity.enDescription
+      : selectedCity.cnDescription
+    : ''
+
+  const selectedCityName = selectedCity
+    ? language === 'en'
+      ? selectedCity.name
+      : selectedCity.cnName || selectedCity.name
+    : ''
 
   return (
     <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-black font-serif text-gray-300 selection:bg-gray-500/30">
@@ -34,7 +51,7 @@ export default function DeadCityPage({ cities, category }: DeadCityPageProps) {
         >
           <h1 className="font-cinzel flex items-center justify-center gap-6 text-4xl tracking-[0.5em] text-gray-500 uppercase opacity-80 md:text-6xl">
             <Skull className="h-6 w-6" />
-            {category}
+            {displayCategory}
             <Skull className="h-6 w-6" />
           </h1>
         </motion.div>
@@ -55,12 +72,12 @@ export default function DeadCityPage({ cities, category }: DeadCityPageProps) {
         <DialogContent className="max-w-2xl border border-gray-800 bg-black text-gray-300 shadow-2xl shadow-gray-900/50">
           <DialogHeader>
             <DialogTitle className="font-cinzel text-center text-3xl tracking-widest text-gray-400">
-              {selectedCity?.name}
+              {selectedCityName}
             </DialogTitle>
           </DialogHeader>
           <div className="custom-scrollbar mt-8 max-h-[60vh] overflow-y-auto pr-4">
             <DialogDescription className="font-lora text-justify text-lg leading-loose whitespace-pre-line text-gray-500">
-              {selectedCity?.description}
+              {selectedCityDescription}
             </DialogDescription>
           </div>
         </DialogContent>
@@ -78,6 +95,9 @@ function DeadCityTombstone({
   index: number
   onSelect: () => void
 }) {
+  const { language } = useLanguage()
+  const displayName = language === 'en' ? city.name : city.cnName || city.name
+
   return (
     <motion.div
       className="group relative w-64 cursor-pointer text-center"
@@ -91,11 +111,13 @@ function DeadCityTombstone({
           <Skull className="h-full w-full" />
         </div>
         <h3 className="font-cinzel mb-2 text-2xl text-gray-400 transition-colors group-hover:text-gray-200">
-          {city.name}
+          {displayName}
         </h3>
         <div className="my-4 h-0.5 w-8 bg-gray-800" />
         <p className="font-lora text-xs text-gray-600 italic opacity-0 transition-opacity duration-700 group-hover:opacity-100">
-          &ldquo;The dead are the only ones who are truly free.&rdquo;
+          {language === 'en'
+            ? '“The dead are the only ones who are truly free.”'
+            : '“只有死者才是真正自由的。”'}
         </p>
       </div>
       {/* Shadow */}

@@ -5,8 +5,10 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft, BookOpen, Cat, Dog, Bird, Bug } from 'lucide-react'
 import { useState, useEffect } from 'react'
+import { useLanguage } from '@/app/context/LanguageContext'
 
 export default function Theodora({ city }: { city: City }) {
+  const { language } = useLanguage()
   const [invaded, setInvaded] = useState(false)
   const [eyes, setEyes] = useState<{ left: string; top: string; delay: string }[]>([])
 
@@ -44,7 +46,9 @@ export default function Theodora({ city }: { city: City }) {
                 <div className="text-center">
                     <BookOpen className="w-32 h-32 text-emerald-400 mx-auto mb-4" />
                     <h1 className="text-6xl font-bold text-emerald-200">THEODORA</h1>
-                    <p className="text-emerald-500 mt-4">City of Art & Knowledge</p>
+                    <p className="text-emerald-500 mt-4">
+                        {language === 'en' ? 'City of Art & Knowledge' : '艺术与知识之城'}
+                    </p>
                 </div>
             </motion.div>
 
@@ -74,12 +78,14 @@ export default function Theodora({ city }: { city: City }) {
             </motion.div>
 
             <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-xs text-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity">
-                Click to awaken the forgotten fauna
+                {language === 'en' ? 'Click to awaken the forgotten fauna' : '点击唤醒被遗忘的动物群'}
             </div>
         </div>
 
         <p className="mt-12 max-w-xl text-center text-emerald-400 italic">
-            &quot;The fauna has been driven out... but the sphinxes, griffons, chimeras, and dragons have returned to repossess the city.&quot;
+            {language === 'en'
+                ? '"The fauna has been driven out... but the sphinxes, griffons, chimeras, and dragons have returned to repossess the city."'
+                : '“动物群已被驱逐……但斯芬克斯、狮鹫、嵌合体和龙已返回重新占领这座城市。”'}
         </p>
 
       </div>

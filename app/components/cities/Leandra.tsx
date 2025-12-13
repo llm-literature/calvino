@@ -7,14 +7,17 @@ import { ArrowLeft, MessageCircle } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { cn } from '@/lib/utils'
 
+import { useLanguage } from '@/app/context/LanguageContext'
+
 export default function Leandra({ city }: { city: City }) {
+  const { language } = useLanguage()
   const [activeRoom, setActiveRoom] = useState<string | null>(null)
 
   const rooms = [
-    { id: 'kitchen', name: 'Kitchen', x: '10%', y: '60%', w: '30%', h: '30%', color: 'bg-orange-100' },
-    { id: 'living', name: 'Living Room', x: '45%', y: '60%', w: '45%', h: '30%', color: 'bg-blue-100' },
-    { id: 'bedroom', name: 'Bedroom', x: '10%', y: '20%', w: '40%', h: '35%', color: 'bg-purple-100' },
-    { id: 'attic', name: 'Attic', x: '55%', y: '20%', w: '35%', h: '35%', color: 'bg-amber-100' },
+    { id: 'kitchen', name: language === 'en' ? 'Kitchen' : '厨房', x: '10%', y: '60%', w: '30%', h: '30%', color: 'bg-orange-100' },
+    { id: 'living', name: language === 'en' ? 'Living Room' : '客厅', x: '45%', y: '60%', w: '45%', h: '30%', color: 'bg-blue-100' },
+    { id: 'bedroom', name: language === 'en' ? 'Bedroom' : '卧室', x: '10%', y: '20%', w: '40%', h: '35%', color: 'bg-purple-100' },
+    { id: 'attic', name: language === 'en' ? 'Attic' : '阁楼', x: '55%', y: '20%', w: '35%', h: '35%', color: 'bg-amber-100' },
   ]
 
   const [dialogues, setDialogues] = useState<{id: number, text: string, x: number, y: number}[]>([])
@@ -22,7 +25,7 @@ export default function Leandra({ city }: { city: City }) {
   useEffect(() => {
     const interval = setInterval(() => {
         if (Math.random() > 0.7) {
-            const texts = [
+            const texts = language === 'en' ? [
                 "They ruined the wallpaper!",
                 "The great-grandfather would be ashamed.",
                 "This new family is too loud.",
@@ -31,6 +34,15 @@ export default function Leandra({ city }: { city: City }) {
                 "Did you see who she brought home?",
                 "They'll be gone in a year.",
                 "We are the true owners here."
+            ] : [
+                "他们毁了壁纸！",
+                "曾祖父会感到羞耻的。",
+                "这新的一家人太吵了。",
+                "我记得这里曾经是育儿室。",
+                "汤里缺盐。",
+                "你看到她带谁回家了吗？",
+                "他们一年内就会离开。",
+                "我们才是这里真正的主人。"
             ]
             const newDialogue = {
                 id: Date.now(),
@@ -42,7 +54,7 @@ export default function Leandra({ city }: { city: City }) {
         }
     }, 2000)
     return () => clearInterval(interval)
-  }, [])
+  }, [language])
 
   return (
     <div className="relative min-h-screen bg-stone-900 text-stone-100 font-sans overflow-hidden selection:bg-stone-700">

@@ -4,6 +4,8 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { useState, useEffect, useMemo } from 'react'
 import { Github } from 'lucide-react'
+import { useLanguage } from '@/app/context/LanguageContext'
+import { cn } from '@/lib/utils'
 
 // Deterministic pseudo-random based on seed
 function seededRandom(seed: number) {
@@ -26,6 +28,7 @@ function generateStars(count: number) {
 export default function LandingPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [isHoveringBook, setIsHoveringBook] = useState(false)
+  const { language, setLanguage } = useLanguage()
 
   // Pre-generate stars deterministically
   const stars = useMemo(() => generateStars(100), [])
@@ -87,8 +90,31 @@ export default function LandingPage() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2 }}
-        className="absolute top-8 right-8 z-50"
+        className="absolute top-8 right-8 z-50 flex items-center gap-6"
       >
+        {/* Creative Language Switcher */}
+        <div className="flex items-center gap-2 font-mono text-xs tracking-widest text-white/30">
+          <button
+            onClick={() => setLanguage('cn')}
+            className={cn(
+              'transition-colors duration-300 hover:text-white',
+              language === 'cn' ? 'text-white font-bold' : ''
+            )}
+          >
+            CN
+          </button>
+          <span>/</span>
+          <button
+            onClick={() => setLanguage('en')}
+            className={cn(
+              'transition-colors duration-300 hover:text-white',
+              language === 'en' ? 'text-white font-bold' : ''
+            )}
+          >
+            EN
+          </button>
+        </div>
+
         <Link
           href="https://github.com/llm-literature/calvino"
           target="_blank"
@@ -128,11 +154,13 @@ export default function LandingPage() {
               <div className="relative z-10 flex h-full w-full flex-col items-center justify-between border-2 border-white/30 p-6">
                 <div className="text-center">
                   <h1 className="font-display mb-2 bg-gradient-to-b from-white via-gray-300 to-gray-600 bg-clip-text text-4xl font-bold tracking-tighter text-transparent md:text-5xl">
-                    INVISIBLE
+                    {language === 'en' ? 'INVISIBLE' : '看不见的'}
                     <br />
-                    CITIES
+                    {language === 'en' ? 'CITIES' : '城市'}
                   </h1>
-                  <p className="font-serif text-xs tracking-[0.3em] text-gray-400">ITALO CALVINO</p>
+                  <p className="font-serif text-xs tracking-[0.3em] text-gray-400">
+                    {language === 'en' ? 'ITALO CALVINO' : '伊塔洛·卡尔维诺'}
+                  </p>
                 </div>
 
                 <div className="flex h-12 w-12 items-center justify-center rounded-full border border-white/20">

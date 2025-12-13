@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils'
 import { MapPin } from 'lucide-react'
 import Link from 'next/link'
 import { City } from '@/lib/types'
+import { useLanguage } from '@/app/context/LanguageContext'
 
 interface LayoutProps {
   city: City
@@ -26,6 +27,9 @@ export const LabyrinthLayout = ({
   imageUrl,
   theme,
 }: LayoutProps) => {
+  const { language } = useLanguage()
+  const displayDescription = language === 'en' ? city.enDescription : city.cnDescription
+
   return (
     <div
       className={cn(
@@ -129,7 +133,7 @@ export const LabyrinthLayout = ({
                     ),
                   }}
                 >
-                  {description}
+                  {displayDescription}
                 </ReactMarkdown>
               </motion.div>
             </div>

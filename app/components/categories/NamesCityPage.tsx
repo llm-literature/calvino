@@ -11,6 +11,8 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog'
+import { useLanguage } from '@/app/context/LanguageContext'
+import { getCityTheme } from '@/lib/themes'
 
 interface NamesCityPageProps {
   cities: City[]
@@ -19,6 +21,15 @@ interface NamesCityPageProps {
 
 export default function NamesCityPage({ cities, category }: NamesCityPageProps) {
   const [selectedCity, setSelectedCity] = useState<City | null>(null)
+  const { language } = useLanguage()
+  const theme = getCityTheme(category)
+  const displayCategory = language === 'en' ? theme.label : theme.cnLabel
+
+  const selectedCityDescription = selectedCity
+    ? language === 'en'
+      ? selectedCity.enDescription
+      : selectedCity.cnDescription
+    : ''
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-white font-serif text-black selection:bg-black selection:text-white">
@@ -30,10 +41,12 @@ export default function NamesCityPage({ cities, category }: NamesCityPageProps) 
         >
           <h1 className="font-cinzel flex items-center justify-center gap-4 text-4xl tracking-tighter text-black uppercase md:text-6xl">
             <Type className="h-8 w-8" />
-            {category}
+            {displayCategory}
             <Type className="h-8 w-8" />
           </h1>
-          <p className="font-lora mt-4 text-gray-500 italic">The name is the city.</p>
+          <p className="font-lora mt-4 text-gray-500 italic">
+            {language === 'en' ? 'The name is the city.' : '名字就是城市。'}
+          </p>
         </motion.div>
 
         <div className="flex flex-col gap-0">
@@ -52,12 +65,14 @@ export default function NamesCityPage({ cities, category }: NamesCityPageProps) 
         <DialogContent className="max-w-3xl rounded-none border-4 border-black bg-white text-black">
           <DialogHeader>
             <DialogTitle className="font-cinzel text-center text-6xl tracking-tighter text-black uppercase">
-              {selectedCity?.name}
+              {language === 'en'
+                ? selectedCity?.name
+                : selectedCity?.cnName || selectedCity?.name}
             </DialogTitle>
           </DialogHeader>
           <div className="custom-scrollbar mt-8 max-h-[60vh] overflow-y-auto pr-4">
             <DialogDescription className="font-lora columns-1 gap-8 text-justify text-xl leading-relaxed whitespace-pre-line text-gray-800 md:columns-2">
-              {selectedCity?.description}
+              {selectedCityDescription}
             </DialogDescription>
           </div>
         </DialogContent>
@@ -75,6 +90,7 @@ function NameCityRow({
   index: number
   onSelect: () => void
 }) {
+  const { language } = useLanguage()
   return (
     <motion.div
       className="group relative cursor-pointer overflow-hidden border-b border-black py-12"
@@ -88,10 +104,11 @@ function NameCityRow({
           className="font-cinzel stroke-black text-6xl font-black tracking-tighter text-transparent uppercase transition-colors duration-500 hover:text-black md:text-9xl"
           style={{ WebkitTextStroke: '2px black' }}
         >
-          {city.name}
+          {language === 'en' ? city.name : city.cnName || city.name}
         </h2>
         <span className="hidden font-mono text-sm text-gray-400 transition-colors group-hover:text-black md:block">
-          TYPE: {city.type.toUpperCase()}
+          {language === 'en' ? 'TYPE: ' : '类型：'}
+          {city.type.toUpperCase()}
         </span>
       </div>
 

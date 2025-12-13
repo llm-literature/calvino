@@ -1,10 +1,13 @@
 'use client'
 
+import { City } from '@/lib/types'
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Ship, Tent, Anchor, Compass, Wind, Sun, Waves, Mountain } from 'lucide-react'
+import { useLanguage } from '@/app/context/LanguageContext'
 
-export default function Despina() {
+export default function Despina({ city }: { city: City }) {
+  const { language } = useLanguage()
   const [mouseX, setMouseX] = useState(0)
   const [windowWidth, setWindowWidth] = useState(1000) // Default for SSR
 
@@ -46,10 +49,11 @@ export default function Despina() {
 
       <div className="relative z-10 container mx-auto flex h-screen flex-col items-center justify-center px-4 py-12">
         <header className="mb-12 text-center">
-          <h1 className="mb-4 text-6xl font-bold text-white drop-shadow-lg">DESPINA</h1>
+          <h1 className="mb-4 text-6xl font-bold text-white drop-shadow-lg">{language === 'en' ? 'DESPINA' : city.cnName}</h1>
           <p className="mx-auto max-w-2xl text-xl font-medium text-white/90 drop-shadow-md">
-            The city presents itself differently to the one who comes by land and the one who comes
-            by sea.
+            {language === 'en' 
+              ? 'The city presents itself differently to the one who comes by land and the one who comes by sea.'
+              : '这座城市对于从陆路来的人和从海路来的人呈现出不同的面貌。'}
           </p>
         </header>
 
@@ -61,24 +65,25 @@ export default function Despina() {
           >
             <div className="mb-8 flex items-center gap-4">
               <Mountain className="h-12 w-12" />
-              <h2 className="font-serif text-4xl">The Camel Driver</h2>
+              <h2 className="font-serif text-4xl">{language === 'en' ? 'The Camel Driver' : '骆驼客'}</h2>
             </div>
             <p className="text-center font-serif text-2xl leading-relaxed italic">
-              &quot;He sees a ship; he knows it is a city, but he thinks of it as a vessel that will take
-              him away from the desert...&quot;
+              {language === 'en' 
+                ? '"He sees a ship; he knows it is a city, but he thinks of it as a vessel that will take him away from the desert..."'
+                : '"他看到一艘船；他知道那是一座城市，但他把它想象成一艘能带他离开沙漠的船……"'}
             </p>
             <div className="mt-12 grid grid-cols-3 gap-8">
               <div className="flex flex-col items-center">
                 <Ship className="mb-2 h-8 w-8" />
-                <span className="text-sm font-bold tracking-widest uppercase">The Frigate</span>
+                <span className="text-sm font-bold tracking-widest uppercase">{language === 'en' ? 'The Frigate' : '护卫舰'}</span>
               </div>
               <div className="flex flex-col items-center">
                 <Wind className="mb-2 h-8 w-8" />
-                <span className="text-sm font-bold tracking-widest uppercase">Fresh Wind</span>
+                <span className="text-sm font-bold tracking-widest uppercase">{language === 'en' ? 'Fresh Wind' : '清风'}</span>
               </div>
               <div className="flex flex-col items-center">
                 <Compass className="mb-2 h-8 w-8" />
-                <span className="text-sm font-bold tracking-widest uppercase">Departure</span>
+                <span className="text-sm font-bold tracking-widest uppercase">{language === 'en' ? 'Departure' : '启程'}</span>
               </div>
             </div>
           </motion.div>
@@ -90,24 +95,25 @@ export default function Despina() {
           >
             <div className="mb-8 flex items-center gap-4">
               <Waves className="h-12 w-12" />
-              <h2 className="font-serif text-4xl">The Sailor</h2>
+              <h2 className="font-serif text-4xl">{language === 'en' ? 'The Sailor' : '水手'}</h2>
             </div>
             <p className="text-center font-serif text-2xl leading-relaxed italic">
-              &quot;He sees a camel; he knows it is a city, but he thinks of it as a beast from whose
-              pack he can drink wine and oil...&quot;
+              {language === 'en' 
+                ? '"He sees a camel; he knows it is a city, but he thinks of it as a beast from whose pack he can drink wine and oil..."'
+                : '"他看到一头骆驼；他知道那是一座城市，但他把它想象成一头野兽，可以从它的驮包里喝到酒和油……"'}
             </p>
             <div className="mt-12 grid grid-cols-3 gap-8">
               <div className="flex flex-col items-center">
                 <Tent className="mb-2 h-8 w-8" />
-                <span className="text-sm font-bold tracking-widest uppercase">The Oasis</span>
+                <span className="text-sm font-bold tracking-widest uppercase">{language === 'en' ? 'The Oasis' : '绿洲'}</span>
               </div>
               <div className="flex flex-col items-center">
                 <Sun className="mb-2 h-8 w-8" />
-                <span className="text-sm font-bold tracking-widest uppercase">Warmth</span>
+                <span className="text-sm font-bold tracking-widest uppercase">{language === 'en' ? 'Warmth' : '温暖'}</span>
               </div>
               <div className="flex flex-col items-center">
                 <Anchor className="mb-2 h-8 w-8" />
-                <span className="text-sm font-bold tracking-widest uppercase">Rest</span>
+                <span className="text-sm font-bold tracking-widest uppercase">{language === 'en' ? 'Rest' : '休憩'}</span>
               </div>
             </div>
           </motion.div>
@@ -120,7 +126,7 @@ export default function Despina() {
         </div>
 
         <div className="mt-8 animate-pulse text-sm text-white/80">
-          Move your cursor left or right to shift perspective
+          {language === 'en' ? 'Move your cursor left or right to shift perspective' : '左右移动光标以切换视角'}
         </div>
       </div>
     </div>

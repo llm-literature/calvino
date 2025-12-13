@@ -10,6 +10,7 @@ import Link from 'next/link'
 import capitalizeString from '@/app/components/Util'
 import { useRef } from 'react'
 import { City } from '@/lib/types'
+import { useLanguage } from '@/app/context/LanguageContext'
 
 interface LayoutProps {
   city: City
@@ -28,6 +29,9 @@ export const EtherealLayout = ({
   imageUrl,
   theme,
 }: LayoutProps) => {
+  const { language } = useLanguage()
+  const displayDescription = language === 'en' ? city.enDescription : city.cnDescription
+
   const ref = useRef(null)
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -121,7 +125,7 @@ export const EtherealLayout = ({
                 ),
               }}
             >
-              {description}
+              {displayDescription}
             </ReactMarkdown>
           </motion.div>
 

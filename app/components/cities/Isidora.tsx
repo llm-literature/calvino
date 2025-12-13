@@ -5,8 +5,12 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { useMemo } from 'react'
+import { useLanguage } from '@/app/context/LanguageContext'
 
 export default function Isidora({ city }: { city: City }) {
+  const { language } = useLanguage()
+  const displayDescription = language === 'en' ? city.enDescription : city.cnDescription
+
   // Pre-generate random values for spirals to maintain purity
   const spirals = useMemo(
     () =>
@@ -61,7 +65,9 @@ export default function Isidora({ city }: { city: City }) {
             transition={{ delay: 0.8, duration: 1 }}
             className="mt-6 font-light text-amber-700 italic"
           >
-            The city of memory where one arrives as an old man
+            {language === 'en'
+              ? 'The city of memory where one arrives as an old man'
+              : '一座记忆之城，当你抵达时已是垂暮之年'}
           </motion.p>
         </motion.div>
 
@@ -71,7 +77,7 @@ export default function Isidora({ city }: { city: City }) {
           transition={{ delay: 0.5, duration: 1 }}
           className="max-w-3xl rounded-2xl border border-amber-200 bg-white/70 p-12 text-center shadow-xl backdrop-blur-sm"
         >
-          <p className="font-serif text-xl leading-loose text-amber-900">{city.description}</p>
+          <p className="font-serif text-xl leading-loose text-amber-900">{displayDescription}</p>
         </motion.div>
 
         {/* Floating memory fragments */}

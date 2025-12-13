@@ -7,7 +7,10 @@ import { ArrowLeft, Users } from 'lucide-react'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
 
+import { useLanguage } from '@/app/context/LanguageContext'
+
 export default function Laudomia({ city }: { city: City }) {
+  const { language } = useLanguage()
   const [realm, setRealm] = useState<'living' | 'dead' | 'unborn'>('living')
 
   return (
@@ -32,19 +35,19 @@ export default function Laudomia({ city }: { city: City }) {
                 onClick={() => setRealm('living')}
                 className={cn("px-6 py-3 rounded-full transition-all", realm === 'living' ? "bg-amber-500 text-white shadow-lg scale-110" : "bg-amber-200 text-amber-800 hover:bg-amber-300")}
             >
-                The Living
+                {language === 'en' ? 'The Living' : '生者'}
             </button>
             <button 
                 onClick={() => setRealm('dead')}
                 className={cn("px-6 py-3 rounded-full transition-all", realm === 'dead' ? "bg-slate-600 text-white shadow-lg scale-110" : "bg-slate-300 text-slate-800 hover:bg-slate-400")}
             >
-                The Dead
+                {language === 'en' ? 'The Dead' : '死者'}
             </button>
             <button 
                 onClick={() => setRealm('unborn')}
                 className={cn("px-6 py-3 rounded-full transition-all", realm === 'unborn' ? "bg-indigo-500 text-white shadow-lg scale-110" : "bg-indigo-200 text-indigo-800 hover:bg-indigo-300")}
             >
-                The Unborn
+                {language === 'en' ? 'The Unborn' : '未生者'}
             </button>
         </div>
 
@@ -62,7 +65,9 @@ export default function Laudomia({ city }: { city: City }) {
                         <Users className="w-12 h-12 text-amber-600" />
                     </div>
                     <p className="text-xl max-w-lg mx-auto">
-                        &quot;The city of the living has a population that does not grow but ages...&quot;
+                        {language === 'en' 
+                            ? '"The city of the living has a population that does not grow but ages..."'
+                            : '“生者的城市人口不增反减，只是在变老……”'}
                     </p>
                 </motion.div>
             )}
@@ -79,7 +84,9 @@ export default function Laudomia({ city }: { city: City }) {
                         ))}
                     </div>
                     <p className="text-xl max-w-lg mx-auto">
-                        &quot;The city of the dead... its population increases... they are more numerous than the living.&quot;
+                        {language === 'en'
+                            ? '"The city of the dead... its population increases... they are more numerous than the living."'
+                            : '“死者的城市……人口在增加……他们比生者更多。”'}
                     </p>
                 </motion.div>
             )}
@@ -94,7 +101,9 @@ export default function Laudomia({ city }: { city: City }) {
                         <span className="text-4xl">?</span>
                     </div>
                     <p className="text-xl max-w-lg mx-auto">
-                        &quot;The city of the unborn... infinite... a grain of sand in the desert.&quot;
+                        {language === 'en'
+                            ? '"The city of the unborn... infinite... a grain of sand in the desert."'
+                            : '“未生者的城市……无限……沙漠中的一粒沙。”'}
                     </p>
                 </motion.div>
             )}

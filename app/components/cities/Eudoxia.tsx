@@ -5,9 +5,11 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft, ZoomIn } from 'lucide-react'
 import { useState } from 'react'
+import { useLanguage } from '@/app/context/LanguageContext'
 
 export default function Eudoxia({ city }: { city: City }) {
   const [isCarpet, setIsCarpet] = useState(true)
+  const { language } = useLanguage()
 
   return (
     <div className="relative min-h-screen bg-indigo-50 text-indigo-900 font-sans overflow-hidden selection:bg-indigo-200">
@@ -41,7 +43,7 @@ export default function Eudoxia({ city }: { city: City }) {
                 </div>
                 <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity">
                     <span className="bg-white/90 px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2">
-                        <ZoomIn className="w-4 h-4" /> See the City
+                        <ZoomIn className="w-4 h-4" /> {language === 'en' ? 'See the City' : '查看城市'}
                     </span>
                 </div>
             </motion.div>
@@ -65,7 +67,7 @@ export default function Eudoxia({ city }: { city: City }) {
                 </div>
                 <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity">
                     <span className="bg-white/90 px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2">
-                        <ZoomIn className="w-4 h-4" /> See the Carpet
+                        <ZoomIn className="w-4 h-4" /> {language === 'en' ? 'See the Carpet' : '查看地毯'}
                     </span>
                 </div>
             </motion.div>
@@ -74,10 +76,10 @@ export default function Eudoxia({ city }: { city: City }) {
 
         <div className="mt-12 max-w-xl text-center text-indigo-700">
             <p className="italic mb-4">
-                &quot;Which is the true map of the city? The chaotic streets or the geometric carpet?&quot;
+                {language === 'en' ? '"Which is the true map of the city? The chaotic streets or the geometric carpet?"' : '“哪一个是城市的真实地图？混乱的街道还是几何图案的地毯？”'}
             </p>
             <p className="text-sm text-indigo-500">
-                In Eudoxia, a carpet is preserved where you can observe the city&apos;s true form.
+                {language === 'en' ? "In Eudoxia, a carpet is preserved where you can observe the city's true form." : '在欧多西亚，保存着一块地毯，你可以从中观察到城市的真实形态。'}
             </p>
         </div>
       </div>

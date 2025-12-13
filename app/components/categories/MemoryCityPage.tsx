@@ -4,6 +4,8 @@ import { City, CategoryPageProps } from '@/lib/types'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useEffect, useState, useMemo } from 'react'
+import { useLanguage } from '@/app/context/LanguageContext'
+import { getCityTheme } from '@/lib/themes'
 
 // Deterministic pseudo-random based on index
 function seededRandom(seed: number) {
@@ -14,6 +16,9 @@ function seededRandom(seed: number) {
 export default function MemoryCityPage({ cities, category }: CategoryPageProps) {
   // Generate random positions and rotations only on client side to avoid hydration mismatch
   const [mounted, setMounted] = useState(false)
+  const { language } = useLanguage()
+  const theme = getCityTheme(category)
+  const displayCategory = language === 'en' ? theme.label : theme.cnLabel
 
   useEffect(() => {
     setMounted(true)
@@ -27,7 +32,7 @@ export default function MemoryCityPage({ cities, category }: CategoryPageProps) 
       {/* Title Watermark */}
       <div className="pointer-events-none fixed top-1/2 left-1/2 z-0 -translate-x-1/2 -translate-y-1/2">
         <h1 className="font-serif text-[20vw] whitespace-nowrap text-[#8c7b6c]/5 italic">
-          {category}
+          {displayCategory}
         </h1>
       </div>
 
@@ -38,13 +43,19 @@ export default function MemoryCityPage({ cities, category }: CategoryPageProps) 
       </div>
 
       <div className="pointer-events-none fixed bottom-8 left-0 w-full text-center font-serif text-sm text-[#8c7b6c]/60 italic">
-        &ldquo;Memory&apos;s images, once they are fixed in words, are erased.&rdquo;
+        {language === 'en'
+          ? '“Memory\'s images, once they are fixed in words, are erased.”'
+          : '“记忆的形象一旦被词语固定住，就消失了。”'}
       </div>
     </div>
   )
 }
 
 function Polaroid({ city, index, mounted }: { city: City; index: number; mounted: boolean }) {
+  const { language } = useLanguage()
+  const displayDescription =
+    language === 'en' ? city.enDescription : city.cnDescription
+
   // Deterministic rotation based on index
   const rotation = useMemo(() => {
     const sign = index % 2 === 0 ? -1 : 1
@@ -70,13 +81,13 @@ function Polaroid({ city, index, mounted }: { city: City; index: number; mounted
             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-50" />
             <div className="absolute inset-0 flex items-center justify-center">
               <span className="font-display text-4xl text-white/20 transition-colors duration-500 group-hover:text-white/80">
-                {city.name[0].toUpperCase()}
+                {(language === 'en' ? city.name : city.cnName || city.name)[0].toUpperCase()}
               </span>
             </div>
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60" />
 
             <p className="absolute right-2 bottom-2 left-2 line-clamp-3 font-serif text-xs text-white/80 italic opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-              {city.description}
+              {displayDescription}
             </p>
           </div>
 
@@ -86,7 +97,7 @@ function Polaroid({ city, index, mounted }: { city: City; index: number; mounted
               className="font-serif text-2xl font-bold text-[#2a2a2a]"
               style={{ fontFamily: 'var(--font-serif)' }}
             >
-              {city.name}
+              {language === 'en' ? city.name : city.cnName || city.name}
             </h2>
             <p className="mt-1 text-[10px] tracking-widest text-gray-400 uppercase">
               Fig. {index + 1}

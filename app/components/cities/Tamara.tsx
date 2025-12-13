@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { ArrowLeft, Footprints, Wine, Scale, Shield, Crown, BookOpen, Coins } from 'lucide-react'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
+import { useLanguage } from '@/app/context/LanguageContext'
 
 type Sign = {
   id: string
@@ -15,7 +16,7 @@ type Sign = {
   position: { x: number; y: number }
 }
 
-const signs: Sign[] = [
+const SIGNS_EN: Sign[] = [
   {
     id: 'tiger',
     icon: <Footprints />,
@@ -67,8 +68,62 @@ const signs: Sign[] = [
   },
 ]
 
+const SIGNS_CN: Sign[] = [
+  {
+    id: 'tiger',
+    icon: <Footprints />,
+    signifier: '沙地上的脚印',
+    signified: '老虎经过这里',
+    position: { x: 20, y: 20 },
+  },
+  {
+    id: 'tavern',
+    icon: <Wine />,
+    signifier: '罐子',
+    signified: '酒馆',
+    position: { x: 50, y: 30 },
+  },
+  {
+    id: 'grocer',
+    icon: <Scale />,
+    signifier: '天平',
+    signified: '蔬菜水果商',
+    position: { x: 80, y: 25 },
+  },
+  {
+    id: 'guard',
+    icon: <Shield />,
+    signifier: '戟',
+    signified: '兵营',
+    position: { x: 30, y: 60 },
+  },
+  {
+    id: 'palace',
+    icon: <Crown />,
+    signifier: '狮子雕像',
+    signified: '皇宫',
+    position: { x: 60, y: 50 },
+  },
+  {
+    id: 'wisdom',
+    icon: <BookOpen />,
+    signifier: '卷轴',
+    signified: '智慧',
+    position: { x: 25, y: 80 },
+  },
+  {
+    id: 'power',
+    icon: <Coins />,
+    signifier: '镀金轿子',
+    signified: '权力',
+    position: { x: 70, y: 75 },
+  },
+]
+
 export default function Tamara({ city }: { city: City }) {
+  const { language } = useLanguage()
   const [hoveredSign, setHoveredSign] = useState<string | null>(null)
+  const signs = language === 'en' ? SIGNS_EN : SIGNS_CN
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-neutral-100 font-sans text-neutral-900 selection:bg-neutral-900 selection:text-neutral-100">
@@ -85,11 +140,11 @@ export default function Tamara({ city }: { city: City }) {
           animate={{ opacity: 1, y: 0 }}
           className="mb-16 text-center"
         >
-          <h1 className="mb-4 text-6xl font-black tracking-tighter uppercase md:text-9xl">
+                    <h1 className="mb-4 text-6xl font-black tracking-tighter uppercase md:text-9xl">
             Tamara
           </h1>
           <p className="font-mono text-sm tracking-widest text-neutral-500 uppercase">
-            The City of Signs
+            {language === 'en' ? 'The City of Signs' : '符号之城'}
           </p>
         </motion.div>
 
@@ -100,54 +155,62 @@ export default function Tamara({ city }: { city: City }) {
             style={{
               backgroundImage:
                 'linear-gradient(#e5e5e5 1px, transparent 1px), linear-gradient(90deg, #e5e5e5 1px, transparent 1px)',
-              backgroundSize: '40px 40px',
+              backgroundSize: '20px 20px',
             }}
           />
 
+          {/* Signs */}
           {signs.map((sign) => (
             <motion.div
               key={sign.id}
-              className="absolute cursor-help"
+              className="absolute cursor-pointer"
               style={{ left: `${sign.position.x}%`, top: `${sign.position.y}%` }}
-              onMouseEnter={() => setHoveredSign(sign.id)}
-              onMouseLeave={() => setHoveredSign(null)}
-              whileHover={{ scale: 1.1 }}
+              whileHover={{ scale: 1.2 }}
+              onHoverStart={() => setHoveredSign(sign.id)}
+              onHoverEnd={() => setHoveredSign(null)}
             >
               <div
                 className={cn(
-                  'relative flex h-16 w-16 items-center justify-center border-2 border-neutral-900 bg-white transition-all duration-300',
-                  hoveredSign === sign.id
-                    ? '-translate-y-1 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'
-                    : ''
+                  'flex h-12 w-12 items-center justify-center rounded-full border-2 border-neutral-900 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all',
+                  hoveredSign === sign.id && 'bg-yellow-400'
                 )}
               >
                 {sign.icon}
-
-                {/* Tooltip */}
-                <div
-                  className={cn(
-                    'pointer-events-none absolute bottom-full left-1/2 z-20 mb-4 w-48 -translate-x-1/2 bg-neutral-900 p-3 font-mono text-xs text-white transition-all duration-200',
-                    hoveredSign === sign.id
-                      ? 'translate-y-0 opacity-100'
-                      : 'translate-y-2 opacity-0'
-                  )}
-                >
-                  <div className="mb-1 border-b border-neutral-700 pb-1 text-neutral-400">
-                    SIGNIFIER: {sign.signifier}
-                  </div>
-                  <div className="font-bold text-emerald-400">SIGNIFIED: {sign.signified}</div>
-                  <div className="absolute bottom-0 left-1/2 h-2 w-2 -translate-x-1/2 translate-y-1/2 rotate-45 bg-neutral-900" />
-                </div>
               </div>
             </motion.div>
           ))}
 
-          {/* Floating Text */}
-          <div className="pointer-events-none absolute right-4 bottom-4 max-w-xs text-right font-mono text-xs text-neutral-400">
-            &quot;The eye does not see things but images of things that mean other things.&quot;
+          {/* Interpretation Panel */}
+          <div className="absolute bottom-8 left-8 right-8 border-2 border-neutral-900 bg-white p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+            {hoveredSign ? (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                key={hoveredSign}
+                className="text-center"
+              >
+                <p className="mb-1 text-xs font-bold tracking-widest text-neutral-400 uppercase">
+                  {signs.find((s) => s.id === hoveredSign)?.signifier}
+                </p>
+                <p className="text-2xl font-bold uppercase">
+                  {signs.find((s) => s.id === hoveredSign)?.signified}
+                </p>
+              </motion.div>
+            ) : (
+              <p className="text-center text-sm text-neutral-400 italic">
+                {language === 'en' ? 'Hover over the signs to read the city' : '悬停在符号上以阅读城市'}
+              </p>
+            )}
           </div>
         </div>
+
+        <p className="mt-16 max-w-2xl text-center font-serif text-xl italic text-neutral-500">
+          {language === 'en'
+            ? '"The eye does not see things but images of things that mean other things."'
+            : '“眼睛看到的不是事物，而是意味着其他事物的形象。”'}
+        </p>
       </div>
     </div>
   )
 }
+

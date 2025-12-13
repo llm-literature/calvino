@@ -6,7 +6,10 @@ import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { useState } from 'react'
 
+import { useLanguage } from '@/app/context/LanguageContext'
+
 export default function Olinda({ city }: { city: City }) {
+  const { language } = useLanguage()
   const [rings, setRings] = useState<number[]>([1])
 
   return (
@@ -41,7 +44,7 @@ export default function Olinda({ city }: { city: City }) {
                     >
                         {isNewest && (
                             <span className="text-xs font-bold text-emerald-700 bg-white px-2 py-1 rounded-full shadow-sm">
-                                New Olinda
+                                {language === 'en' ? 'New Olinda' : '新奥林达'}
                             </span>
                         )}
                     </motion.div>
@@ -50,14 +53,20 @@ export default function Olinda({ city }: { city: City }) {
             
             <div className="absolute z-20 text-center pointer-events-none">
                 <div className="w-4 h-4 bg-emerald-900 rounded-full mx-auto mb-2" />
-                <span className="text-xs font-bold text-emerald-900 bg-white/80 px-2 rounded">Old Olinda</span>
+                <span className="text-xs font-bold text-emerald-900 bg-white/80 px-2 rounded">
+                    {language === 'en' ? 'Old Olinda' : '旧奥林达'}
+                </span>
             </div>
         </div>
 
         <p className="mt-12 max-w-xl text-center text-emerald-600 italic">
-            &quot;Olinda is certainly not the only city that grows in concentric circles... But in other cities... the old walls expand... In Olinda, the old walls expand bearing the old quarters with them.&quot;
+            {language === 'en'
+                ? '"Olinda is certainly not the only city that grows in concentric circles... But in other cities... the old walls expand... In Olinda, the old walls expand bearing the old quarters with them."'
+                : '“奥林达当然不是唯一一个以同心圆方式扩张的城市……但在其他城市……旧城墙在扩张……而在奥林达，旧城墙带着旧街区一起扩张。”'}
         </p>
-        <p className="text-sm text-emerald-400 mt-4 animate-pulse">Click to grow a new Olinda</p>
+        <p className="text-sm text-emerald-400 mt-4 animate-pulse">
+            {language === 'en' ? 'Click to grow a new Olinda' : '点击生长出一个新奥林达'}
+        </p>
 
       </div>
     </div>

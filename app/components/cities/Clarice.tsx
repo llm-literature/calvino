@@ -5,8 +5,10 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft, Recycle } from 'lucide-react'
 import { useState } from 'react'
+import { useLanguage } from '@/app/context/LanguageContext'
 
 export default function Clarice({ city }: { city: City }) {
+  const { language } = useLanguage()
   const [epoch, setEpoch] = useState(0)
 
   const fragments = [
@@ -26,8 +28,8 @@ export default function Clarice({ city }: { city: City }) {
       </Link>
 
       <div className="container mx-auto px-4 py-24 min-h-screen flex flex-col items-center justify-center">
-        <h1 className="text-6xl mb-4">CLARICE</h1>
-        <p className="text-stone-500 mb-12">Epoch {epoch + 1}</p>
+        <h1 className="text-6xl mb-4">{language === 'en' ? 'CLARICE' : city.cnName}</h1>
+        <p className="text-stone-500 mb-12">{language === 'en' ? 'Epoch' : '纪元'} {epoch + 1}</p>
 
         <div className="relative w-full max-w-3xl h-96 bg-white border-2 border-stone-200 rounded-lg shadow-inner p-8 flex flex-wrap content-end gap-2 overflow-hidden">
             
@@ -57,11 +59,13 @@ export default function Clarice({ city }: { city: City }) {
             onClick={() => setEpoch(e => e + 1)}
             className="mt-12 flex items-center gap-2 px-6 py-3 bg-stone-800 text-stone-100 rounded-full hover:bg-stone-700 transition-colors"
         >
-            <Recycle className="w-5 h-5" /> Rebuild City
+            <Recycle className="w-5 h-5" /> {language === 'en' ? 'Rebuild City' : '重建城市'}
         </button>
 
         <p className="mt-8 max-w-xl text-center text-stone-600 italic text-sm">
-            &quot;Clarice, the glorious city, has a tormented history. Several times it decayed, then burgeoned again, always keeping the first Clarice as an unparalleled model of every splendor.&quot;
+            {language === 'en' 
+              ? '"Clarice, the glorious city, has a tormented history. Several times it decayed, then burgeoned again, always keeping the first Clarice as an unparalleled model of every splendor."'
+              : '"光辉的城市克拉丽切有着一段痛苦的历史。它几次衰败，又几次复兴，始终将第一个克拉丽切作为每一种辉煌的无与伦比的典范。"'}
         </p>
       </div>
     </div>

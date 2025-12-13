@@ -3,6 +3,7 @@ export type CityArchetype = 'ethereal' | 'labyrinth' | 'bazaar' | 'chronicle'
 export interface CityTheme {
   id: string
   label: string
+  cnLabel: string
   archetype: CityArchetype
   colors: {
     bg: string
@@ -17,7 +18,8 @@ export interface CityTheme {
 export const cityThemes: Record<string, CityTheme> = {
   memory: {
     id: 'memory',
-    label: '记忆',
+    label: 'Memory',
+    cnLabel: '记忆',
     archetype: 'chronicle',
     colors: {
       bg: 'bg-[#F5F0E6]', // Antique White
@@ -29,7 +31,8 @@ export const cityThemes: Record<string, CityTheme> = {
   },
   desire: {
     id: 'desire',
-    label: '欲望',
+    label: 'Desire',
+    cnLabel: '欲望',
     archetype: 'bazaar',
     colors: {
       bg: 'bg-[#2A0A12]', // Deep Burgundy
@@ -41,7 +44,8 @@ export const cityThemes: Record<string, CityTheme> = {
   },
   signs: {
     id: 'signs',
-    label: '符号',
+    label: 'Signs',
+    cnLabel: '符号',
     archetype: 'labyrinth',
     colors: {
       bg: 'bg-[#0F172A]', // Slate 900
@@ -53,7 +57,8 @@ export const cityThemes: Record<string, CityTheme> = {
   },
   thin: {
     id: 'thin',
-    label: '轻盈',
+    label: 'Thin',
+    cnLabel: '轻盈',
     archetype: 'ethereal',
     colors: {
       bg: 'bg-[#F8FAFC]', // Slate 50
@@ -65,7 +70,8 @@ export const cityThemes: Record<string, CityTheme> = {
   },
   trading: {
     id: 'trading',
-    label: '贸易',
+    label: 'Trading',
+    cnLabel: '贸易',
     archetype: 'bazaar',
     colors: {
       bg: 'bg-[#0C4A6E]', // Sky 950
@@ -77,7 +83,8 @@ export const cityThemes: Record<string, CityTheme> = {
   },
   eyes: {
     id: 'eyes',
-    label: '眼睛',
+    label: 'Eyes',
+    cnLabel: '眼睛',
     archetype: 'ethereal',
     colors: {
       bg: 'bg-[#FFFFFF]',
@@ -89,7 +96,8 @@ export const cityThemes: Record<string, CityTheme> = {
   },
   names: {
     id: 'names',
-    label: '名字',
+    label: 'Names',
+    cnLabel: '名字',
     archetype: 'chronicle',
     colors: {
       bg: 'bg-[#E7E5E4]', // Stone 200
@@ -101,7 +109,8 @@ export const cityThemes: Record<string, CityTheme> = {
   },
   dead: {
     id: 'dead',
-    label: '死亡',
+    label: 'Dead',
+    cnLabel: '死亡',
     archetype: 'labyrinth',
     colors: {
       bg: 'bg-[#000000]',
@@ -113,7 +122,8 @@ export const cityThemes: Record<string, CityTheme> = {
   },
   sky: {
     id: 'sky',
-    label: '天空',
+    label: 'Sky',
+    cnLabel: '天空',
     archetype: 'ethereal',
     colors: {
       bg: 'bg-[#F0F9FF]', // Sky 50
@@ -125,7 +135,8 @@ export const cityThemes: Record<string, CityTheme> = {
   },
   continuous: {
     id: 'continuous',
-    label: '连绵',
+    label: 'Continuous',
+    cnLabel: '连绵',
     archetype: 'labyrinth',
     colors: {
       bg: 'bg-[#18181B]', // Zinc 900
@@ -137,7 +148,8 @@ export const cityThemes: Record<string, CityTheme> = {
   },
   hidden: {
     id: 'hidden',
-    label: '隐蔽',
+    label: 'Hidden',
+    cnLabel: '隐蔽',
     archetype: 'chronicle',
     colors: {
       bg: 'bg-[#292524]', // Stone 800

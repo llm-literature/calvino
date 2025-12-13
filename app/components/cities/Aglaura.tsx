@@ -5,8 +5,10 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { useLanguage } from '@/app/context/LanguageContext'
 
 export default function Aglaura({ city }: { city: City }) {
+  const { language } = useLanguage()
   const [floatingTexts, setFloatingTexts] = useState<Array<{
     text: string;
     x: string;
@@ -17,10 +19,15 @@ export default function Aglaura({ city }: { city: City }) {
   }>>([])
 
   useEffect(() => {
-    const texts = [
+    const texts = language === 'en'
+      ? [
         "The Legendary City", "Ancient Virtues", "Glorious History", "Divine Order", 
         "Eternal Beauty", "Sacred Walls", "Golden Towers", "Heroic Deeds"
-    ]
+      ]
+      : [
+        "传奇之城", "古老美德", "光辉历史", "神圣秩序",
+        "永恒之美", "神圣城墙", "金色塔楼", "英雄事迹"
+      ]
     
     setFloatingTexts(texts.map(text => ({
         text,
@@ -55,8 +62,8 @@ export default function Aglaura({ city }: { city: City }) {
         <div className="relative z-10 w-64 h-64 bg-gray-200 border border-gray-300 flex items-center justify-center text-center p-4 grayscale">
             <div className="space-y-2">
                 <div className="w-12 h-12 bg-gray-300 mx-auto" />
-                <h2 className="text-sm font-mono text-gray-500">AGLAURA</h2>
-                <p className="text-[10px] text-gray-400">Colorless. Characterless. Random.</p>
+                <h2 className="text-sm font-mono text-gray-500">{language === 'en' ? 'AGLAURA' : city.cnName}</h2>
+                <p className="text-[10px] text-gray-400">{language === 'en' ? 'Colorless. Characterless. Random.' : '无色。无格。随机。'}</p>
             </div>
         </div>
 
@@ -92,9 +99,18 @@ export default function Aglaura({ city }: { city: City }) {
             ))}
         </div>
 
-        <div className="absolute bottom-12 max-w-2xl text-center text-gray-500 italic z-20">
-            &quot;The city that they speak of has much of what is needed to exist, whereas the city that exists on its own site, exists less.&quot;
-        </div>
+                <motion.div 
+          className="max-w-2xl text-center space-y-8 relative z-10"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1, duration: 1 }}
+        >
+          <p className="text-lg md:text-xl text-stone-600 leading-relaxed italic">
+            {language === 'en' 
+              ? '"The city that they speak of has much of what is needed to exist, whereas the city which exists on the site, exists less."'
+              : '"人们谈论的城市具备许多存在所需的条件，而位于原址的城市却存在得较少。"'}
+          </p>
+        </motion.div>
       </div>
     </div>
   )

@@ -5,8 +5,10 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft, Hammer, Construction } from 'lucide-react'
 import { useState } from 'react'
+import { useLanguage } from '@/app/context/LanguageContext'
 
 export default function Thekla({ city }: { city: City }) {
+  const { language } = useLanguage()
   const [scaffolding, setScaffolding] = useState<number[]>([1, 2, 3])
 
   const addScaffolding = () => {
@@ -27,15 +29,17 @@ export default function Thekla({ city }: { city: City }) {
         <div className="absolute top-24 text-center z-10">
             <h1 className="text-6xl font-bold mb-4 text-sky-800">THEKLA</h1>
             <p className="text-sky-600 max-w-md mx-auto">
-                &quot;Why is Thekla&apos;s construction taking so long?&quot;
+                {language === 'en'
+                    ? '"Why is Thekla\'s construction taking so long?"'
+                    : '“为什么特克拉的建设要花这么长时间？”'}
                 <br/>
-                &quot;So that its destruction cannot begin.&quot;
+                {language === 'en' ? '"So that its destruction cannot begin."' : '“为了不让它的毁灭开始。”'}
             </p>
             <button 
                 onClick={addScaffolding}
                 className="mt-8 px-6 py-3 bg-yellow-400 text-yellow-900 font-bold rounded-full shadow-lg hover:bg-yellow-300 transition-transform active:scale-95 flex items-center gap-2 mx-auto"
             >
-                <Hammer className="w-5 h-5" /> Continue Construction
+                <Hammer className="w-5 h-5" /> {language === 'en' ? 'Continue Construction' : '继续建设'}
             </button>
         </div>
 

@@ -5,21 +5,31 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft, User } from 'lucide-react'
 import { useState, useEffect } from 'react'
-
-const THOUGHTS = [
-  "If I spoke, we would be lovers.",
-  "He could be my assassin.",
-  "She knows my darkest secret.",
-  "We would travel the world together.",
-  "A single word would shatter this silence.",
-  "I can see the sadness in her eyes.",
-  "He is thinking of me, I know it.",
-]
+import { useLanguage } from '@/app/context/LanguageContext'
 
 export default function Chloe({ city }: { city: City }) {
+  const { language } = useLanguage()
   const [people, setPeople] = useState<{id: number, x: number, speed: number, thought: string}[]>([])
 
   useEffect(() => {
+    const THOUGHTS = language === 'en' ? [
+      "If I spoke, we would be lovers.",
+      "He could be my assassin.",
+      "She knows my darkest secret.",
+      "We would travel the world together.",
+      "A single word would shatter this silence.",
+      "I can see the sadness in her eyes.",
+      "He is thinking of me, I know it.",
+    ] : [
+      "如果我开口，我们会成为恋人。",
+      "他可能是我的刺客。",
+      "她知道我最黑暗的秘密。",
+      "我们会一起周游世界。",
+      "一个字就能打破这沉默。",
+      "我能看到她眼中的悲伤。",
+      "他在想我，我知道。",
+    ]
+
     // Initial population
     const initialPeople = Array.from({ length: 5 }, (_, i) => ({
         id: i,
@@ -39,7 +49,7 @@ export default function Chloe({ city }: { city: City }) {
     }, 50)
 
     return () => clearInterval(interval)
-  }, [])
+  }, [language])
 
   return (
     <div className="relative min-h-screen bg-rose-50 text-rose-900 font-sans overflow-hidden selection:bg-rose-200">
@@ -52,8 +62,8 @@ export default function Chloe({ city }: { city: City }) {
 
       <div className="container mx-auto px-4 py-24 flex flex-col items-center justify-center min-h-screen">
         <div className="text-center mb-24 z-10">
-            <h1 className="text-6xl font-serif italic text-rose-950 mb-4">Chloe</h1>
-            <p className="text-rose-800/60 uppercase tracking-widest text-sm">The City of Chaste Desire</p>
+            <h1 className="text-6xl font-serif italic text-rose-950 mb-4">{language === 'en' ? 'Chloe' : city.cnName}</h1>
+            <p className="text-rose-800/60 uppercase tracking-widest text-sm">{language === 'en' ? 'The City of Chaste Desire' : '贞洁欲望之城'}</p>
         </div>
 
         {/* The Passing Crowd */}
@@ -84,7 +94,9 @@ export default function Chloe({ city }: { city: City }) {
         </div>
 
         <div className="absolute bottom-12 max-w-xl text-center text-rose-900/40 text-sm leading-relaxed px-4">
-            &quot;People who move through the streets are all strangers. At each encounter, they imagine a thousand things, encounters which could happen between them...&quot;
+            {language === 'en' 
+              ? '"People who move through the streets are all strangers. At each encounter, they imagine a thousand things, encounters which could happen between them..."'
+              : '"在街道上穿行的人们都是陌生人。在每一次相遇中，他们都会想象一千种可能发生的事情，那些可能在他们之间发生的相遇……"'}
         </div>
       </div>
     </div>

@@ -6,7 +6,10 @@ import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { useState } from 'react'
 
+import { useLanguage } from '@/app/context/LanguageContext'
+
 export default function Penthesilea({ city }: { city: City }) {
+  const { language } = useLanguage()
   const [zoom, setZoom] = useState(1)
 
   return (
@@ -29,7 +32,7 @@ export default function Penthesilea({ city }: { city: City }) {
                 {Array.from({ length: 100 }).map((_, i) => (
                     <div key={i} className="w-32 h-32 border border-stone-400/50 flex items-center justify-center p-4">
                         <div className="text-xs text-stone-500 text-center">
-                            Outskirts of Penthesilea
+                            {language === 'en' ? 'Outskirts of Penthesilea' : '彭忒西勒亚的郊区'}
                         </div>
                     </div>
                 ))}
@@ -39,7 +42,9 @@ export default function Penthesilea({ city }: { city: City }) {
         </div>
 
         <div className="mt-8 z-10 flex gap-4 items-center bg-white/50 p-4 rounded-full backdrop-blur">
-            <span className="text-sm font-bold text-stone-600">Travel:</span>
+            <span className="text-sm font-bold text-stone-600">
+                {language === 'en' ? 'Travel:' : '旅行：'}
+            </span>
             <input 
                 type="range" 
                 min="0.5" 
@@ -52,7 +57,9 @@ export default function Penthesilea({ city }: { city: City }) {
         </div>
 
         <p className="mt-8 max-w-xl text-center text-stone-600 italic z-10">
-            &quot;You advance for hours and it is not clear to you whether you are already in the city&apos;s midst or still outside it... Penthesilea is only the outskirts of itself.&quot;
+            {language === 'en'
+                ? '"You advance for hours and it is not clear to you whether you are already in the city\'s midst or still outside it... Penthesilea is only the outskirts of itself."'
+                : '“你走了几个小时，却不清楚自己是已经在城市中心，还是仍在城外……彭忒西勒亚只是它自己的郊区。”'}
         </p>
 
       </div>

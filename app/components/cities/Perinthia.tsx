@@ -6,7 +6,10 @@ import Link from 'next/link'
 import { ArrowLeft, Star, Skull } from 'lucide-react'
 import { useState } from 'react'
 
+import { useLanguage } from '@/app/context/LanguageContext'
+
 export default function Perinthia({ city }: { city: City }) {
+  const { language } = useLanguage()
   const [alignment, setAlignment] = useState(0)
 
   return (
@@ -55,7 +58,7 @@ export default function Perinthia({ city }: { city: City }) {
                     <div className="absolute inset-0 bg-slate-800 rounded-lg flex items-center justify-center transition-opacity duration-500" style={{ opacity: 1 - alignment / 100 }}>
                         <div className="text-center">
                             <div className="w-16 h-16 bg-slate-600 mx-auto mb-2 rounded" />
-                            <p>Perfect Harmony</p>
+                            <p>{language === 'en' ? 'Perfect Harmony' : '完美和谐'}</p>
                         </div>
                     </div>
 
@@ -63,7 +66,9 @@ export default function Perinthia({ city }: { city: City }) {
                     <div className="absolute inset-0 bg-purple-900/50 rounded-full flex items-center justify-center transition-opacity duration-500" style={{ opacity: alignment / 100 }}>
                         <div className="text-center animate-pulse">
                             <Skull className="w-32 h-32 text-purple-400 mx-auto mb-2" />
-                            <p className="text-purple-300 font-bold">MONSTERS</p>
+                            <p className="text-purple-300 font-bold">
+                                {language === 'en' ? 'MONSTERS' : '怪物'}
+                            </p>
                         </div>
                     </div>
                 </motion.div>
@@ -72,7 +77,9 @@ export default function Perinthia({ city }: { city: City }) {
         </div>
 
         <div className="w-full max-w-md mt-12">
-            <label className="block text-center text-sm mb-4 text-slate-500">Align with the Stars</label>
+            <label className="block text-center text-sm mb-4 text-slate-500">
+                {language === 'en' ? 'Align with the Stars' : '与星辰对齐'}
+            </label>
             <input 
                 type="range" 
                 min="0" 
@@ -82,13 +89,15 @@ export default function Perinthia({ city }: { city: City }) {
                 className="w-full accent-purple-500 cursor-pointer"
             />
             <div className="flex justify-between text-xs text-slate-600 mt-2">
-                <span>Chaos</span>
-                <span>Perfect Alignment</span>
+                <span>{language === 'en' ? 'Chaos' : '混乱'}</span>
+                <span>{language === 'en' ? 'Perfect Alignment' : '完美对齐'}</span>
             </div>
         </div>
 
         <p className="mt-12 max-w-xl text-center text-slate-500 italic">
-            &quot;They guaranteed that the city would reflect the harmony of the firmament... but the city is inhabited by cripples, dwarfs, hunchbacks, obese men, bearded women.&quot;
+            {language === 'en'
+                ? '"They guaranteed that the city would reflect the harmony of the firmament... but the city is inhabited by cripples, dwarfs, hunchbacks, obese men, bearded women."'
+                : '“他们保证这座城市将反映苍穹的和谐……但这座城市里住着残疾人、侏儒、驼背、肥胖者、长胡子的女人。”'}
         </p>
 
       </div>

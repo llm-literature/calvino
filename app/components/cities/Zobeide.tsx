@@ -4,8 +4,12 @@ import { City } from '@/lib/types'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
+import { useLanguage } from '@/app/context/LanguageContext'
 
 export default function Zobeide({ city }: { city: City }) {
+  const { language } = useLanguage()
+  const displayDescription = language === 'en' ? city.enDescription : city.cnDescription
+
   return (
     <div className="relative min-h-screen bg-white text-slate-800 font-sans overflow-hidden selection:bg-slate-200">
       <Link
@@ -53,11 +57,13 @@ export default function Zobeide({ city }: { city: City }) {
         >
             <h1 className="text-5xl font-light tracking-[0.2em] text-slate-900 mb-8">ZOBEIDE</h1>
             <p className="text-slate-500 italic mb-8">
-                &quot;The white city, well exposed to the moon, with streets wound about themselves as in a skein.&quot;
+                {language === 'en'
+                    ? '"The white city, well exposed to the moon, with streets wound about themselves as in a skein."'
+                    : '“白色的城市，完全暴露在月光下，街道像线团一样缠绕在一起。”'}
             </p>
             <div className="h-px w-24 bg-slate-300 mx-auto mb-8" />
             <div className="prose prose-slate text-slate-600 leading-relaxed">
-                {city.description.split('\n').slice(0, 3).map((p, i) => (
+                {displayDescription.split('\n').slice(0, 3).map((p, i) => (
                     <p key={i}>{p}</p>
                 ))}
             </div>
@@ -74,9 +80,13 @@ export default function Zobeide({ city }: { city: City }) {
                     transition={{ delay: i * 0.2 }}
                     className="bg-white p-8 shadow-lg border-t-4 border-slate-200"
                 >
-                    <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">The Dream</h3>
+                    <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4">
+                        {language === 'en' ? 'The Dream' : '梦境'}
+                    </h3>
                     <p className="text-sm text-slate-600">
-                        &quot;Men of various nations had an identical dream. They saw a woman running at night through an unknown city...&quot;
+                        {language === 'en'
+                            ? '"Men of various nations had an identical dream. They saw a woman running at night through an unknown city..."'
+                            : '“不同国家的人做着同样的梦。他们看到一个女人在夜里穿过一座陌生的城市……”'}
                     </p>
                 </motion.div>
             ))}

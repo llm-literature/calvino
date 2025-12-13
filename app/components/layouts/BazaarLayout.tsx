@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import capitalizeString from '@/app/components/Util'
 import { City } from '@/lib/types'
+import { useLanguage } from '@/app/context/LanguageContext'
 
 interface LayoutProps {
   city: City
@@ -26,6 +27,9 @@ export const BazaarLayout = ({
   imageUrl,
   theme,
 }: LayoutProps) => {
+  const { language } = useLanguage()
+  const displayDescription = language === 'en' ? city.enDescription : city.cnDescription
+
   return (
     <div
       className={cn('min-h-screen overflow-x-hidden font-sans', theme.colors.bg, theme.colors.text)}
@@ -81,7 +85,7 @@ export const BazaarLayout = ({
                 ),
               }}
             >
-              {description}
+              {displayDescription}
             </ReactMarkdown>
           </motion.div>
 

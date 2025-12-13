@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { ArrowLeft, RefreshCw } from 'lucide-react'
 import { useState, useRef } from 'react'
 import { cn } from '@/lib/utils'
+import { useLanguage } from '@/app/context/LanguageContext'
 
 type Node = {
   id: number
@@ -41,6 +42,7 @@ export default function Ersilia({ city }: { city: City }) {
   const [history, setHistory] = useState<Edge[]>([])
   const [selectedNode, setSelectedNode] = useState<number | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
+  const { language } = useLanguage()
 
   const handleCanvasClick = (e: React.MouseEvent) => {
     if (selectedNode !== null) {
@@ -91,7 +93,7 @@ export default function Ersilia({ city }: { city: City }) {
             disabled={nodes.length === 0}
         >
             <RefreshCw className="w-4 h-4" />
-            Abandon & Rebuild
+            {language === 'en' ? 'Abandon & Rebuild' : '放弃并重建'}
         </button>
       </div>
 
@@ -104,7 +106,7 @@ export default function Ersilia({ city }: { city: City }) {
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                 <div className="text-center opacity-50">
                     <h1 className="text-6xl font-serif mb-4">ERSILIA</h1>
-                    <p>Click to build houses. Click two houses to connect them with a relationship.</p>
+                    <p>{language === 'en' ? 'Click to build houses. Click two houses to connect them with a relationship.' : '点击建造房屋。点击两座房屋以建立关系。'}</p>
                 </div>
             </div>
         )}
@@ -156,7 +158,7 @@ export default function Ersilia({ city }: { city: City }) {
 
         <div className="absolute bottom-12 left-0 right-0 text-center pointer-events-none">
              <p className="text-neutral-500 italic max-w-xl mx-auto bg-white/50 backdrop-blur p-4 rounded-xl">
-                &quot;When the strings become so numerous that you can no longer pass among them, the inhabitants leave: the houses are dismantled; only the strings and their supports remain.&quot;
+                {language === 'en' ? '"When the strings become so numerous that you can no longer pass among them, the inhabitants leave: the houses are dismantled; only the strings and their supports remain."' : '“当绳子多得让人无法通过时，居民们就会离开：房子被拆除；只剩下绳子和它们的支架。”'}
              </p>
         </div>
       </div>

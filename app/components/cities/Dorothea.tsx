@@ -6,9 +6,11 @@ import Link from 'next/link'
 import { ArrowLeft, Map, Tent } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { cn } from '@/lib/utils'
+import { useLanguage } from '@/app/context/LanguageContext'
 
 export default function Dorothea({ city }: { city: City }) {
   const [viewMode, setViewMode] = useState<'structural' | 'experiential'>('structural')
+  const { language } = useLanguage()
 
   return (
     <div className="relative min-h-screen overflow-hidden transition-colors duration-1000">
@@ -55,7 +57,7 @@ export default function Dorothea({ city }: { city: City }) {
           )}
         >
           <Map className="h-4 w-4" />
-          <span className="hidden sm:inline">Blueprint</span>
+          <span className="hidden sm:inline">{language === 'en' ? 'Blueprint' : '蓝图'}</span>
         </button>
         <button
           onClick={() => setViewMode('experiential')}
@@ -67,7 +69,7 @@ export default function Dorothea({ city }: { city: City }) {
           )}
         >
           <Tent className="h-4 w-4" />
-          <span className="hidden sm:inline">Memory</span>
+          <span className="hidden sm:inline">{language === 'en' ? 'Memory' : '记忆'}</span>
         </button>
       </div>
 
@@ -86,6 +88,7 @@ export default function Dorothea({ city }: { city: City }) {
 }
 
 function StructuralView({ city }: { city: City }) {
+  const { language } = useLanguage()
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -140,7 +143,7 @@ function StructuralView({ city }: { city: City }) {
           />
 
           <div className="absolute right-4 bottom-4 font-mono text-xs text-slate-500">
-            FIG 1.1: CITY LAYOUT
+            {language === 'en' ? 'FIG 1.1: CITY LAYOUT' : '图 1.1：城市布局'}
           </div>
         </div>
 
@@ -156,20 +159,16 @@ function StructuralView({ city }: { city: City }) {
 
           <div className="space-y-4 text-sm leading-relaxed text-slate-400">
             <p>
-              <span className="text-emerald-400">SPECIFICATION:</span> Four aluminum towers. Seven
-              gates with spring-loaded drawbridges.
+              <span className="text-emerald-400">{language === 'en' ? 'SPECIFICATION:' : '规格：'}</span> {language === 'en' ? 'Four aluminum towers. Seven gates with spring-loaded drawbridges.' : '四座铝塔。七座带有弹簧吊桥的城门。'}
             </p>
             <p>
-              <span className="text-emerald-400">HYDROLOGY:</span> Four green canals dividing the
-              city into nine districts.
+              <span className="text-emerald-400">{language === 'en' ? 'HYDROLOGY:' : '水文：'}</span> {language === 'en' ? 'Four green canals dividing the city into nine districts.' : '四条绿色运河将城市划分为九个区。'}
             </p>
             <p>
-              <span className="text-emerald-400">DEMOGRAPHICS:</span> 300 houses per district. 700
-              chimneys.
+              <span className="text-emerald-400">{language === 'en' ? 'DEMOGRAPHICS:' : '人口统计：'}</span> {language === 'en' ? '300 houses per district. 700 chimneys.' : '每个区300所房子。700个烟囱。'}
             </p>
             <p>
-              <span className="text-emerald-400">SOCIAL CONTRACT:</span> Matrimonial exchange
-              between districts. Commodity exchange: Bergamot, Roe, Amethysts.
+              <span className="text-emerald-400">{language === 'en' ? 'SOCIAL CONTRACT:' : '社会契约：'}</span> {language === 'en' ? 'Matrimonial exchange between districts. Commodity exchange: Bergamot, Roe, Amethysts.' : '各区之间的通婚。商品交换：佛手柑、鱼子、紫水晶。'}
             </p>
           </div>
         </div>
@@ -180,6 +179,7 @@ function StructuralView({ city }: { city: City }) {
 
 function ExperientialView({ city }: { city: City }) {
   const [decorationItems, setDecorationItems] = useState<{ x: string; rotateInitial: number; rotateAnimate: number; duration: number }[]>([])
+  const { language } = useLanguage()
 
   useEffect(() => {
     setDecorationItems(
@@ -216,15 +216,13 @@ function ExperientialView({ city }: { city: City }) {
         className="prose prose-lg prose-amber mx-auto font-serif text-xl leading-loose text-amber-800"
       >
         <p>
-          &quot;I arrived here in my early youth, one morning when many people were hurrying along the
-          streets toward the market...&quot;
+          {language === 'en' ? '"I arrived here in my early youth, one morning when many people were hurrying along the streets toward the market..."' : '“我年轻时曾来到这里，那是一个早晨，许多人正匆匆赶往市场……”'}
         </p>
         <p className="mt-8 text-2xl text-amber-600 italic">
-          The women had fine teeth and looked you straight in the eye.
+          {language === 'en' ? 'The women had fine teeth and looked you straight in the eye.' : '女人们牙齿整齐，直视着你的眼睛。'}
         </p>
         <p className="mt-4">
-          Three soldiers on a platform played the trumpet. All around, wheels turned and colored
-          banners fluttered in the wind.
+          {language === 'en' ? 'Three soldiers on a platform played the trumpet. All around, wheels turned and colored banners fluttered in the wind.' : '三名士兵在台上吹奏小号。四周轮子转动，彩旗在风中飘扬。'}
         </p>
       </motion.div>
 

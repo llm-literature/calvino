@@ -4,8 +4,10 @@ import { City } from '@/lib/types'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft, Droplets } from 'lucide-react'
+import { useLanguage } from '@/app/context/LanguageContext'
 
 export default function Armilla({ city }: { city: City }) {
+  const { language } = useLanguage()
   return (
     <div className="relative min-h-screen bg-sky-50 text-sky-900 font-sans overflow-hidden selection:bg-sky-200">
       <Link
@@ -52,21 +54,23 @@ export default function Armilla({ city }: { city: City }) {
             <div className="flex justify-center mb-6">
                 <Droplets className="w-12 h-12 text-sky-500 animate-bounce" />
             </div>
-            <h1 className="text-6xl font-thin text-sky-900 mb-6 tracking-tighter">ARMILLA</h1>
+            <h1 className="text-6xl font-thin text-sky-900 mb-6 tracking-tighter">{language === 'en' ? 'ARMILLA' : city.cnName}</h1>
             <p className="text-xl text-sky-700/80 font-light leading-relaxed mb-8">
-                &quot;It has no walls, no ceilings, no floors: it has nothing that makes it seem a city, except the water pipes that rise vertically where the houses should be...&quot;
+                {language === 'en' 
+                  ? '"It has no walls, no ceilings, no floors: it has nothing that makes it seem a city, except the water pipes that rise vertically where the houses should be..."'
+                  : '"它没有墙壁，没有天花板，没有地板：除了那些在房屋本该存在的地方垂直升起的水管，没有任何东西让它看起来像一座城市……"'}
             </p>
             
             <div className="h-px w-full bg-linear-to-r from-transparent via-sky-300 to-transparent my-8" />
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left text-sm text-sky-800">
                 <div>
-                    <h3 className="font-bold mb-2 uppercase tracking-widest text-sky-400">Structure</h3>
-                    <p>A forest of pipes ending in taps, showers, spouts, overflows.</p>
+                    <h3 className="font-bold mb-2 uppercase tracking-widest text-sky-400">{language === 'en' ? 'Structure' : '结构'}</h3>
+                    <p>{language === 'en' ? 'A forest of pipes ending in taps, showers, spouts, overflows.' : '一片由水管组成的森林，末端是水龙头、淋浴喷头、出水口和溢流管。'}</p>
                 </div>
                 <div>
-                    <h3 className="font-bold mb-2 uppercase tracking-widest text-sky-400">Inhabitants</h3>
-                    <p>Slender forms of young women, nymphs, naiads basking in the bathtubs.</p>
+                    <h3 className="font-bold mb-2 uppercase tracking-widest text-sky-400">{language === 'en' ? 'Inhabitants' : '居民'}</h3>
+                    <p>{language === 'en' ? 'Slender forms of young women, nymphs, naiads basking in the bathtubs.' : '年轻女子、仙女和水泽女神的纤细身姿在浴缸中沐浴。'}</p>
                 </div>
             </div>
         </motion.div>

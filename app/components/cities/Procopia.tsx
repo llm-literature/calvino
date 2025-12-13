@@ -5,8 +5,10 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft, UserPlus } from 'lucide-react'
 import { useState } from 'react'
+import { useLanguage } from '@/app/context/LanguageContext'
 
 export default function Procopia({ city }: { city: City }) {
+  const { language } = useLanguage()
   const [population, setPopulation] = useState(1)
 
   return (
@@ -22,7 +24,9 @@ export default function Procopia({ city }: { city: City }) {
         
         <div className="text-center mb-8 z-10">
             <h1 className="text-6xl font-bold mb-2 text-orange-800">PROCOPIA</h1>
-            <p className="text-orange-600">Population: {population}</p>
+            <p className="text-orange-600">
+                {language === 'en' ? 'Population:' : '人口：'} {population}
+            </p>
         </div>
 
         <div className="relative w-full max-w-4xl h-125 bg-white rounded-3xl shadow-inner overflow-hidden flex flex-wrap content-start p-4 gap-1">
@@ -50,11 +54,13 @@ export default function Procopia({ city }: { city: City }) {
             onClick={() => setPopulation(p => Math.min(p + 10, 500))}
             className="mt-8 px-8 py-4 bg-orange-600 text-white rounded-full shadow-lg hover:bg-orange-500 transition-transform active:scale-95 flex items-center gap-2 z-10"
         >
-            <UserPlus className="w-6 h-6" /> Wait One Year
+            <UserPlus className="w-6 h-6" /> {language === 'en' ? 'Wait One Year' : '等待一年'}
         </button>
 
         <p className="mt-8 max-w-xl text-center text-orange-700/60 italic z-10">
-            &quot;Every year we have to pull down the cornice... the horizon is blocked by the faces of the crowd.&quot;
+            {language === 'en'
+                ? '"Every year we have to pull down the cornice... the horizon is blocked by the faces of the crowd."'
+                : '“每年我们都不得不拆除檐口……地平线被人群的面孔挡住了。”'}
         </p>
 
       </div>

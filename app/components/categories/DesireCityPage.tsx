@@ -4,9 +4,14 @@ import { CategoryPageProps, City } from '@/lib/types'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
+import { useLanguage } from '@/app/context/LanguageContext'
+import { getCityTheme } from '@/lib/themes'
 
 export default function DesireCityPage({ cities, category }: CategoryPageProps) {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const { language } = useLanguage()
+  const theme = getCityTheme(category)
+  const displayCategory = language === 'en' ? theme.label : theme.cnLabel
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -34,7 +39,7 @@ export default function DesireCityPage({ cities, category }: CategoryPageProps) 
 
       <div className="relative z-10 container mx-auto px-4 py-20">
         <h1 className="font-display mb-32 bg-gradient-to-b from-pink-900 to-black bg-clip-text text-center text-6xl font-bold tracking-tighter text-transparent select-none md:text-9xl">
-          {category.toUpperCase()}
+          {displayCategory.toUpperCase()}
         </h1>
 
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
@@ -48,6 +53,11 @@ export default function DesireCityPage({ cities, category }: CategoryPageProps) 
 }
 
 function DesireCard({ city }: { city: City }) {
+  const { language } = useLanguage()
+  const displayDescription =
+    language === 'en' ? city.enDescription : city.cnDescription
+  const displayName = language === 'en' ? city.name : city.cnName || city.name
+
   return (
     <Link href={`/city/${city.type}/${city.name}`}>
       <motion.div
@@ -62,13 +72,13 @@ function DesireCard({ city }: { city: City }) {
         {/* Content that reveals on hover */}
         <div className="absolute inset-0 flex flex-col items-center justify-center p-8 transition-all duration-700 group-hover:bg-pink-950/30">
           <h2 className="font-display mb-4 text-3xl text-pink-800 transition-colors duration-500 group-hover:text-pink-200">
-            {city.name}
+            {displayName}
           </h2>
 
           <div className="h-12 w-px bg-pink-900/50 transition-all duration-500 group-hover:h-24 group-hover:bg-pink-500" />
 
           <p className="mt-6 line-clamp-4 translate-y-4 text-center font-serif text-sm text-pink-200/0 transition-all duration-700 group-hover:translate-y-0 group-hover:text-pink-200/80">
-            {city.description}
+            {displayDescription}
           </p>
         </div>
 

@@ -6,7 +6,9 @@ import Link from 'next/link'
 import { ArrowLeft, Users } from 'lucide-react'
 import { useState, useEffect } from 'react'
 
-const ROLES = [
+import { useLanguage } from '@/app/context/LanguageContext'
+
+const ROLES_EN = [
   { name: 'The Braggart Soldier', color: 'bg-red-200 text-red-900' },
   { name: 'The Parasite', color: 'bg-green-200 text-green-900' },
   { name: 'The Young Lover', color: 'bg-pink-200 text-pink-900' },
@@ -15,9 +17,28 @@ const ROLES = [
   { name: 'The Hypocrite', color: 'bg-gray-200 text-gray-900' },
 ]
 
+const ROLES_CN = [
+  { name: '吹牛的士兵', color: 'bg-red-200 text-red-900' },
+  { name: '寄生虫', color: 'bg-green-200 text-green-900' },
+  { name: '年轻的恋人', color: 'bg-pink-200 text-pink-900' },
+  { name: '妓女', color: 'bg-purple-200 text-purple-900' },
+  { name: '吝啬的父亲', color: 'bg-yellow-200 text-yellow-900' },
+  { name: '伪君子', color: 'bg-gray-200 text-gray-900' },
+]
+
 export default function Melania({ city }: { city: City }) {
-  const [actors, setActors] = useState(ROLES.map((role, i) => ({ ...role, id: i })))
+  const { language } = useLanguage()
+  const roles = language === 'en' ? ROLES_EN : ROLES_CN
+  const [actors, setActors] = useState(roles.map((role, i) => ({ ...role, id: i })))
   const [generation, setGeneration] = useState(1)
+
+  // Update actors when language changes
+  useEffect(() => {
+    setActors(prev => prev.map((actor, i) => ({
+      ...actor,
+      name: roles[i].name
+    })))
+  }, [language, roles])
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -48,7 +69,9 @@ export default function Melania({ city }: { city: City }) {
       <div className="container mx-auto px-4 py-24 min-h-screen flex flex-col items-center justify-center">
         <div className="text-center mb-12">
             <h1 className="text-6xl font-serif mb-4">MELANIA</h1>
-            <p className="text-neutral-500 uppercase tracking-widest">Generation {generation}</p>
+            <p className="text-neutral-500 uppercase tracking-widest">
+                {language === 'en' ? 'Generation' : '世代'} {generation}
+            </p>
         </div>
 
         {/* The Stage */}
@@ -70,7 +93,7 @@ export default function Melania({ city }: { city: City }) {
                             <Users className="w-8 h-8 mb-4 opacity-50" />
                             <h3 className="font-bold text-lg mb-2">{actor.name}</h3>
                             <p className="text-xs opacity-70 italic">
-                                &quot;The dialogue continues...&quot;
+                                {language === 'en' ? '"The dialogue continues..."' : '“对话在继续……”'}
                             </p>
                         </motion.div>
                     ))}
@@ -79,7 +102,9 @@ export default function Melania({ city }: { city: City }) {
         </div>
 
         <div className="mt-12 max-w-2xl text-center text-neutral-500 italic">
-            &quot;The interlocutors die one by one and meanwhile those who will take their place in the dialogue are born... The population of Melania renews itself.&quot;
+            {language === 'en'
+                ? '"The interlocutors die one by one and meanwhile those who will take their place in the dialogue are born... The population of Melania renews itself."'
+                : '“对话者一个个死去，与此同时，那些将取代他们进行对话的人出生了……梅拉尼亚的人口在自我更新。”'}
         </div>
       </div>
     </div>

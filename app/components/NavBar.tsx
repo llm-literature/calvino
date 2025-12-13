@@ -6,6 +6,8 @@ import { Menu, X } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Collapsible, CollapsibleContent } from '@/components/ui/collapsible'
+import LanguageSwitcher from './LanguageSwitcher'
+import { useLanguage } from '@/app/context/LanguageContext'
 
 export default function WithSubnavigation() {
   const [isOpen, setIsOpen] = React.useState(false)
@@ -34,8 +36,9 @@ export default function WithSubnavigation() {
           </Link>
         </div>
 
-        <div className="hidden md:flex">
+        <div className="hidden md:flex md:items-center md:gap-8">
           <DesktopNav />
+          <LanguageSwitcher />
         </div>
 
         {/* Spacer for mobile layout balance */}
@@ -56,6 +59,7 @@ export default function WithSubnavigation() {
 }
 
 const DesktopNav = () => {
+  const { language } = useLanguage()
   return (
     <div className="flex flex-row gap-8">
       {NAV_ITEMS.map((navItem) => (
@@ -64,7 +68,7 @@ const DesktopNav = () => {
             href={navItem.href ?? '#'}
             className="group relative py-2 font-serif text-sm font-medium text-stone-600 transition-colors hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-100"
           >
-            {navItem.label}
+            {language === 'en' ? navItem.enLabel : navItem.label}
             <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-amber-500 transition-all duration-300 group-hover:w-full"></span>
           </Link>
         </div>
@@ -79,12 +83,16 @@ const MobileNav = () => {
       {NAV_ITEMS.map((navItem) => (
         <MobileNavItem key={navItem.label} {...navItem} />
       ))}
+      <div className="mt-4 border-t border-stone-200 pt-4 dark:border-stone-800">
+        <LanguageSwitcher />
+      </div>
     </div>
   )
 }
 
-const MobileNavItem = ({ label, children, href }: NavItem) => {
+const MobileNavItem = ({ label, enLabel, children, href }: NavItem) => {
   const [isOpen, setIsOpen] = React.useState(false)
+  const { language } = useLanguage()
 
   return (
     <div className="flex flex-col gap-4">
@@ -96,7 +104,7 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
           href={href ?? '#'}
           className="font-serif font-semibold text-stone-600 dark:text-stone-200"
         >
-          {label}
+          {language === 'en' ? enLabel : label}
         </Link>
       </div>
     </div>
@@ -105,6 +113,7 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
 
 interface NavItem {
   label: string
+  enLabel: string
   subLabel?: string
   children?: Array<NavItem>
   href?: string
@@ -113,14 +122,17 @@ interface NavItem {
 const NAV_ITEMS: Array<NavItem> = [
   {
     label: '首页',
+    enLabel: 'Home',
     href: '/',
   },
   {
     label: '图集',
+    enLabel: 'Atlas',
     href: '/city',
   },
   {
     label: 'GitHub',
+    enLabel: 'GitHub',
     href: 'https://github.com/llm-literature/calvino',
   },
 ]

@@ -5,8 +5,10 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft, Frown, Smile } from 'lucide-react'
 import { useState } from 'react'
+import { useLanguage } from '@/app/context/LanguageContext'
 
 export default function Raissa({ city }: { city: City }) {
+  const { language } = useLanguage()
   const [showHidden, setShowHidden] = useState(false)
 
   return (
@@ -33,7 +35,9 @@ export default function Raissa({ city }: { city: City }) {
             >
                 <Frown className="w-32 h-32 text-slate-500 mb-4" />
                 <p className="text-xl text-slate-600 text-center">
-                    &quot;Life in Raissa is not happy. People wring their hands as they walk in the streets...&quot;
+                    {language === 'en'
+                        ? '"Life in Raissa is not happy. People wring their hands as they walk in the streets..."'
+                        : '“莱萨的生活并不快乐。人们走在街上时绞着双手……”'}
                 </p>
             </motion.div>
 
@@ -45,17 +49,19 @@ export default function Raissa({ city }: { city: City }) {
                 <div className="bg-yellow-100/90 p-8 rounded-full shadow-[0_0_50px_rgba(253,224,71,0.5)] text-center backdrop-blur-sm">
                     <Smile className="w-24 h-24 text-yellow-500 mx-auto mb-2" />
                     <p className="text-yellow-700 font-bold">
-                        &quot;But there is a hidden thread...&quot;
+                        {language === 'en' ? '"But there is a hidden thread..."' : '“但有一条隐藏的线索……”'}
                     </p>
                     <p className="text-sm text-yellow-600 mt-2">
-                        A child laughs, a dog plays, a mason sings.
+                        {language === 'en'
+                            ? 'A child laughs, a dog plays, a mason sings.'
+                            : '一个孩子在笑，一只狗在玩耍，一个泥瓦匠在唱歌。'}
                     </p>
                 </div>
             </motion.div>
         </div>
 
         <p className="mt-12 text-slate-500 animate-pulse">
-            Hover to find the hidden happiness
+            {language === 'en' ? 'Hover to find the hidden happiness' : '悬停以寻找隐藏的幸福'}
         </p>
 
       </div>

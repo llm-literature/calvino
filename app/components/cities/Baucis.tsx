@@ -6,8 +6,10 @@ import Link from 'next/link'
 import { ArrowLeft, Cloud, Eye } from 'lucide-react'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
+import { useLanguage } from '@/app/context/LanguageContext'
 
 export default function Baucis({ city }: { city: City }) {
+  const { language } = useLanguage()
   const [hoveredStilt, setHoveredStilt] = useState<number | null>(null)
 
   const stilts = Array.from({ length: 7 }).map((_, i) => ({
@@ -48,7 +50,7 @@ export default function Baucis({ city }: { city: City }) {
 
       {/* The City (Above Clouds) */}
       <div className="relative z-30 container mx-auto px-4 min-h-screen flex flex-col items-center pt-32">
-          <h1 className="text-6xl font-thin tracking-[0.2em] mb-8 text-sky-800">BAUCIS</h1>
+          <h1 className="text-6xl font-thin tracking-[0.2em] mb-8 text-sky-800">{language === 'en' ? 'BAUCIS' : city.cnName}</h1>
           
           <div className="relative w-full h-[60vh] mt-12">
               {/* Stilts */}
@@ -75,10 +77,10 @@ export default function Baucis({ city }: { city: City }) {
                           <div className="absolute inset-0 bg-green-100 flex items-center justify-center">
                               {/* Ground details */}
                               <div className="text-center p-4">
-                                  <p className="text-xs font-bold text-green-800 uppercase mb-2">Ground Level</p>
-                                  {stilt.id % 3 === 0 && <p className="text-sm">🍃 A leaf fluttering</p>}
-                                  {stilt.id % 3 === 1 && <p className="text-sm">🐜 An ant marching</p>}
-                                  {stilt.id % 3 === 2 && <p className="text-sm">🪨 A pebble resting</p>}
+                                  <p className="text-xs font-bold text-green-800 uppercase mb-2">{language === 'en' ? 'Ground Level' : '地面'}</p>
+                                  {stilt.id % 3 === 0 && <p className="text-sm">{language === 'en' ? '🍃 A leaf fluttering' : '🍃 一片飘落的叶子'}</p>}
+                                  {stilt.id % 3 === 1 && <p className="text-sm">{language === 'en' ? '🐜 An ant marching' : '🐜 一只行进的蚂蚁'}</p>}
+                                  {stilt.id % 3 === 2 && <p className="text-sm">{language === 'en' ? '🪨 A pebble resting' : '🪨 一颗静止的鹅卵石'}</p>}
                               </div>
                           </div>
                       </div>
@@ -89,7 +91,9 @@ export default function Baucis({ city }: { city: City }) {
 
       <div className="fixed bottom-12 left-0 right-0 text-center pointer-events-none z-40">
           <p className="text-sky-700 italic max-w-xl mx-auto bg-white/30 backdrop-blur p-4 rounded-xl">
-            &quot;Nothing of the city touches the earth except those long flamingo legs on which it rests and, when the days are sunny, a pierced, angular shadow that falls on the foliage.&quot;
+            {language === 'en' 
+              ? '"Nothing of the city touches the earth except those long flamingo legs on which it rests and, when the days are sunny, a pierced, angular shadow that falls on the foliage."'
+              : '"这座城市除了那些支撑它的长长的红鹤腿之外，没有任何东西接触地面；在阳光明媚的日子里，它会在树叶上投下镂空的、棱角分明的影子。"'}
           </p>
       </div>
     </div>

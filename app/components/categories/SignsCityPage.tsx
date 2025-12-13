@@ -4,14 +4,16 @@ import { CategoryPageProps, City } from '@/lib/types'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useState } from 'react'
+import { useLanguage } from '@/app/context/LanguageContext'
 
 export default function SignsCityPage({ cities }: CategoryPageProps) {
+  const { language } = useLanguage()
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-neutral-950 py-20 font-mono text-neutral-200">
       <div className="pointer-events-none absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20" />
 
       <h1 className="z-10 mb-12 text-xs tracking-[1em] text-neutral-500 uppercase">
-        SEMIOTICS OF THE CITY
+        {language === 'en' ? 'SEMIOTICS OF THE CITY' : '城市的符号学'}
       </h1>
 
       <div className="mx-auto grid w-full max-w-6xl grid-cols-2 gap-px border border-neutral-800 bg-neutral-800 md:grid-cols-3 lg:grid-cols-4">
@@ -34,9 +36,14 @@ export default function SignsCityPage({ cities }: CategoryPageProps) {
 
 function SignCell({ city }: { city: City }) {
   const [isHovered, setIsHovered] = useState(false)
+  const { language } = useLanguage()
+  const displayDescription =
+    language === 'en' ? city.enDescription : city.cnDescription
 
   // Generate a "symbol" based on the city name (first letter + length or something)
-  const symbol = city.name.charAt(0).toUpperCase()
+  const symbol = (language === 'en' ? city.name : city.cnName || city.name)
+    .charAt(0)
+    .toUpperCase()
 
   return (
     <Link href={`/city/${city.type}/${city.name}`} className="block">
@@ -67,10 +74,10 @@ function SignCell({ city }: { city: City }) {
           className="absolute inset-0 flex flex-col items-center justify-center bg-neutral-900/90 p-6 text-center backdrop-blur-sm"
         >
           <h2 className="mb-2 text-xl font-bold tracking-widest text-white uppercase">
-            {city.name}
+            {language === 'en' ? city.name : city.cnName || city.name}
           </h2>
           <p className="line-clamp-4 font-sans text-[10px] leading-relaxed text-neutral-400">
-            {city.description}
+            {displayDescription}
           </p>
           <div className="mt-4 h-px w-8 bg-white/50" />
         </motion.div>

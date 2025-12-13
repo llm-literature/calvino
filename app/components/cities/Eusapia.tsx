@@ -6,9 +6,11 @@ import Link from 'next/link'
 import { ArrowLeft, ArrowDown, ArrowUp } from 'lucide-react'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
+import { useLanguage } from '@/app/context/LanguageContext'
 
 export default function Eusapia({ city }: { city: City }) {
   const [inUnderground, setInUnderground] = useState(false)
+  const { language } = useLanguage()
 
   return (
     <div className="relative min-h-screen bg-slate-100 text-slate-900 font-sans overflow-hidden selection:bg-slate-300">
@@ -29,7 +31,7 @@ export default function Eusapia({ city }: { city: City }) {
                 animate={{ y: inUnderground ? "-45%" : "0%" }}
                 transition={{ duration: 1, ease: "easeInOut" }}
             >
-                <h2 className="text-2xl font-bold text-sky-800 mb-4">EUSAPIA (Living)</h2>
+                <h2 className="text-2xl font-bold text-sky-800 mb-4">{language === 'en' ? 'EUSAPIA (Living)' : '欧萨皮亚（生者）'}</h2>
                 <div className="flex gap-2 items-end">
                     <div className="w-8 h-16 bg-sky-300 rounded-t-md" />
                     <div className="w-12 h-24 bg-sky-400 rounded-t-md" />
@@ -60,7 +62,7 @@ export default function Eusapia({ city }: { city: City }) {
                     <div className="w-12 h-24 bg-slate-600 rounded-t-md" />
                     <div className="w-10 h-20 bg-slate-700 rounded-t-md" />
                 </div>
-                <h2 className="text-2xl font-bold text-slate-500 mt-4">EUSAPIA (Dead)</h2>
+                <h2 className="text-2xl font-bold text-slate-500 mt-4">{language === 'en' ? 'EUSAPIA (Dead)' : '欧萨皮亚（死者）'}</h2>
             </motion.div>
 
             {/* Transition Zone */}
@@ -70,7 +72,7 @@ export default function Eusapia({ city }: { city: City }) {
 
         <div className="mt-12 max-w-xl text-center text-slate-600">
             <p className="italic">
-                &quot;The inhabitants of Eusapia have constructed an identical copy of their city, underground... so that the dead can continue their activities as if they were alive.&quot;
+                {language === 'en' ? '"The inhabitants of Eusapia have constructed an identical copy of their city, underground... so that the dead can continue their activities as if they were alive."' : '“欧萨皮亚的居民在地下建造了一座与他们的城市一模一样的复制品……以便死者可以像生前一样继续他们的活动。”'}
             </p>
         </div>
 

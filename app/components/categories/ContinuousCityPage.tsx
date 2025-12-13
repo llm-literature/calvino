@@ -11,6 +11,8 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog'
+import { useLanguage } from '@/app/context/LanguageContext'
+import { getCityTheme } from '@/lib/themes'
 
 interface ContinuousCityPageProps {
   cities: City[]
@@ -19,6 +21,21 @@ interface ContinuousCityPageProps {
 
 export default function ContinuousCityPage({ cities, category }: ContinuousCityPageProps) {
   const [selectedCity, setSelectedCity] = useState<City | null>(null)
+  const { language } = useLanguage()
+  const theme = getCityTheme(category)
+  const displayCategory = language === 'en' ? theme.label : theme.cnLabel
+
+  const selectedCityDescription = selectedCity
+    ? language === 'en'
+      ? selectedCity.enDescription
+      : selectedCity.cnDescription
+    : ''
+
+  const selectedCityName = selectedCity
+    ? language === 'en'
+      ? selectedCity.name
+      : selectedCity.cnName || selectedCity.name
+    : ''
 
   // Duplicate cities to create seamless loop
   const loopedCities = [...cities, ...cities, ...cities, ...cities]
@@ -35,11 +52,13 @@ export default function ContinuousCityPage({ cities, category }: ContinuousCityP
         <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
           <h1 className="font-cinzel flex items-center justify-center gap-4 text-4xl tracking-widest text-slate-800 uppercase md:text-6xl">
             <InfinityIcon className="h-8 w-8" />
-            {category} Cities
+            {displayCategory} {language === 'en' ? 'Cities' : '城市'}
             <InfinityIcon className="h-8 w-8" />
           </h1>
           <p className="font-lora mt-4 text-slate-500 italic">
-            The city repeats itself so that it can be remembered.
+            {language === 'en'
+              ? 'The city repeats itself so that it can be remembered.'
+              : '城市重复自己，以便被记住。'}
           </p>
         </motion.div>
       </div>
@@ -68,12 +87,12 @@ export default function ContinuousCityPage({ cities, category }: ContinuousCityP
         <DialogContent className="max-w-2xl border-slate-200 bg-white/95 text-slate-900 backdrop-blur-xl">
           <DialogHeader>
             <DialogTitle className="font-cinzel text-center text-3xl text-slate-800">
-              {selectedCity?.name}
+              {selectedCityName}
             </DialogTitle>
           </DialogHeader>
           <div className="custom-scrollbar mt-4 max-h-[60vh] overflow-y-auto pr-4">
             <DialogDescription className="font-lora text-lg leading-relaxed whitespace-pre-line text-slate-600">
-              {selectedCity?.description}
+              {selectedCityDescription}
             </DialogDescription>
           </div>
         </DialogContent>
@@ -83,6 +102,11 @@ export default function ContinuousCityPage({ cities, category }: ContinuousCityP
 }
 
 function ContinuousCityCard({ city, onSelect }: { city: City; onSelect: () => void }) {
+  const { language } = useLanguage()
+  const displayDescription =
+    language === 'en' ? city.enDescription : city.cnDescription
+  const displayName = language === 'en' ? city.name : city.cnName || city.name
+
   return (
     <motion.div
       className="flex h-96 w-80 shrink-0 cursor-pointer flex-col justify-between border border-slate-200 bg-white p-6 shadow-lg transition-shadow hover:shadow-xl"
@@ -91,15 +115,15 @@ function ContinuousCityCard({ city, onSelect }: { city: City; onSelect: () => vo
     >
       <div>
         <div className="mb-4 h-1 w-full bg-gradient-to-r from-blue-500 to-cyan-500" />
-        <h3 className="font-cinzel mb-2 text-2xl text-slate-800">{city.name}</h3>
+        <h3 className="font-cinzel mb-2 text-2xl text-slate-800">{displayName}</h3>
         <p className="font-lora line-clamp-6 text-sm leading-relaxed text-slate-500">
-          {city.description}
+          {displayDescription}
         </p>
       </div>
       <div className="mt-4 flex items-center justify-between text-xs tracking-wider text-slate-400 uppercase">
-        <span>Route A</span>
+        <span>{language === 'en' ? 'Route A' : '路线 A'}</span>
         <span>&rarr;</span>
-        <span>Route B</span>
+        <span>{language === 'en' ? 'Route B' : '路线 B'}</span>
       </div>
     </motion.div>
   )

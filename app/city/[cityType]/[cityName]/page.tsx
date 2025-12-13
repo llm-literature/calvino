@@ -88,7 +88,6 @@ function getCityData(cityType: string, cityName: string) {
     city,
     prevCity,
     nextCity,
-    description: city.description?.replace(/\\n/g, '\n'),
   }
 }
 
@@ -160,7 +159,7 @@ export default async function CityPage({
 
   if (!cityData) return <div>未找到该城市</div>
 
-  const { city, description, prevCity, nextCity } = cityData
+  const { city, prevCity, nextCity } = cityData
 
   // Check for specific city component first
   const SpecificComponent = SpecificCityComponents[cityName.toLowerCase()]
@@ -188,7 +187,7 @@ export default async function CityPage({
       city={city}
       prevCity={prevCity}
       nextCity={nextCity}
-      description={description || ''}
+      description={city.cnDescription}
       imageUrl={imageUrl}
       theme={theme}
     />

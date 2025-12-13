@@ -9,6 +9,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 import capitalizeString from '@/app/components/Util'
 import { City } from '@/lib/types'
+import { useLanguage } from '@/app/context/LanguageContext'
 
 interface LayoutProps {
   city: City
@@ -27,6 +28,9 @@ export const ChronicleLayout = ({
   imageUrl,
   theme,
 }: LayoutProps) => {
+  const { language } = useLanguage()
+  const displayDescription = language === 'en' ? city.enDescription : city.cnDescription
+
   return (
     <div
       className={cn(
@@ -89,7 +93,7 @@ export const ChronicleLayout = ({
                 ),
               }}
             >
-              {description}
+              {displayDescription}
             </ReactMarkdown>
           </motion.div>
         </div>

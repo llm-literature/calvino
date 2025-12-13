@@ -5,8 +5,10 @@ import { motion, useMotionValue, useTransform } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { useState, useEffect } from 'react'
+import { useLanguage } from '@/app/context/LanguageContext'
 
 export default function Zemrude({ city }: { city: City }) {
+  const { language } = useLanguage()
   const mouseY = useMotionValue(0)
   const [windowHeight, setWindowHeight] = useState(1000)
 
@@ -25,7 +27,9 @@ export default function Zemrude({ city }: { city: City }) {
   const highCityOpacity = useTransform(mouseY, [0, windowHeight], [1, 0])
   const lowCityOpacity = useTransform(mouseY, [0, windowHeight], [0, 1])
   
-  const moodText = useTransform(mouseY, [0, windowHeight], ["Whistling", "Head Down"])
+  const moodTextEn = useTransform(mouseY, [0, windowHeight], ["Whistling", "Head Down"])
+  const moodTextCn = useTransform(mouseY, [0, windowHeight], ["吹口哨", "低头"])
+  const moodText = language === 'en' ? moodTextEn : moodTextCn
 
   return (
     <div className="relative min-h-screen bg-slate-900 overflow-hidden cursor-ns-resize">
@@ -45,13 +49,13 @@ export default function Zemrude({ city }: { city: City }) {
           <h1 className="text-9xl font-serif mb-8">ZEMRUDE</h1>
           <div className="grid grid-cols-3 gap-12 text-center">
               <div className="p-8 border border-sky-300 rounded-full aspect-square flex items-center justify-center bg-white/50 shadow-lg">
-                  Window Sills
+                  {language === 'en' ? 'Window Sills' : '窗台'}
               </div>
               <div className="p-8 border border-sky-300 rounded-full aspect-square flex items-center justify-center bg-white/50 shadow-lg">
-                  Curtains
+                  {language === 'en' ? 'Curtains' : '窗帘'}
               </div>
               <div className="p-8 border border-sky-300 rounded-full aspect-square flex items-center justify-center bg-white/50 shadow-lg">
-                  Fountains
+                  {language === 'en' ? 'Fountains' : '喷泉'}
               </div>
           </div>
       </motion.div>
@@ -65,13 +69,13 @@ export default function Zemrude({ city }: { city: City }) {
           <h1 className="text-9xl font-black mb-8 tracking-tighter text-slate-800">ZEMRUDE</h1>
           <div className="grid grid-cols-3 gap-12 text-center font-mono uppercase">
               <div className="p-8 border border-slate-700 rounded aspect-square flex items-center justify-center bg-black/20">
-                  Gutters
+                  {language === 'en' ? 'Gutters' : '排水沟'}
               </div>
               <div className="p-8 border border-slate-700 rounded aspect-square flex items-center justify-center bg-black/20">
-                  Manholes
+                  {language === 'en' ? 'Manholes' : '沙井'}
               </div>
               <div className="p-8 border border-slate-700 rounded aspect-square flex items-center justify-center bg-black/20">
-                  Fish Scales
+                  {language === 'en' ? 'Fish Scales' : '鱼鳞'}
               </div>
           </div>
       </motion.div>

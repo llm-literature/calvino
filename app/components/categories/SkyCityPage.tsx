@@ -11,6 +11,8 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog'
+import { useLanguage } from '@/app/context/LanguageContext'
+import { getCityTheme } from '@/lib/themes'
 
 interface SkyCityPageProps {
   cities: City[]
@@ -40,6 +42,15 @@ function generateBackgroundStars(count: number, seed: number) {
 export default function SkyCityPage({ cities, category }: SkyCityPageProps) {
   const [selectedCity, setSelectedCity] = useState<City | null>(null)
   const [stars, setStars] = useState<{ x: number; y: number; size: number; delay: number }[]>([])
+  const { language } = useLanguage()
+  const theme = getCityTheme(category)
+  const displayCategory = language === 'en' ? theme.label : theme.cnLabel
+
+  const selectedCityDescription = selectedCity
+    ? language === 'en'
+      ? selectedCity.enDescription
+      : selectedCity.cnDescription
+    : ''
 
   // Background stars - deterministic
   const backgroundStars = useMemo(() => generateBackgroundStars(50, 12345), [])
@@ -108,11 +119,13 @@ export default function SkyCityPage({ cities, category }: SkyCityPageProps) {
         >
           <h1 className="font-cinzel flex items-center justify-center gap-4 text-4xl tracking-widest text-indigo-200 uppercase md:text-6xl">
             <Moon className="h-8 w-8" />
-            {category} Cities
+            {displayCategory} {language === 'en' ? 'Cities' : '城市'}
             <Moon className="h-8 w-8" />
           </h1>
           <p className="font-lora mt-4 text-indigo-400/60 italic">
-            Look up, and see the map of the empire.
+            {language === 'en'
+              ? 'Look up, and see the map of the empire.'
+              : '抬头看，帝国的地图就在上面。'}
           </p>
         </motion.div>
 
@@ -144,7 +157,7 @@ export default function SkyCityPage({ cities, category }: SkyCityPageProps) {
                   <Star className="relative z-10 h-8 w-8 fill-yellow-100/20 text-yellow-100" />
                 </div>
                 <span className="font-cinzel absolute top-full mt-2 rounded bg-black/50 px-2 py-1 text-xs whitespace-nowrap text-indigo-200 opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100 md:text-sm">
-                  {city.name}
+                  {language === 'en' ? city.name : city.cnName || city.name}
                 </span>
               </motion.button>
             )
@@ -156,12 +169,14 @@ export default function SkyCityPage({ cities, category }: SkyCityPageProps) {
         <DialogContent className="max-w-2xl border-indigo-500/30 bg-slate-900/90 text-indigo-100 backdrop-blur-xl">
           <DialogHeader>
             <DialogTitle className="font-cinzel text-center text-3xl text-indigo-300">
-              {selectedCity?.name}
+              {language === 'en'
+                ? selectedCity?.name
+                : selectedCity?.cnName || selectedCity?.name}
             </DialogTitle>
           </DialogHeader>
           <div className="custom-scrollbar mt-4 max-h-[60vh] overflow-y-auto pr-4">
             <DialogDescription className="font-lora text-lg leading-relaxed whitespace-pre-line text-indigo-100/80">
-              {selectedCity?.description}
+              {selectedCityDescription}
             </DialogDescription>
           </div>
         </DialogContent>

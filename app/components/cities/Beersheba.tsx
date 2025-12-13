@@ -5,8 +5,10 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft, Star, Trash2 } from 'lucide-react'
 import { useState } from 'react'
+import { useLanguage } from '@/app/context/LanguageContext'
 
 export default function Beersheba({ city }: { city: City }) {
+  const { language } = useLanguage()
   const [split, setSplit] = useState(50)
 
   return (
@@ -27,8 +29,8 @@ export default function Beersheba({ city }: { city: City }) {
         >
             <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-center">
-                    <h1 className="text-6xl font-serif text-amber-200 drop-shadow-[0_0_15px_rgba(251,191,36,0.5)] mb-4">BEERSHEBA</h1>
-                    <p className="text-amber-100/60 tracking-widest uppercase text-sm">The Celestial Projection</p>
+                    <h1 className="text-6xl font-serif text-amber-200 drop-shadow-[0_0_15px_rgba(251,191,36,0.5)] mb-4">{language === 'en' ? 'BEERSHEBA' : city.cnName}</h1>
+                    <p className="text-amber-100/60 tracking-widest uppercase text-sm">{language === 'en' ? 'The Celestial Projection' : '天上的投影'}</p>
                 </div>
             </div>
             
@@ -76,8 +78,8 @@ export default function Beersheba({ city }: { city: City }) {
         >
             <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-center opacity-50">
-                    <h1 className="text-6xl font-serif text-stone-600 mb-4 line-through decoration-stone-800">BEERSHEBA</h1>
-                    <p className="text-stone-500 tracking-widest uppercase text-sm">The Accumulation</p>
+                    <h1 className="text-6xl font-serif text-stone-600 mb-4 line-through decoration-stone-800">{language === 'en' ? 'BEERSHEBA' : city.cnName}</h1>
+                    <p className="text-stone-500 tracking-widest uppercase text-sm">{language === 'en' ? 'The Accumulation' : '堆积物'}</p>
                 </div>
             </div>
 
@@ -100,7 +102,9 @@ export default function Beersheba({ city }: { city: City }) {
       </div>
 
       <div className="fixed bottom-8 right-8 max-w-sm text-right text-xs text-slate-500 pointer-events-none">
-        Beersheba projects a celestial city in the sky, believing it to be its true self, while unaware that its true nature is the pile of refuse it expels.
+        {language === 'en' 
+          ? 'Beersheba projects a celestial city in the sky, believing it to be its true self, while unaware that its true nature is the pile of refuse it expels.'
+          : '别尔谢巴在天空中投射出一座天上的城市，相信那是它真实的自我，却不知道它真实的本质是它排出的垃圾堆。'}
       </div>
     </div>
   )

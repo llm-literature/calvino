@@ -4,9 +4,14 @@ import { CategoryPageProps, City } from '@/lib/types'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
+import { useLanguage } from '@/app/context/LanguageContext'
+import { getCityTheme } from '@/lib/themes'
 
 export default function ThinCityPage({ cities, category }: CategoryPageProps) {
   const [mounted, setMounted] = useState(false)
+  const { language } = useLanguage()
+  const theme = getCityTheme(category)
+  const displayCategory = language === 'en' ? theme.label : theme.cnLabel
 
   useEffect(() => {
     setMounted(true)
@@ -24,7 +29,7 @@ export default function ThinCityPage({ cities, category }: CategoryPageProps) {
           transition={{ duration: 1 }}
           className="pointer-events-none absolute top-20 right-0 left-0 mb-20 text-center text-6xl font-thin tracking-[0.2em] text-slate-900/10 uppercase md:text-9xl"
         >
-          {category}
+          {displayCategory}
         </motion.h1>
 
         <div className="relative h-full w-full">
@@ -60,6 +65,10 @@ function HangingCity({
   total: number
   mounted: boolean
 }) {
+  const { language } = useLanguage()
+  const displayDescription =
+    language === 'en' ? city.enDescription : city.cnDescription
+
   // Calculate positions to spread them out but keep them "hanging"
   // We divide the screen width into sections
   const sectionWidth = 100 / total
@@ -106,7 +115,7 @@ function HangingCity({
               <div className="flex h-32 w-32 items-center justify-center rounded-full border border-slate-200 bg-white/50 shadow-sm backdrop-blur-sm transition-all duration-500 group-hover:scale-105 group-hover:shadow-md md:h-48 md:w-48">
                 <div className="p-4 text-center">
                   <h2 className="font-display mb-2 text-xl tracking-widest text-slate-700 transition-colors group-hover:text-sky-600">
-                    {city.name}
+                    {language === 'en' ? city.name : city.cnName || city.name}
                   </h2>
                   <div className="mx-auto h-px w-8 bg-slate-300 transition-all duration-500 group-hover:w-16" />
                 </div>
@@ -114,7 +123,7 @@ function HangingCity({
 
               {/* Hover Description Tooltip */}
               <div className="pointer-events-none absolute top-full z-50 mt-4 w-64 translate-y-[-10px] rounded-sm border border-slate-100 bg-white/90 p-4 text-center font-serif text-xs leading-relaxed text-slate-500 opacity-0 shadow-xl backdrop-blur transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
-                {city.description.substring(0, 100)}...
+                {displayDescription.substring(0, 100)}...
               </div>
             </div>
           </Link>

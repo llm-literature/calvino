@@ -3,8 +3,9 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { EyeOff, Building, Cat, Repeat } from 'lucide-react'
+import { useLanguage } from '@/app/context/LanguageContext'
 
-const MEMORIES = [
+const MEMORIES_EN = [
   {
     id: 'blind',
     icon: EyeOff,
@@ -25,10 +26,34 @@ const MEMORIES = [
   },
 ]
 
+const MEMORIES_CN = [
+  {
+    id: 'blind',
+    icon: EyeOff,
+    title: '盲人',
+    desc: '在人群中大喊大叫，看不见但听得见。',
+  },
+  {
+    id: 'lunatic',
+    icon: Building,
+    title: '疯子',
+    desc: '在摩天大楼的檐口上摇摇欲坠。',
+  },
+  {
+    id: 'puma',
+    icon: Cat,
+    title: '女孩与美洲狮',
+    desc: '并肩走在人群中。',
+  },
+]
+
 export default function Zirma() {
+  const { language } = useLanguage()
+  const memories = language === 'en' ? MEMORIES_EN : MEMORIES_CN
+
   // Generate a redundant array of memories
   const redundantMemories = Array.from({ length: 12 }).map((_, i) => {
-    const memory = MEMORIES[i % MEMORIES.length]
+    const memory = memories[i % memories.length]
     return { ...memory, uniqueId: `${memory.id}-${i}` }
   })
 
@@ -40,7 +65,9 @@ export default function Zirma() {
         </div>
         <h1 className="mb-4 text-5xl font-bold tracking-tighter text-rose-500">ZIRMA</h1>
         <p className="text-xl text-neutral-400">
-          The city where memories are redundant, repeating themselves so they may stick.
+          {language === 'en'
+            ? 'The city where memories are redundant, repeating themselves so they may stick.'
+            : '这座城市是多余的，记忆在不断重复，以便能够留存。'}
         </p>
       </header>
 
@@ -74,7 +101,9 @@ export default function Zirma() {
       </div>
 
       <div className="mx-auto mt-16 max-w-2xl text-center text-neutral-500 italic">
-        &quot;The city is redundant: it repeats itself so that something will stick in the mind.&quot;
+        {language === 'en'
+          ? '"The city is redundant: it repeats itself so that something will stick in the mind."'
+          : '“这座城市是多余的：它不断重复自己，以便有些东西能留在脑海中。”'}
       </div>
     </div>
   )

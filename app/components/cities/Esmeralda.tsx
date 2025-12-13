@@ -6,9 +6,11 @@ import Link from 'next/link'
 import { ArrowLeft, Waves, Footprints, Wind } from 'lucide-react'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
+import { useLanguage } from '@/app/context/LanguageContext'
 
 export default function Esmeralda({ city }: { city: City }) {
   const [activeLayer, setActiveLayer] = useState<'land' | 'water' | 'air'>('land')
+  const { language } = useLanguage()
 
   return (
     <div className="relative min-h-screen bg-emerald-50 text-emerald-900 font-sans overflow-hidden selection:bg-emerald-200">
@@ -109,7 +111,7 @@ export default function Esmeralda({ city }: { city: City }) {
         </div>
 
         <div className="mt-8 max-w-2xl text-center text-emerald-600 italic">
-            &quot;A map of Esmeralda should include all these routes, solid and liquid, evident and hidden.&quot;
+            {language === 'en' ? '"A map of Esmeralda should include all these routes, solid and liquid, evident and hidden."' : '“埃斯梅拉达的地图应该包括所有这些路线，固体的和液体的，明显的和隐藏的。”'}
         </div>
       </div>
     </div>

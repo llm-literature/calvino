@@ -5,16 +5,18 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft, Star } from 'lucide-react'
 import { useState } from 'react'
+import { useLanguage } from '@/app/context/LanguageContext'
 
 export default function Andria({ city }: { city: City }) {
+  const { language } = useLanguage()
   const [highlight, setHighlight] = useState<number | null>(null)
 
   const stars = [
-    { id: 1, x: 20, y: 20, label: "Antares" },
-    { id: 2, x: 50, y: 15, label: "Vega" },
-    { id: 3, x: 80, y: 30, label: "Altair" },
-    { id: 4, x: 30, y: 60, label: "Sirius" },
-    { id: 5, x: 70, y: 70, label: "Rigel" },
+    { id: 1, x: 20, y: 20, label: language === 'en' ? "Antares" : "心宿二" },
+    { id: 2, x: 50, y: 15, label: language === 'en' ? "Vega" : "织女星" },
+    { id: 3, x: 80, y: 30, label: language === 'en' ? "Altair" : "牛郎星" },
+    { id: 4, x: 30, y: 60, label: language === 'en' ? "Sirius" : "天狼星" },
+    { id: 5, x: 70, y: 70, label: language === 'en' ? "Rigel" : "参宿七" },
   ]
 
   return (
@@ -27,8 +29,12 @@ export default function Andria({ city }: { city: City }) {
       </Link>
 
       <div className="container mx-auto px-4 py-24 min-h-screen flex flex-col items-center justify-center">
-        <h1 className="text-6xl mb-4 text-indigo-200 tracking-widest">ANDRIA</h1>
-        <p className="mb-12 text-indigo-400">&quot;Built so artfully that its every street follows a planet&apos;s orbit.&quot;</p>
+        <h1 className="text-6xl mb-4 text-indigo-200 tracking-widest">{language === 'en' ? 'ANDRIA' : city.cnName}</h1>
+        <p className="mb-12 text-indigo-400">
+          {language === 'en' 
+            ? '"Built so artfully that its every street follows a planet\'s orbit."'
+            : '"建造得如此巧妙，每条街道都遵循着行星的轨道。"'}
+        </p>
 
         <div className="relative w-full max-w-3xl aspect-square bg-black/20 rounded-full border border-indigo-800/50 shadow-2xl overflow-hidden">
             
@@ -63,7 +69,7 @@ export default function Andria({ city }: { city: City }) {
                     </svg>
 
                     <div className="absolute top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap bg-indigo-900 px-2 py-1 rounded text-xs border border-indigo-700">
-                        {star.label} Street
+                        {star.label} {language === 'en' ? 'Street' : '街'}
                     </div>
                 </motion.div>
             ))}

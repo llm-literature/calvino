@@ -6,7 +6,10 @@ import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { useState } from 'react'
 
+import { useLanguage } from '@/app/context/LanguageContext'
+
 export default function Phyllis({ city }: { city: City }) {
+  const { language } = useLanguage()
   const [faded, setFaded] = useState(false)
 
   return (
@@ -35,22 +38,26 @@ export default function Phyllis({ city }: { city: City }) {
                 <div className="grid grid-cols-2 gap-8 mb-8">
                     <div className="bg-rose-100 p-4 rounded-xl">
                         <div className="w-full h-24 bg-rose-300 rounded-lg mb-2" />
-                        <p className="font-bold">9 Bridges</p>
+                        <p className="font-bold">{language === 'en' ? '9 Bridges' : '9座桥'}</p>
                     </div>
                     <div className="bg-rose-100 p-4 rounded-xl">
                         <div className="w-full h-24 bg-rose-300 rounded-lg mb-2" />
-                        <p className="font-bold">Onion Domes</p>
+                        <p className="font-bold">{language === 'en' ? 'Onion Domes' : '洋葱圆顶'}</p>
                     </div>
                     <div className="bg-rose-100 p-4 rounded-xl">
                         <div className="w-full h-24 bg-rose-300 rounded-lg mb-2" />
-                        <p className="font-bold">Blue Tiles</p>
+                        <p className="font-bold">{language === 'en' ? 'Blue Tiles' : '蓝色瓷砖'}</p>
                     </div>
                     <div className="bg-rose-100 p-4 rounded-xl">
                         <div className="w-full h-24 bg-rose-300 rounded-lg mb-2" />
-                        <p className="font-bold">Queen Statues</p>
+                        <p className="font-bold">{language === 'en' ? 'Queen Statues' : '女王雕像'}</p>
                     </div>
                 </div>
-                <p className="text-rose-400 italic">&quot;Happy is the man who has Phyllis before his eyes each day!&quot;</p>
+                <p className="text-rose-400 italic">
+                    {language === 'en'
+                        ? '"Happy is the man who has Phyllis before his eyes each day!"'
+                        : '“每天眼前都有菲利斯的人是幸福的！”'}
+                </p>
             </motion.div>
 
             {/* The Resident View (Faded, Abstract) */}
@@ -62,16 +69,22 @@ export default function Phyllis({ city }: { city: City }) {
                 <div className="text-center max-w-xl">
                     <h1 className="text-6xl font-serif mb-8 text-gray-300">PHYLLIS</h1>
                     <p className="text-2xl text-gray-400 font-light leading-relaxed">
-                        A space in which points are connected by lines... 
+                        {language === 'en'
+                            ? 'A space in which points are connected by lines...'
+                            : '一个由线条连接点的空间……'}
                         <br/><br/>
-                        <span className="text-sm">The city fades. The eyes do not see things but figures of other things that mean other things.</span>
+                        <span className="text-sm">
+                            {language === 'en'
+                                ? 'The city fades. The eyes do not see things but figures of other things that mean other things.'
+                                : '城市褪色了。眼睛看到的不是事物，而是意味着其他事物的其他事物的形象。'}
+                        </span>
                     </p>
                 </div>
             </motion.div>
         </div>
 
         <div className="mt-12 text-center text-rose-400 text-sm animate-pulse">
-            Hover to live in the city
+            {language === 'en' ? 'Hover to live in the city' : '悬停以居住在城市中'}
         </div>
       </div>
     </div>

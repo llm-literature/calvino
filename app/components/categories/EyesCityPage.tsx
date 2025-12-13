@@ -11,6 +11,8 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog'
+import { useLanguage } from '@/app/context/LanguageContext'
+import { getCityTheme } from '@/lib/themes'
 
 interface EyesCityPageProps {
   cities: City[]
@@ -19,6 +21,15 @@ interface EyesCityPageProps {
 
 export default function EyesCityPage({ cities, category }: EyesCityPageProps) {
   const [selectedCity, setSelectedCity] = useState<City | null>(null)
+  const { language } = useLanguage()
+  const theme = getCityTheme(category)
+  const displayCategory = language === 'en' ? theme.label : theme.cnLabel
+
+  const selectedCityDescription = selectedCity
+    ? language === 'en'
+      ? selectedCity.enDescription
+      : selectedCity.cnDescription
+    : ''
 
   // Mouse tracking for "eyes" effect
   const mouseX = useMotionValue(0)
@@ -43,11 +54,13 @@ export default function EyesCityPage({ cities, category }: EyesCityPageProps) {
         >
           <h1 className="font-cinzel flex items-center justify-center gap-4 text-4xl tracking-widest text-emerald-200 uppercase md:text-6xl">
             <Eye className="h-8 w-8" />
-            {category} Cities
+            {displayCategory} {language === 'en' ? 'Cities' : '城市'}
             <Eye className="h-8 w-8" />
           </h1>
           <p className="font-lora mt-4 text-emerald-400/60 italic">
-            The city looks at you as you look at it.
+            {language === 'en'
+              ? 'The city looks at you as you look at it.'
+              : '城市看着你，就像你看着它一样。'}
           </p>
         </motion.div>
 
@@ -68,12 +81,14 @@ export default function EyesCityPage({ cities, category }: EyesCityPageProps) {
         <DialogContent className="max-w-2xl border-emerald-500/30 bg-zinc-900/95 text-zinc-100 backdrop-blur-xl">
           <DialogHeader>
             <DialogTitle className="font-cinzel text-center text-3xl text-emerald-300">
-              {selectedCity?.name}
+              {language === 'en'
+                ? selectedCity?.name
+                : selectedCity?.cnName || selectedCity?.name}
             </DialogTitle>
           </DialogHeader>
           <div className="custom-scrollbar mt-4 max-h-[60vh] overflow-y-auto pr-4">
             <DialogDescription className="font-lora text-lg leading-relaxed whitespace-pre-line text-zinc-300">
-              {selectedCity?.description}
+              {selectedCityDescription}
             </DialogDescription>
           </div>
         </DialogContent>
@@ -93,6 +108,7 @@ function EyeCard({
   mouseY: MotionValue<number>
   onSelect: () => void
 }) {
+  const { language } = useLanguage()
   const cardRef = useRef<HTMLDivElement>(null)
   const [angle, setAngle] = useState(0)
 
@@ -136,7 +152,7 @@ function EyeCard({
             className="font-cinzel px-2 text-center text-xs text-emerald-100 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
             style={{ transform: `rotate(${-angle}deg)` }} // Counter-rotate text
           >
-            {city.name}
+            {language === 'en' ? city.name : city.cnName || city.name}
           </div>
         </div>
       </div>

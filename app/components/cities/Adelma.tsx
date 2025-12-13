@@ -5,8 +5,10 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft, UserX } from 'lucide-react'
 import { useState, useEffect } from 'react'
+import { useLanguage } from '@/app/context/LanguageContext'
 
 export default function Adelma({ city }: { city: City }) {
+  const { language } = useLanguage()
   const [faces, setFaces] = useState<{id: number, x: number, y: number, scale: number, duration: number}[]>([])
 
   useEffect(() => {
@@ -30,7 +32,9 @@ export default function Adelma({ city }: { city: City }) {
       </Link>
 
       <div className="container mx-auto px-4 py-24 min-h-screen flex flex-col items-center justify-center relative">
-        <h1 className="text-6xl font-serif mb-8 text-slate-500 z-20 mix-blend-difference">ADELMA</h1>
+        <h1 className="text-6xl font-serif mb-8 text-slate-500 z-20 mix-blend-difference">
+          {(language === 'en' ? city.name : city.cnName || city.name).toUpperCase()}
+        </h1>
 
         {/* The Crowd of Dead Faces */}
         <div className="absolute inset-0 overflow-hidden">
@@ -50,7 +54,9 @@ export default function Adelma({ city }: { city: City }) {
                     <div className="flex flex-col items-center">
                         <UserX className="w-16 h-16" />
                         <span className="text-xs mt-2 opacity-0 hover:opacity-100 transition-opacity">
-                            {["Father", "Grandmother", "Old Fisherman", "Soldier", "Mad Girl"][face.id % 5]}
+                            {language === 'en'
+                              ? ["Father", "Grandmother", "Old Fisherman", "Soldier", "Mad Girl"][face.id % 5]
+                              : ["父亲", "祖母", "老渔夫", "士兵", "疯女孩"][face.id % 5]}
                         </span>
                     </div>
                 </motion.div>
@@ -59,7 +65,9 @@ export default function Adelma({ city }: { city: City }) {
 
         <div className="relative z-10 max-w-xl text-center bg-black/50 backdrop-blur-md p-8 rounded-2xl border border-slate-800">
             <p className="text-lg leading-relaxed text-slate-400">
-                &quot;You reach a moment in life when, among the people you have known, the dead outnumber the living. And the mind refuses to accept more faces, more expressions...&quot;
+                {language === 'en'
+                  ? '"You reach a moment in life when, among the people you have known, the dead outnumber the living. And the mind refuses to accept more faces, more expressions..."'
+                  : '“你会到达生命的某个时刻，在你认识的人中，死者多于生者。头脑拒绝接受更多的面孔，更多的表情……”'}
             </p>
         </div>
       </div>

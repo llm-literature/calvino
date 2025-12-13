@@ -5,8 +5,9 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft, Flame } from 'lucide-react'
 import { useState, useEffect } from 'react'
+import { useLanguage } from '@/app/context/LanguageContext'
 
-const MEMORIES = [
+const MEMORIES_EN = [
   "A wolf that spoke in riddles",
   "My sister's wedding dress",
   "A treasure buried under the third oak",
@@ -17,19 +18,36 @@ const MEMORIES = [
   "A golden ship sailing on sand",
 ]
 
-const GOODS = [
+const MEMORIES_CN = [
+  "一只说着谜语的狼",
+  "我姐姐的婚纱",
+  "埋在第三棵橡树下的宝藏",
+  "红色黎明的战斗",
+  "治疗疥疮的良药",
+  "从未归来的爱人",
+  "冬风中香料的味道",
+  "在沙上航行的金船",
+]
+
+const GOODS_EN = [
   "Ginger", "Cotton", "Pistachios", "Poppy Seeds", "Nutmeg", "Raisins", "Golden Muslin"
+]
+
+const GOODS_CN = [
+  "生姜", "棉花", "开心果", "罂粟籽", "肉豆蔻", "葡萄干", "金色平纹细布"
 ]
 
 export default function Euphemia({ city }: { city: City }) {
   const [stories, setStories] = useState<{id: number, text: string, x: number, y: number}[]>([])
+  const { language } = useLanguage()
   
   useEffect(() => {
     const interval = setInterval(() => {
       if (stories.length > 10) return
+      const memories = language === 'en' ? MEMORIES_EN : MEMORIES_CN
       const newStory = {
         id: Date.now(),
-        text: MEMORIES[Math.floor(Math.random() * MEMORIES.length)],
+        text: memories[Math.floor(Math.random() * memories.length)],
         x: Math.random() * 80 + 10, // 10-90%
         y: Math.random() * 40 + 10, // 10-50%
       }
@@ -41,7 +59,9 @@ export default function Euphemia({ city }: { city: City }) {
       }, 8000)
     }, 2000)
     return () => clearInterval(interval)
-  }, [stories.length])
+  }, [stories.length, language])
+
+  const goods = language === 'en' ? GOODS_EN : GOODS_CN
 
   return (
     <div className="relative min-h-screen bg-[#0f0a05] text-amber-100 font-serif overflow-hidden selection:bg-amber-900">
@@ -82,15 +102,15 @@ export default function Euphemia({ city }: { city: City }) {
         </div>
 
         <h1 className="text-4xl md:text-6xl font-bold text-amber-500 mb-4 tracking-widest uppercase">Euphemia</h1>
-        <p className="text-amber-800 uppercase tracking-[0.2em] text-sm mb-12">City of Exchanged Memories</p>
+        <p className="text-amber-800 uppercase tracking-[0.2em] text-sm mb-12">{language === 'en' ? 'City of Exchanged Memories' : '交换记忆之城'}</p>
 
         <div className="max-w-2xl px-8 text-center leading-relaxed text-amber-200/80 space-y-6">
             <p>
-                &quot;You do not come to Euphemia only to buy and sell, but also because at night, by the fires all around the market...&quot;
+                {language === 'en' ? '"You do not come to Euphemia only to buy and sell, but also because at night, by the fires all around the market..."' : '“你来欧菲米亚不只是为了买卖，还因为在晚上，在市场周围的篝火旁……”'}
             </p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs text-amber-700 uppercase tracking-widest mt-8 border-t border-amber-900/30 pt-8">
-                {GOODS.map((good, i) => (
-                    <div key={i} className="p-2 border border-amber-900/20 rounded hover:bg-amber-900/10 transition-colors cursor-help" title="Trade for a memory">
+                {goods.map((good, i) => (
+                    <div key={i} className="p-2 border border-amber-900/20 rounded hover:bg-amber-900/10 transition-colors cursor-help" title={language === 'en' ? "Trade for a memory" : "交换记忆"}>
                         {good}
                     </div>
                 ))}

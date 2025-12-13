@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { ArrowLeft, Ruler } from 'lucide-react'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
+import { useLanguage } from '@/app/context/LanguageContext'
 
 type MemoryPoint = {
   id: string
@@ -15,7 +16,7 @@ type MemoryPoint = {
   position: { top: string; left: string }
 }
 
-const memories: MemoryPoint[] = [
+const MEMORIES_EN: MemoryPoint[] = [
   {
     id: 'lamppost',
     label: 'Lamppost',
@@ -60,8 +61,55 @@ const memories: MemoryPoint[] = [
   },
 ]
 
+const MEMORIES_CN: MemoryPoint[] = [
+  {
+    id: 'lamppost',
+    label: '灯柱',
+    measurement: '高度：4.2米',
+    memory: '被绞死的篡位者摇晃的双脚离地面的距离。',
+    position: { top: '30%', left: '20%' },
+  },
+  {
+    id: 'cord',
+    label: '绳索',
+    measurement: '长度：12米',
+    memory: '为女王婚礼游行装饰的绳索。',
+    position: { top: '35%', left: '45%' },
+  },
+  {
+    id: 'railing',
+    label: '栏杆',
+    measurement: '高度：1.1米',
+    memory: '通奸者如何在黎明时分爬过它。',
+    position: { top: '50%', left: '60%' },
+  },
+  {
+    id: 'guttering',
+    label: '排水沟',
+    measurement: '倾斜：15度',
+    memory: '一只猫沿着它溜进窗户。',
+    position: { top: '20%', left: '70%' },
+  },
+  {
+    id: 'gunboat',
+    label: '炮艇',
+    measurement: '射程：1200米',
+    memory: '摧毁排水沟的炮击。',
+    position: { top: '10%', left: '80%' },
+  },
+  {
+    id: 'fishnet',
+    label: '渔网',
+    measurement: '破洞大小：8厘米',
+    memory: '三个老人补网，重述篡位者的故事。',
+    position: { top: '70%', left: '30%' },
+  },
+]
+
 export default function Zaira({ city }: { city: City }) {
+  const { language } = useLanguage()
   const [activeMemory, setActiveMemory] = useState<string | null>(null)
+  const memories = language === 'en' ? MEMORIES_EN : MEMORIES_CN
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-stone-900 font-serif text-stone-200">
@@ -90,7 +138,9 @@ export default function Zaira({ city }: { city: City }) {
           <h1 className="mb-4 text-6xl font-bold tracking-widest text-stone-100 md:text-8xl">
             ZAIRA
           </h1>
-          <p className="text-xl text-stone-400 italic">The City of High Bastions</p>
+          <p className="text-xl text-stone-400 italic">
+            {language === 'en' ? 'The City of High Bastions' : '高堡之城'}
+          </p>
         </motion.div>
 
         <div className="relative aspect-video w-full max-w-4xl rounded-xl border border-stone-700 bg-stone-800/30 p-8 shadow-2xl backdrop-blur-sm">

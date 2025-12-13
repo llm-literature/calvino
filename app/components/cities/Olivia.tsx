@@ -7,7 +7,10 @@ import { ArrowLeft, Sparkles, Settings } from 'lucide-react'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
 
+import { useLanguage } from '@/app/context/LanguageContext'
+
 export default function Olivia({ city }: { city: City }) {
+  const { language } = useLanguage()
   const [viewMode, setViewMode] = useState<'rich' | 'gritty'>('rich')
 
   return (
@@ -49,12 +52,20 @@ export default function Olivia({ city }: { city: City }) {
                 >
                     <h1 className="text-6xl font-serif text-emerald-400 mb-8">OLIVIA</h1>
                     <p className="text-2xl italic text-emerald-200/80 leading-relaxed mb-12">
-                        &quot;I must speak to you of filigree palaces, somersaulting peacocks, and the glint of gold...&quot;
+                        {language === 'en'
+                            ? '"I must speak to you of filigree palaces, somersaulting peacocks, and the glint of gold..."'
+                            : '“我必须向你讲述金银丝宫殿、翻筋斗的孔雀和金色的闪光……”'}
                     </p>
                     <div className="grid grid-cols-3 gap-8 opacity-50">
-                        <div className="h-32 border border-emerald-500/30 rounded-lg flex items-center justify-center">Palaces</div>
-                        <div className="h-32 border border-emerald-500/30 rounded-lg flex items-center justify-center">Peacocks</div>
-                        <div className="h-32 border border-emerald-500/30 rounded-lg flex items-center justify-center">Gardens</div>
+                        <div className="h-32 border border-emerald-500/30 rounded-lg flex items-center justify-center">
+                            {language === 'en' ? 'Palaces' : '宫殿'}
+                        </div>
+                        <div className="h-32 border border-emerald-500/30 rounded-lg flex items-center justify-center">
+                            {language === 'en' ? 'Peacocks' : '孔雀'}
+                        </div>
+                        <div className="h-32 border border-emerald-500/30 rounded-lg flex items-center justify-center">
+                            {language === 'en' ? 'Gardens' : '花园'}
+                        </div>
                     </div>
                 </motion.div>
             ) : (
@@ -67,19 +78,29 @@ export default function Olivia({ city }: { city: City }) {
                 >
                     <h1 className="text-6xl font-mono font-bold text-neutral-500 mb-8 tracking-tighter">OLIVIA</h1>
                     <p className="text-xl font-mono text-neutral-500 leading-relaxed mb-12">
-                        &quot;...soot and grime, the creaking of wheels, the smell of leather, the repetitive motion of gears.&quot;
+                        {language === 'en'
+                            ? '"...soot and grime, the creaking of wheels, the smell of leather, the repetitive motion of gears."'
+                            : '“……煤烟和污垢，车轮的嘎吱声，皮革的气味，齿轮的重复运动。”'}
                     </p>
                     <div className="grid grid-cols-3 gap-8 opacity-50 font-mono text-sm">
-                        <div className="h-32 border border-neutral-700 bg-neutral-800/50 rounded flex items-center justify-center">SMOKE</div>
-                        <div className="h-32 border border-neutral-700 bg-neutral-800/50 rounded flex items-center justify-center">GEARS</div>
-                        <div className="h-32 border border-neutral-700 bg-neutral-800/50 rounded flex items-center justify-center">NOISE</div>
+                        <div className="h-32 border border-neutral-700 bg-neutral-800/50 rounded flex items-center justify-center">
+                            {language === 'en' ? 'SMOKE' : '烟雾'}
+                        </div>
+                        <div className="h-32 border border-neutral-700 bg-neutral-800/50 rounded flex items-center justify-center">
+                            {language === 'en' ? 'GEARS' : '齿轮'}
+                        </div>
+                        <div className="h-32 border border-neutral-700 bg-neutral-800/50 rounded flex items-center justify-center">
+                            {language === 'en' ? 'NOISE' : '噪音'}
+                        </div>
                     </div>
                 </motion.div>
             )}
         </AnimatePresence>
 
         <div className="mt-24 text-sm opacity-50 max-w-md mx-auto">
-            &quot;Falsehood is never in words; it is in things.&quot;
+            {language === 'en'
+                ? '"Falsehood is never in words; it is in things."'
+                : '“虚假从来不在言语中，而是在事物中。”'}
         </div>
       </div>
     </div>

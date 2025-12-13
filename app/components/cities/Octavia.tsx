@@ -6,7 +6,10 @@ import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
+import { useLanguage } from '@/app/context/LanguageContext'
+
 export default function Octavia({ city }: { city: City }) {
+  const { language } = useLanguage()
   const [hangingItems, setHangingItems] = useState<Array<{
     name: string;
     ropeHeight: number;
@@ -16,9 +19,12 @@ export default function Octavia({ city }: { city: City }) {
   }>>([])
 
   useEffect(() => {
-    const items = [
+    const items = language === 'en' ? [
         "Rope Ladder", "Hammock", "Sack House", "Clothesline", "Terrace", 
         "Water Skin", "Gas Jet", "Shower", "Trapeze", "Ring"
+    ] : [
+        "绳梯", "吊床", "麻袋屋", "晾衣绳", "露台",
+        "水袋", "煤气喷嘴", "淋浴", "秋千", "吊环"
     ]
     
     setHangingItems(items.map(name => ({
@@ -28,7 +34,7 @@ export default function Octavia({ city }: { city: City }) {
         duration: 3 + Math.random() * 2,
         delay: Math.random()
     })))
-  }, [])
+  }, [language])
 
   return (
     <div className="relative min-h-screen bg-slate-900 text-slate-100 font-sans overflow-hidden selection:bg-slate-700">
@@ -79,7 +85,9 @@ export default function Octavia({ city }: { city: City }) {
         <div className="mt-auto mb-24 text-center max-w-xl">
             <h1 className="text-6xl font-thin tracking-[0.2em] mb-8 text-slate-200">OCTAVIA</h1>
             <p className="text-slate-400 leading-relaxed italic">
-                &quot;Suspended over the abyss, the life of Octavia&apos;s inhabitants is less uncertain than in other cities. They know the net will last only so long.&quot;
+                {language === 'en'
+                    ? '"Suspended over the abyss, the life of Octavia\'s inhabitants is less uncertain than in other cities. They know the net will last only so long."'
+                    : '“悬在深渊之上，奥克塔维亚居民的生活并不比其他城市更不确定。他们知道这张网只能支撑这么久。”'}
             </p>
         </div>
       </div>

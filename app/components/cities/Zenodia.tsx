@@ -5,8 +5,12 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { useRef } from 'react'
+import { useLanguage } from '@/app/context/LanguageContext'
 
 export default function Zenodia({ city }: { city: City }) {
+  const { language } = useLanguage()
+  const displayDescription = language === 'en' ? city.enDescription : city.cnDescription
+
   const containerRef = useRef(null)
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -49,24 +53,32 @@ export default function Zenodia({ city }: { city: City }) {
             <div className="space-y-32 pt-24">
                 <motion.div style={{ y: y2 }} className="bg-[#f4e4bc] p-8 rounded shadow-xl border-l-4 border-[#8b7355] relative">
                     <div className="absolute -left-4 top-0 bottom-0 w-1 bg-[#8b7355] opacity-50" />
-                    <h2 className="text-2xl font-bold mb-4 uppercase tracking-widest text-[#8b7355]">High Pilings</h2>
+                    <h2 className="text-2xl font-bold mb-4 uppercase tracking-widest text-[#8b7355]">
+                        {language === 'en' ? 'High Pilings' : '高桩'}
+                    </h2>
                     <p className="text-lg leading-relaxed italic">
-                        &quot;Zenodia... though set in dry terrain it stands on high pilings...&quot;
+                        {language === 'en'
+                            ? '"Zenodia... though set in dry terrain it stands on high pilings..."'
+                            : '“芝诺迪亚……虽然位于干燥的地形上，但它矗立在高高的桩子上……”'}
                     </p>
                 </motion.div>
 
                 <motion.div style={{ y: y3 }} className="bg-[#f4e4bc] p-8 rounded shadow-xl border-l-4 border-[#8b7355] ml-12 relative">
                     <div className="absolute -left-16 top-0 bottom-0 w-1 bg-[#8b7355] opacity-50" />
-                    <h2 className="text-2xl font-bold mb-4 uppercase tracking-widest text-[#8b7355]">Bamboo & Zinc</h2>
+                    <h2 className="text-2xl font-bold mb-4 uppercase tracking-widest text-[#8b7355]">
+                        {language === 'en' ? 'Bamboo & Zinc' : '竹子和锌'}
+                    </h2>
                     <p className="text-lg leading-relaxed italic">
-                        &quot;The houses are of bamboo and zinc, with many platforms and balconies placed on stilts at various heights...&quot;
+                        {language === 'en'
+                            ? '"The houses are of bamboo and zinc, with many platforms and balconies placed on stilts at various heights..."'
+                            : '“房子是用竹子和锌做的，有许多平台和阳台，放置在不同高度的支柱上……”'}
                     </p>
                 </motion.div>
             </div>
 
             <div className="space-y-12 pt-48 md:pt-96">
                  <div className="prose prose-lg prose-stone bg-white/50 p-8 rounded-lg backdrop-blur-sm shadow-sm">
-                    {city.description.split('\n').map((p, i) => (
+                    {displayDescription.split('\n').map((p, i) => (
                         <p key={i}>{p}</p>
                     ))}
                  </div>

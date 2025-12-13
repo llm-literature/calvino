@@ -5,8 +5,10 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft, Shovel } from 'lucide-react'
 import { useState, useEffect } from 'react'
+import { useLanguage } from '@/app/context/LanguageContext'
 
 export default function Argia({ city }: { city: City }) {
+  const { language } = useLanguage()
   const [dirtLevel, setDirtLevel] = useState(100)
   const [particles, setParticles] = useState<{x: number, y: number}[]>([])
 
@@ -33,9 +35,11 @@ export default function Argia({ city }: { city: City }) {
             {/* The Buried City */}
             <div className="absolute inset-0 flex items-center justify-center p-12">
                 <div className="text-center">
-                    <h1 className="text-6xl font-serif text-stone-500 mb-8">ARGIA</h1>
+                    <h1 className="text-6xl font-serif text-stone-500 mb-8">{language === 'en' ? 'ARGIA' : city.cnName}</h1>
                     <p className="text-stone-600 mb-4">
-                        &quot;What makes Argia different from other cities is that it has earth instead of air.&quot;
+                        {language === 'en' 
+                          ? '"What makes Argia different from other cities is that it has earth instead of air."'
+                          : '"阿尔吉亚与其他城市的不同之处在于，它拥有的是泥土而不是空气。"'}
                     </p>
                     <div className="grid grid-cols-3 gap-4 opacity-30">
                         <div className="h-20 bg-stone-600 rounded" />
@@ -82,7 +86,7 @@ export default function Argia({ city }: { city: City }) {
             onClick={() => setDirtLevel(100)}
             className="mt-8 text-stone-500 hover:text-stone-300 transition-colors text-sm"
         >
-            Reset Earth
+            {language === 'en' ? 'Reset Earth' : '重置泥土'}
         </button>
 
       </div>

@@ -3,8 +3,13 @@
 import { CategoryPageProps, City } from '@/lib/types'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import { useLanguage } from '@/app/context/LanguageContext'
+import { getCityTheme } from '@/lib/themes'
 
 export default function TradingCityPage({ cities, category }: CategoryPageProps) {
+  const { language } = useLanguage()
+  const theme = getCityTheme(category)
+  const displayCategory = language === 'en' ? theme.label : theme.cnLabel
   // We can't easily do horizontal scroll with just CSS in Next.js without some setup,
   // but we can use a simple flex container with overflow-x-auto.
 
@@ -13,11 +18,15 @@ export default function TradingCityPage({ cities, category }: CategoryPageProps)
       <div className="z-10 flex items-end justify-between border-b border-amber-900/30 bg-[#0f172a] p-8">
         <div>
           <h1 className="font-display text-4xl font-bold tracking-tighter text-amber-500/90 uppercase md:text-6xl">
-            {category}
+            {displayCategory}
           </h1>
-          <p className="mt-2 font-mono text-xs text-amber-500/50">EXCHANGE • BARTER • COMMERCE</p>
+          <p className="mt-2 font-mono text-xs text-amber-500/50">
+            {language === 'en' ? 'EXCHANGE • BARTER • COMMERCE' : '交换 • 易货 • 贸易'}
+          </p>
         </div>
-        <div className="animate-pulse font-mono text-xs text-amber-500/30">SCROLL RIGHT &rarr;</div>
+        <div className="animate-pulse font-mono text-xs text-amber-500/30">
+          {language === 'en' ? 'SCROLL RIGHT →' : '向右滑动 →'}
+        </div>
       </div>
 
       <div
@@ -34,7 +43,7 @@ export default function TradingCityPage({ cities, category }: CategoryPageProps)
         {/* Outro Spacer */}
         <div className="flex w-32 flex-shrink-0 items-center justify-center opacity-30">
           <span className="writing-vertical-rl font-mono text-xs tracking-widest text-amber-900">
-            END OF ROUTE
+            {language === 'en' ? 'END OF ROUTE' : '路线终点'}
           </span>
         </div>
       </div>
@@ -46,6 +55,10 @@ export default function TradingCityPage({ cities, category }: CategoryPageProps)
 }
 
 function TradingCard({ city, index }: { city: City; index: number }) {
+  const { language } = useLanguage()
+  const displayDescription =
+    language === 'en' ? city.enDescription : city.cnDescription
+
   return (
     <motion.div
       className="group relative h-[60vh] w-[85vw] flex-shrink-0 snap-center md:w-[400px]"
@@ -66,23 +79,27 @@ function TradingCard({ city, index }: { city: City; index: number }) {
               </div>
               <div className="text-right">
                 <h2 className="mb-1 text-3xl font-bold tracking-wide text-amber-100 uppercase">
-                  {city.name}
+                  {language === 'en' ? city.name : city.cnName || city.name}
                 </h2>
-                <span className="font-mono text-[10px] text-amber-500/60">TRADING POST</span>
+                <span className="font-mono text-[10px] text-amber-500/60">
+                  {language === 'en' ? 'TRADING POST' : '贸易站'}
+                </span>
               </div>
             </div>
 
             <div className="relative flex-1 overflow-hidden">
               <p className="line-clamp-[10] font-serif text-sm leading-relaxed text-amber-200/80 md:text-base">
-                {city.description}
+                {displayDescription}
               </p>
               <div className="absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-[#1e293b] to-transparent" />
             </div>
 
             <div className="mt-6 flex items-center justify-between border-t border-amber-500/10 pt-6">
-              <span className="font-mono text-xs text-amber-500/40">VALUE: MEMORY</span>
+              <span className="font-mono text-xs text-amber-500/40">
+                {language === 'en' ? 'VALUE: MEMORY' : '价值：记忆'}
+              </span>
               <span className="text-sm font-bold text-amber-500 transition-transform group-hover:translate-x-2">
-                ENTER &rarr;
+                {language === 'en' ? 'ENTER →' : '进入 →'}
               </span>
             </div>
           </div>

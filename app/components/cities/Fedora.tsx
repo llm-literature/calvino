@@ -5,8 +5,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Globe, X, Box, Layers, Grid, Hexagon, ArrowLeft } from 'lucide-react'
 import { City } from '@/lib/types'
 import Link from 'next/link'
+import { useLanguage } from '@/app/context/LanguageContext'
 
-const POSSIBLE_CITIES = [
+const POSSIBLE_CITIES_EN = [
   {
     id: 1,
     icon: Box,
@@ -45,8 +46,49 @@ const POSSIBLE_CITIES = [
   },
 ]
 
+const POSSIBLE_CITIES_CN = [
+  {
+    id: 1,
+    icon: Box,
+    title: '立方体之城',
+    desc: '一座拥有完美几何秩序的城市，每条街道都是直线，每座建筑都是立方体。',
+  },
+  {
+    id: 2,
+    icon: Layers,
+    title: '分层之城',
+    desc: '分层建造，富人住在云端，穷人住在根部。',
+  },
+  {
+    id: 3,
+    icon: Grid,
+    title: '矩阵之城',
+    desc: '一座纯信息的城市，仅作为晶格中的光脉冲存在。',
+  },
+  {
+    id: 4,
+    icon: Hexagon,
+    title: '蜂巢之城',
+    desc: '有机且共享，个体家庭融合成一个单一的生命体。',
+  },
+  {
+    id: 5,
+    icon: Globe,
+    title: '漂浮之城',
+    desc: '由气球悬挂，随风漂流。',
+  },
+  {
+    id: 6,
+    icon: Box,
+    title: '玻璃之城',
+    desc: '透明的墙壁确保邻居之间没有秘密。',
+  },
+]
+
 export default function Fedora({ city }: { city: City }) {
   const [selectedId, setSelectedId] = useState<number | null>(null)
+  const { language } = useLanguage()
+  const possibleCities = language === 'en' ? POSSIBLE_CITIES_EN : POSSIBLE_CITIES_CN
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-slate-950 p-8 font-sans text-slate-200">
@@ -62,12 +104,12 @@ export default function Fedora({ city }: { city: City }) {
       <header className="relative z-10 mb-16 pt-8 text-center">
         <h1 className="mb-4 text-5xl font-thin tracking-[0.5em] text-blue-200">FEDORA</h1>
         <p className="text-sm tracking-widest text-blue-400/60 uppercase">
-          The Museum of Possibilities
+          {language === 'en' ? 'The Museum of Possibilities' : '可能性博物馆'}
         </p>
       </header>
 
       <div className="relative z-10 mx-auto grid max-w-5xl grid-cols-1 gap-12 sm:grid-cols-2 md:grid-cols-3">
-        {POSSIBLE_CITIES.map((city) => (
+        {possibleCities.map((city) => (
           <motion.div
             key={city.id}
             layoutId={`card-${city.id}`}
@@ -87,7 +129,7 @@ export default function Fedora({ city }: { city: City }) {
             </div>
 
             <h3 className="text-lg font-light text-blue-100/80 transition-colors group-hover:text-white">
-              Model #{city.id}
+              {language === 'en' ? `Model #${city.id}` : `模型 #${city.id}`}
             </h3>
           </motion.div>
         ))}
@@ -117,27 +159,26 @@ export default function Fedora({ city }: { city: City }) {
                 <div className="mb-6 flex items-center gap-4">
                   <div className="rounded-xl border border-blue-800 bg-blue-950 p-4">
                     {React.createElement(
-                      POSSIBLE_CITIES.find((c) => c.id === selectedId)?.icon || Box,
+                      possibleCities.find((c) => c.id === selectedId)?.icon || Box,
                       { className: 'w-8 h-8 text-blue-400' }
                     )}
                   </div>
                   <div>
                     <h2 className="text-2xl font-bold text-white">
-                      {POSSIBLE_CITIES.find((c) => c.id === selectedId)?.title}
+                      {possibleCities.find((c) => c.id === selectedId)?.title}
                     </h2>
                     <span className="text-xs tracking-wider text-blue-500 uppercase">
-                      Ideal Form
+                      {language === 'en' ? 'Ideal Form' : '理想形态'}
                     </span>
                   </div>
                 </div>
 
                 <p className="mb-8 leading-relaxed text-blue-200/80">
-                  {POSSIBLE_CITIES.find((c) => c.id === selectedId)?.desc}
+                  {possibleCities.find((c) => c.id === selectedId)?.desc}
                 </p>
 
                 <div className="rounded-lg border border-blue-900/50 bg-blue-950/30 p-4 text-sm text-blue-400 italic">
-                  &quot;On the map of your empire, O Great Khan, there must be room both for the big,
-                  stone Fedora and the little Fedoras in glass globes.&quot;
+                  {language === 'en' ? '"On the map of your empire, O Great Khan, there must be room both for the big, stone Fedora and the little Fedoras in glass globes."' : '“大汗啊，在你的帝国地图上，必须既有巨大的石头费多拉，也有玻璃球里的小费多拉。”'}
                 </div>
               </div>
             </motion.div>
@@ -146,7 +187,7 @@ export default function Fedora({ city }: { city: City }) {
       </AnimatePresence>
 
       <footer className="absolute right-0 bottom-8 left-0 text-center text-sm text-slate-600">
-        Click a sphere to peer into a possible future
+        {language === 'en' ? 'Click a sphere to peer into a possible future' : '点击球体窥视可能的未来'}
       </footer>
     </div>
   )

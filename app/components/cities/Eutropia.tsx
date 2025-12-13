@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { ArrowLeft, RefreshCw, User } from 'lucide-react'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
+import { useLanguage } from '@/app/context/LanguageContext'
 
 const SUB_CITIES = [
   { name: 'Alpha', color: 'bg-red-500' },
@@ -19,6 +20,7 @@ const SUB_CITIES = [
 export default function Eutropia({ city }: { city: City }) {
   const [activeCityIndex, setActiveCityIndex] = useState(0)
   const [isMoving, setIsMoving] = useState(false)
+  const { language } = useLanguage()
 
   const handleMove = (index: number) => {
     if (index === activeCityIndex || isMoving) return
@@ -41,7 +43,7 @@ export default function Eutropia({ city }: { city: City }) {
       <div className="container mx-auto px-4 py-24 flex flex-col items-center justify-center min-h-screen">
         <header className="text-center mb-16">
             <h1 className="text-5xl font-bold text-neutral-900 mb-4">EUTROPIA</h1>
-            <p className="text-neutral-500 uppercase tracking-widest">The City of Multiple Cities</p>
+            <p className="text-neutral-500 uppercase tracking-widest">{language === 'en' ? 'The City of Multiple Cities' : '多重城市之城'}</p>
         </header>
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-8 w-full max-w-4xl">
@@ -75,7 +77,7 @@ export default function Eutropia({ city }: { city: City }) {
                             >
                                 <div className="bg-white/80 backdrop-blur px-4 py-2 rounded-full shadow-lg flex items-center gap-2">
                                     <User className="w-4 h-4" />
-                                    <span className="text-xs font-bold uppercase">Inhabited</span>
+                                    <span className="text-xs font-bold uppercase">{language === 'en' ? 'Inhabited' : '已居住'}</span>
                                 </div>
                             </motion.div>
                         )}
@@ -85,7 +87,7 @@ export default function Eutropia({ city }: { city: City }) {
                             <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/10">
                                 <div className="bg-white px-4 py-2 rounded-full shadow-lg flex items-center gap-2 text-xs font-bold uppercase">
                                     <RefreshCw className="w-4 h-4" />
-                                    Move Here
+                                    {language === 'en' ? 'Move Here' : '搬到这里'}
                                 </div>
                             </div>
                         )}
@@ -95,7 +97,7 @@ export default function Eutropia({ city }: { city: City }) {
         </div>
 
         <div className="mt-16 max-w-2xl text-center text-neutral-500 italic">
-            &quot;When the inhabitants of Eutropia feel the grip of weariness... they decide to move to the next city, which is there waiting for them, empty and good as new.&quot;
+            {language === 'en' ? '"When the inhabitants of Eutropia feel the grip of weariness... they decide to move to the next city, which is there waiting for them, empty and good as new."' : '“当欧特罗皮亚的居民感到厌倦时……他们决定搬到下一个城市，那里正空着等待他们，焕然一新。”'}
         </div>
       </div>
     </div>

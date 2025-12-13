@@ -5,8 +5,10 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { useState, useEffect } from 'react'
+import { useLanguage } from '@/app/context/LanguageContext'
 
 export default function Cecilia({ city }: { city: City }) {
+  const { language } = useLanguage()
   const [grid, setGrid] = useState<string[]>([])
 
   useEffect(() => {
@@ -23,7 +25,7 @@ export default function Cecilia({ city }: { city: City }) {
       </Link>
 
       <div className="container mx-auto px-4 py-24 min-h-screen flex flex-col items-center justify-center">
-        <h1 className="text-6xl font-bold mb-8 text-stone-600">CECILIA</h1>
+        <h1 className="text-6xl font-bold mb-8 text-stone-600">{language === 'en' ? 'CECILIA' : city.cnName}</h1>
 
         <div className="grid grid-cols-5 gap-2 p-4 bg-white rounded-xl shadow-xl">
             {grid.map((type, i) => (
@@ -40,7 +42,9 @@ export default function Cecilia({ city }: { city: City }) {
                     }}
                 >
                     <span className="text-xs font-bold opacity-50">
-                        {type === 'city' ? 'Buildings' : 'Goats'}
+                        {type === 'city' 
+                          ? (language === 'en' ? 'Buildings' : '建筑') 
+                          : (language === 'en' ? 'Goats' : '山羊')}
                     </span>
                 </motion.div>
             ))}
@@ -48,10 +52,12 @@ export default function Cecilia({ city }: { city: City }) {
 
         <div className="mt-12 max-w-xl text-center text-stone-500">
             <p className="italic mb-4">
-                &quot;I have been wandering for days among the streets of Cecilia... I cannot distinguish the city from the pastures.&quot;
+                {language === 'en' 
+                  ? '"I have been wandering for days among the streets of Cecilia... I cannot distinguish the city from the pastures."'
+                  : '"我在切奇利亚的街道上徘徊了几天……我分不清城市和牧场。"'}
             </p>
             <p className="text-sm">
-                Places have mingled. There is no inside or outside.
+                {language === 'en' ? 'Places have mingled. There is no inside or outside.' : '地方混杂在一起。没有里面或外面。'}
             </p>
         </div>
 

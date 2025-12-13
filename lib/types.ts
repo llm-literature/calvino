@@ -1,7 +1,9 @@
 export interface City {
   type: string
   name: string
-  description: string
+  cnName: string
+  cnDescription: string
+  enDescription: string
 }
 
 export interface CategoryPageProps {

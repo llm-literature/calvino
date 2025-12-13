@@ -7,6 +7,7 @@ import data from '@/public/city/data.json'
 import { getCityTheme } from '@/lib/themes'
 import { cn } from '@/lib/utils'
 import { Sparkles, Wind, Eye, Scroll, Map, Box, Cloud, Activity, Ghost, Lock } from 'lucide-react'
+import { useLanguage } from '@/app/context/LanguageContext'
 
 // Map icons to city types
 const TYPE_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -30,6 +31,7 @@ const getBgColor = (bgClass: string) => {
 }
 
 export default function CityCategoriesPage() {
+  const { language } = useLanguage()
   const [activeType, setActiveType] = useState<string | null>(null)
 
   // Extract unique city types
@@ -129,7 +131,7 @@ export default function CityCategoriesPage() {
                       )}
                     />
                     <h2 className="font-display text-xl tracking-widest whitespace-nowrap text-white/70 uppercase md:text-2xl md:[writing-mode:vertical-rl]">
-                      {theme.label}
+                      {language === 'en' ? theme.label : theme.cnLabel}
                     </h2>
                   </div>
                 </div>
@@ -166,7 +168,7 @@ export default function CityCategoriesPage() {
                         theme.colors.text
                       )}
                     >
-                      {theme.label}
+                      {language === 'en' ? theme.label : theme.cnLabel}
                     </h2>
 
                     <p

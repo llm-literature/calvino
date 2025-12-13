@@ -11,6 +11,8 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog'
+import { useLanguage } from '@/app/context/LanguageContext'
+import { getCityTheme } from '@/lib/themes'
 
 interface HiddenCityPageProps {
   cities: City[]
@@ -19,6 +21,15 @@ interface HiddenCityPageProps {
 
 export default function HiddenCityPage({ cities, category }: HiddenCityPageProps) {
   const [selectedCity, setSelectedCity] = useState<City | null>(null)
+  const { language } = useLanguage()
+  const theme = getCityTheme(category)
+  const displayCategory = language === 'en' ? theme.label : theme.cnLabel
+
+  const selectedCityDescription = selectedCity
+    ? language === 'en'
+      ? selectedCity.enDescription
+      : selectedCity.cnDescription
+    : ''
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-stone-900 font-serif text-stone-100 selection:bg-orange-500/30">
@@ -30,11 +41,13 @@ export default function HiddenCityPage({ cities, category }: HiddenCityPageProps
         >
           <h1 className="font-cinzel flex items-center justify-center gap-4 text-4xl tracking-widest text-stone-200 uppercase md:text-6xl">
             <VenetianMask className="h-8 w-8" />
-            {category} Cities
+            {displayCategory} {language === 'en' ? 'Cities' : '城市'}
             <VenetianMask className="h-8 w-8" />
           </h1>
           <p className="font-lora mt-4 text-stone-400/60 italic">
-            The city is hidden inside another city.
+            {language === 'en'
+              ? 'The city is hidden inside another city.'
+              : '城市隐藏在另一座城市之中。'}
           </p>
         </motion.div>
 
@@ -49,12 +62,14 @@ export default function HiddenCityPage({ cities, category }: HiddenCityPageProps
         <DialogContent className="max-w-2xl border-stone-700 bg-stone-900/95 text-stone-100 backdrop-blur-xl">
           <DialogHeader>
             <DialogTitle className="font-cinzel text-center text-3xl text-orange-300">
-              {selectedCity?.name}
+              {language === 'en'
+                ? selectedCity?.name
+                : selectedCity?.cnName || selectedCity?.name}
             </DialogTitle>
           </DialogHeader>
           <div className="custom-scrollbar mt-4 max-h-[60vh] overflow-y-auto pr-4">
             <DialogDescription className="font-lora text-lg leading-relaxed whitespace-pre-line text-stone-300">
-              {selectedCity?.description}
+              {selectedCityDescription}
             </DialogDescription>
           </div>
         </DialogContent>
@@ -65,6 +80,9 @@ export default function HiddenCityPage({ cities, category }: HiddenCityPageProps
 
 function HiddenCityCard({ city, onSelect }: { city: City; onSelect: () => void }) {
   const [isHovered, setIsHovered] = useState(false)
+  const { language } = useLanguage()
+  const displayDescription =
+    language === 'en' ? city.enDescription : city.cnDescription
 
   return (
     <motion.div
@@ -82,8 +100,12 @@ function HiddenCityCard({ city, onSelect }: { city: City; onSelect: () => void }
       >
         <div className="p-6 text-center">
           <VenetianMask className="mx-auto mb-4 h-16 w-16 text-stone-600" />
-          <h3 className="font-cinzel text-2xl text-stone-500">A City</h3>
-          <p className="mt-2 text-sm text-stone-600">Hover to reveal the hidden essence</p>
+          <h3 className="font-cinzel text-2xl text-stone-500">
+            {language === 'en' ? 'A City' : '一座城市'}
+          </h3>
+          <p className="mt-2 text-sm text-stone-600">
+            {language === 'en' ? 'Hover to reveal the hidden essence' : '悬停以揭示隐藏的本质'}
+          </p>
         </div>
         {/* Pattern overlay */}
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay" />
@@ -91,10 +113,12 @@ function HiddenCityCard({ city, onSelect }: { city: City; onSelect: () => void }
 
       {/* The "Inner" City (The Truth) */}
       <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-gradient-to-br from-orange-900 to-stone-900 p-6 text-center">
-        <h3 className="font-cinzel mb-2 text-3xl text-orange-200">{city.name}</h3>
-        <p className="font-lora line-clamp-4 text-sm text-orange-100/70">{city.description}</p>
+        <h3 className="font-cinzel mb-2 text-3xl text-orange-200">
+          {language === 'en' ? city.name : city.cnName || city.name}
+        </h3>
+        <p className="font-lora line-clamp-4 text-sm text-orange-100/70">{displayDescription}</p>
         <span className="mt-4 rounded border border-orange-400/30 px-3 py-1 text-xs tracking-widest text-orange-400 uppercase">
-          Click to Read
+          {language === 'en' ? 'Click to Read' : '点击阅读'}
         </span>
       </div>
     </motion.div>

@@ -7,7 +7,10 @@ import { ArrowLeft, RefreshCw } from 'lucide-react'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
 
+import { useLanguage } from '@/app/context/LanguageContext'
+
 export default function Moriana({ city }: { city: City }) {
+  const { language } = useLanguage()
   const [face, setFace] = useState<'glass' | 'rust'>('glass')
 
   return (
@@ -59,7 +62,9 @@ export default function Moriana({ city }: { city: City }) {
                     <div className="bg-sky-200/50 rounded-xl animate-pulse delay-100" />
                     <div className="bg-sky-200/50 rounded-xl animate-pulse delay-200" />
                     <div className="col-span-3 bg-sky-100/50 rounded-xl flex items-center justify-center text-sky-700 text-xl font-light">
-                        &quot;Alabaster gates transparent in the sunlight...&quot;
+                        {language === 'en'
+                            ? '"Alabaster gates transparent in the sunlight..."'
+                            : '“阳光下透明的雪花石膏大门……”'}
                     </div>
                 </div>
             </motion.div>
@@ -80,7 +85,9 @@ export default function Moriana({ city }: { city: City }) {
                     <div className="bg-orange-900/50 rounded-xl border border-orange-800" />
                     <div className="bg-orange-900/50 rounded-xl border border-orange-800" />
                     <div className="col-span-3 bg-black/50 rounded-xl flex items-center justify-center text-orange-500 text-xl font-mono border border-orange-900">
-                        &quot;Rusted signs... piles of tin cans... soot-covered walls...&quot;
+                        {language === 'en'
+                            ? '"Rusted signs... piles of tin cans... soot-covered walls..."'
+                            : '“生锈的标志……成堆的锡罐……覆盖着煤烟的墙壁……”'}
                     </div>
                 </div>
             </motion.div>
@@ -88,7 +95,9 @@ export default function Moriana({ city }: { city: City }) {
         </div>
 
         <p className="mt-12 text-center opacity-60 max-w-lg">
-            Moriana has no thickness; it consists only of a face and an obverse, like a sheet of paper, with a figure on either side.
+            {language === 'en'
+                ? 'Moriana has no thickness; it consists only of a face and an obverse, like a sheet of paper, with a figure on either side.'
+                : '莫里亚纳没有厚度；它只有正面和反面，就像一张纸，两面都有图案。'}
         </p>
 
       </div>

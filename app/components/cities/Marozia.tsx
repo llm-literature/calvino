@@ -6,7 +6,10 @@ import Link from 'next/link'
 import { ArrowLeft, Rat, Bird } from 'lucide-react'
 import { useState } from 'react'
 
+import { useLanguage } from '@/app/context/LanguageContext'
+
 export default function Marozia({ city }: { city: City }) {
+  const { language } = useLanguage()
   const [state, setState] = useState<'rat' | 'swallow'>('rat')
 
   return (
@@ -32,7 +35,9 @@ export default function Marozia({ city }: { city: City }) {
             >
                 <Rat className="w-32 h-32 text-slate-600 mb-4" />
                 <h1 className="text-6xl font-bold text-slate-700">MAROZIA</h1>
-                <p className="text-slate-500 mt-4">The City of the Rat</p>
+                <p className="text-slate-500 mt-4">
+                    {language === 'en' ? 'The City of the Rat' : '老鼠之城'}
+                </p>
             </motion.div>
 
             {/* The Swallow City */}
@@ -43,16 +48,20 @@ export default function Marozia({ city }: { city: City }) {
             >
                 <Bird className="w-32 h-32 text-sky-600 mb-4" />
                 <h1 className="text-6xl font-bold text-sky-700">MAROZIA</h1>
-                <p className="text-sky-600 mt-4">The City of the Swallow</p>
+                <p className="text-sky-600 mt-4">
+                    {language === 'en' ? 'The City of the Swallow' : '燕子之城'}
+                </p>
             </motion.div>
 
             <div className="absolute bottom-4 right-4 text-xs opacity-50 bg-black/20 px-2 py-1 rounded text-white">
-                Click to transform
+                {language === 'en' ? 'Click to transform' : '点击变换'}
             </div>
         </div>
 
         <p className="mt-12 max-w-xl text-center text-slate-400 italic">
-            &quot;Marozia consists of two cities: the city of the rat and the city of the swallow. The latter is the one that will break free from the first.&quot;
+            {language === 'en'
+                ? '"Marozia consists of two cities: the city of the rat and the city of the swallow. The latter is the one that will break free from the first."'
+                : '“玛罗齐亚由两座城市组成：老鼠之城和燕子之城。后者将从前者中挣脱出来。”'}
         </p>
 
       </div>

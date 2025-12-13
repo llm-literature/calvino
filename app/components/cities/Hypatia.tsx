@@ -5,8 +5,11 @@ import Link from 'next/link'
 import { ArrowLeft, Eye, EyeOff } from 'lucide-react'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
+import { useLanguage } from '@/app/context/LanguageContext'
 
 export default function Hypatia({ city }: { city: City }) {
+  const { language } = useLanguage()
+
   return (
     <div className="relative min-h-screen bg-teal-950 text-teal-50 font-serif selection:bg-teal-700">
       <Link
@@ -19,34 +22,34 @@ export default function Hypatia({ city }: { city: City }) {
       <div className="container mx-auto px-4 py-24">
         <header className="mb-24 text-center">
           <h1 className="text-6xl font-bold text-teal-200 mb-4">HYPATIA</h1>
-          <p className="text-teal-400/60 uppercase tracking-widest">The Language of Deception</p>
+          <p className="text-teal-400/60 uppercase tracking-widest">{language === 'en' ? 'The Language of Deception' : '欺骗的语言'}</p>
         </header>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto">
             <DeceptiveCard 
-                title="The Garden"
-                beautiful="I entered Hypatia one morning, a magnolia garden reflected in blue lagoons..."
-                ugly="...but at the bottom, crabs were biting the eyes of the suicides."
+                title={language === 'en' ? "The Garden" : "花园"}
+                beautiful={language === 'en' ? "I entered Hypatia one morning, a magnolia garden reflected in blue lagoons..." : "一天早晨我进入海帕提亚，木兰花园倒映在蓝色的泻湖中……"}
+                ugly={language === 'en' ? "...but at the bottom, crabs were biting the eyes of the suicides." : "……但在水底，螃蟹正在啃食自杀者的眼睛。"}
             />
             <DeceptiveCard 
-                title="The Palace"
-                beautiful="I climbed the porphyry steps of the palace with the highest domes..."
-                ugly="...convicts with black chains were hauling basalt blocks from the quarry."
+                title={language === 'en' ? "The Palace" : "宫殿"}
+                beautiful={language === 'en' ? "I climbed the porphyry steps of the palace with the highest domes..." : "我登上了拥有最高圆顶的宫殿的斑岩台阶……"}
+                ugly={language === 'en' ? "...convicts with black chains were hauling basalt blocks from the quarry." : "……戴着黑色锁链的囚犯正从采石场搬运玄武岩块。"}
             />
             <DeceptiveCard 
-                title="The Library"
-                beautiful="I entered the great library, lost among shelves collapsing under vellum bindings..."
-                ugly="...I saw a young man with an opium pipe."
+                title={language === 'en' ? "The Library" : "图书馆"}
+                beautiful={language === 'en' ? "I entered the great library, lost among shelves collapsing under vellum bindings..." : "我进入了大图书馆，迷失在被羊皮纸装订书压垮的书架之间……"}
+                ugly={language === 'en' ? "...I saw a young man with an opium pipe." : "……我看到一个拿着鸦片烟斗的年轻人。"}
             />
             <DeceptiveCard 
-                title="The Stables"
-                beautiful="I heard the neighing of horses and the cracking of whips..."
-                ugly="...women mounted on saddles, ready to push the stranger onto a pile of hay."
+                title={language === 'en' ? "The Stables" : "马厩"}
+                beautiful={language === 'en' ? "I heard the neighing of horses and the cracking of whips..." : "我听到了马的嘶鸣和鞭子的抽打声……"}
+                ugly={language === 'en' ? "...women mounted on saddles, ready to push the stranger onto a pile of hay." : "……女人们骑在马鞍上，准备把陌生人推到干草堆上。"}
             />
         </div>
 
         <div className="mt-24 text-center max-w-2xl mx-auto text-teal-300/80 italic">
-            &quot;There is no language without deceit.&quot;
+            {language === 'en' ? '"There is no language without deceit."' : '“没有不带欺骗的语言。”'}
         </div>
       </div>
     </div>

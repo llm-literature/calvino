@@ -5,8 +5,10 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { useRef } from 'react'
+import { useLanguage } from '@/app/context/LanguageContext'
 
 export default function Valdrada({ city }: { city: City }) {
+  const { language } = useLanguage()
   const containerRef = useRef(null)
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -32,7 +34,9 @@ export default function Valdrada({ city }: { city: City }) {
             
             <motion.div style={{ scale }} className="relative z-10 text-center mb-12">
                 <h1 className="text-6xl font-bold tracking-widest text-slate-200">VALDRADA</h1>
-                <p className="text-xs uppercase tracking-[0.5em] text-slate-400 mt-4">The City</p>
+                <p className="text-xs uppercase tracking-[0.5em] text-slate-400 mt-4">
+                    {language === 'en' ? 'The City' : '城市'}
+                </p>
             </motion.div>
             
             {/* Buildings */}
@@ -58,7 +62,9 @@ export default function Valdrada({ city }: { city: City }) {
 
             <motion.div style={{ scale }} className="relative z-10 text-center mt-12 scale-y-[-1] opacity-50 blur-[1px]">
                 <h1 className="text-6xl font-bold tracking-widest text-slate-200">VALDRADA</h1>
-                <p className="text-xs uppercase tracking-[0.5em] text-slate-400 mt-4">The Reflection</p>
+                <p className="text-xs uppercase tracking-[0.5em] text-slate-400 mt-4">
+                    {language === 'en' ? 'The Reflection' : '倒影'}
+                </p>
             </motion.div>
             
             {/* Water Effect */}
@@ -72,9 +78,13 @@ export default function Valdrada({ city }: { city: City }) {
         >
             <div className="max-w-xl text-center p-8 bg-black/40 backdrop-blur-sm rounded-xl border border-white/10">
                 <p className="text-lg leading-relaxed italic text-slate-300">
-                    &quot;The ancients built Valdrada on the shores of a lake, with houses all verandas one above the other, and high streets whose railed parapets look out over the water.&quot;
+                    {language === 'en'
+                        ? '"The ancients built Valdrada on the shores of a lake, with houses all verandas one above the other, and high streets whose railed parapets look out over the water."'
+                        : '“古人在湖岸上建造了瓦尔德拉达，房子都是一个在另一个之上的阳台，高高的街道上有栏杆的护墙，俯瞰着水面。”'}
                 </p>
-                <p className="mt-4 text-sm text-slate-500">Scroll to merge the cities</p>
+                <p className="mt-4 text-sm text-slate-500">
+                    {language === 'en' ? 'Scroll to merge the cities' : '滚动以合并城市'}
+                </p>
             </div>
         </motion.div>
       </div>

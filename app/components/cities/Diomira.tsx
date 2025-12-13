@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { useMemo } from 'react'
+import { useLanguage } from '@/app/context/LanguageContext'
 
 // Deterministic pseudo-random based on seed
 function seededRandom(seed: number) {
@@ -13,6 +14,9 @@ function seededRandom(seed: number) {
 }
 
 export default function Diomira({ city }: { city: City }) {
+  const { language } = useLanguage()
+  const displayDescription = language === 'en' ? city.enDescription : city.cnDescription
+
   // Pre-generate dome positions to avoid Math.random in render
   const domes = useMemo(
     () =>
@@ -58,9 +62,9 @@ export default function Diomira({ city }: { city: City }) {
           className="mb-12 text-center"
         >
           <h1 className="bg-linear-to-b from-slate-100 to-slate-500 bg-clip-text font-serif text-7xl text-transparent md:text-9xl">
-            {city.name.toUpperCase()}
+            {language === 'en' ? city.name.toUpperCase() : city.cnName}
           </h1>
-          <p className="mt-4 text-sm tracking-[1em] text-slate-400 uppercase">Sixty Silver Domes</p>
+          <p className="mt-4 text-sm tracking-[1em] text-slate-400 uppercase">{language === 'en' ? 'Sixty Silver Domes' : '六十座银色圆顶'}</p>
         </motion.div>
 
         <motion.div
@@ -69,7 +73,7 @@ export default function Diomira({ city }: { city: City }) {
           transition={{ delay: 0.5, duration: 1 }}
           className="max-w-3xl rounded-lg border border-slate-700 bg-slate-800/50 p-12 text-center font-serif text-xl leading-loose shadow-2xl backdrop-blur-sm"
         >
-          {city.description}
+          {displayDescription}
         </motion.div>
       </div>
     </div>

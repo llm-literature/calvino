@@ -4,27 +4,41 @@ import { City } from '@/lib/types'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft, HelpCircle } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { cn } from '@/lib/utils'
+import { useLanguage } from '@/app/context/LanguageContext'
 
-const FUNCTIONS = [
+const FUNCTIONS_EN = [
   'Palace', 'Prison', 'School', 'Brothel', 'Bank', 'Hospital', 'Barracks', 'Temple', 'Market', 'Library', 'Museum', 'Factory'
 ]
 
-const getRandomFunction = (current: string) => {
-    let newFunc = FUNCTIONS[Math.floor(Math.random() * FUNCTIONS.length)]
+const FUNCTIONS_CN = [
+  '宫殿', '监狱', '学校', '妓院', '银行', '医院', '军营', '寺庙', '市场', '图书馆', '博物馆', '工厂'
+]
+
+const getRandomFunction = (current: string, language: 'en' | 'cn') => {
+    const functions = language === 'en' ? FUNCTIONS_EN : FUNCTIONS_CN
+    let newFunc = functions[Math.floor(Math.random() * functions.length)]
     while (newFunc === current) {
-        newFunc = FUNCTIONS[Math.floor(Math.random() * FUNCTIONS.length)]
+        newFunc = functions[Math.floor(Math.random() * functions.length)]
     }
     return newFunc
 }
 
 export default function Zoe({ city }: { city: City }) {
+  const { language } = useLanguage()
+  const displayDescription = language === 'en' ? city.enDescription : city.cnDescription
+
   const [grid, setGrid] = useState<string[]>(Array(24).fill('Unknown'))
+
+  // Reset grid when language changes
+  useEffect(() => {
+    setGrid(Array(24).fill(language === 'en' ? 'Unknown' : '未知'))
+  }, [language])
 
   const randomize = (index: number) => {
     const newGrid = [...grid]
-    newGrid[index] = getRandomFunction(newGrid[index])
+    newGrid[index] = getRandomFunction(newGrid[index], language)
     setGrid(newGrid)
   }
 
@@ -47,7 +61,7 @@ export default function Zoe({ city }: { city: City }) {
             {city.name.toUpperCase()}
           </motion.h1>
           <p className="mx-auto max-w-2xl text-lg text-neutral-500 uppercase tracking-widest">
-            The City of Indistinguishable Places
+            {language === 'en' ? 'The City of Indistinguishable Places' : '无法区分场所的城市'}
           </p>
         </header>
 
@@ -63,12 +77,12 @@ export default function Zoe({ city }: { city: City }) {
               onClick={() => randomize(i)}
               className="aspect-square cursor-pointer flex flex-col items-center justify-center rounded border border-neutral-800 bg-neutral-900/50 p-4 text-center transition-colors hover:border-neutral-600"
             >
-              <HelpCircle className={cn("mb-4 h-8 w-8 transition-all duration-300", func !== 'Unknown' ? "opacity-20 scale-75" : "opacity-50 scale-100")} />
+              <HelpCircle className={cn("mb-4 h-8 w-8 transition-all duration-300", func !== (language === 'en' ? 'Unknown' : '未知') ? "opacity-20 scale-75" : "opacity-50 scale-100")} />
               <motion.span 
                 key={func}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className={cn("text-xs font-bold uppercase tracking-widest", func === 'Unknown' ? "text-neutral-600" : "text-white")}
+                className={cn("text-xs font-bold uppercase tracking-widest", func === (language === 'en' ? 'Unknown' : '未知') ? "text-neutral-600" : "text-white")}
               >
                 {func}
               </motion.span>
@@ -82,7 +96,7 @@ export default function Zoe({ city }: { city: City }) {
             transition={{ delay: 1 }}
             className="mx-auto max-w-3xl prose prose-invert prose-lg text-center text-neutral-400"
         >
-           {city.description.split('\n').map((p, i) => (
+           {displayDescription.split('\n').map((p, i) => (
              <p key={i}>{p}</p>
            ))}
         </motion.div>

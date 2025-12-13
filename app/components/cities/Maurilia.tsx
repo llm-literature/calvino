@@ -4,8 +4,12 @@ import React, { useState, useRef, useEffect } from 'react'
 import { Map, Calendar, MousePointer2, ArrowLeft } from 'lucide-react'
 import { City } from '@/lib/types'
 import Link from 'next/link'
+import { useLanguage } from '@/app/context/LanguageContext'
 
 export default function Maurilia({ city }: { city: City }) {
+  const { language } = useLanguage()
+  const displayDescription = language === 'en' ? city.enDescription : city.cnDescription
+
   const [sliderPosition, setSliderPosition] = useState(50)
   const containerRef = useRef<HTMLDivElement>(null)
   const isDragging = useRef(false)
@@ -49,7 +53,7 @@ export default function Maurilia({ city }: { city: City }) {
       <header className="mb-12 text-center">
         <h1 className="mb-4 text-5xl font-bold text-stone-900">{city.name.toUpperCase()}</h1>
         <p className="max-w-2xl text-xl text-stone-600 italic whitespace-pre-line">
-          {city.description}
+          {displayDescription}
         </p>
       </header>
 
@@ -63,23 +67,33 @@ export default function Maurilia({ city }: { city: City }) {
         {/* Layer 1: The Present (Underneath, but revealed on the right) */}
         <div className="absolute inset-0 flex items-center justify-center bg-slate-900">
           <div className="p-12 text-center">
-            <h2 className="mb-4 text-4xl font-bold tracking-tighter text-white">THE METROPOLIS</h2>
+            <h2 className="mb-4 text-4xl font-bold tracking-tighter text-white">
+              {language === 'en' ? 'THE METROPOLIS' : '大都会'}
+            </h2>
             <div className="grid grid-cols-2 gap-8 text-left text-slate-400">
               <div>
-                <p className="mb-1 font-mono text-xs text-slate-500 uppercase">Infrastructure</p>
-                <p>Concrete Overpasses</p>
+                <p className="mb-1 font-mono text-xs text-slate-500 uppercase">
+                  {language === 'en' ? 'Infrastructure' : '基础设施'}
+                </p>
+                <p>{language === 'en' ? 'Concrete Overpasses' : '混凝土立交桥'}</p>
               </div>
               <div>
-                <p className="mb-1 font-mono text-xs text-slate-500 uppercase">Atmosphere</p>
-                <p>Neon & Smog</p>
+                <p className="mb-1 font-mono text-xs text-slate-500 uppercase">
+                  {language === 'en' ? 'Atmosphere' : '氛围'}
+                </p>
+                <p>{language === 'en' ? 'Neon & Smog' : '霓虹与烟雾'}</p>
               </div>
               <div>
-                <p className="mb-1 font-mono text-xs text-slate-500 uppercase">Population</p>
-                <p>Millions, Anonymous</p>
+                <p className="mb-1 font-mono text-xs text-slate-500 uppercase">
+                  {language === 'en' ? 'Population' : '人口'}
+                </p>
+                <p>{language === 'en' ? 'Millions, Anonymous' : '数百万，匿名'}</p>
               </div>
               <div>
-                <p className="mb-1 font-mono text-xs text-slate-500 uppercase">Reality</p>
-                <p>Prosperous & Vast</p>
+                <p className="mb-1 font-mono text-xs text-slate-500 uppercase">
+                  {language === 'en' ? 'Reality' : '现实'}
+                </p>
+                <p>{language === 'en' ? 'Prosperous & Vast' : '繁荣与广阔'}</p>
               </div>
             </div>
           </div>
@@ -93,23 +107,33 @@ export default function Maurilia({ city }: { city: City }) {
           style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
         >
           <div className="p-12 text-center">
-            <h2 className="mb-4 font-serif text-4xl font-bold text-amber-900">The Old Postcard</h2>
+            <h2 className="mb-4 font-serif text-4xl font-bold text-amber-900">
+              {language === 'en' ? 'The Old Postcard' : '旧明信片'}
+            </h2>
             <div className="grid grid-cols-2 gap-8 text-left text-amber-800/80">
               <div>
-                <p className="mb-1 font-mono text-xs text-amber-900/40 uppercase">Landmark</p>
-                <p>The Hen House</p>
+                <p className="mb-1 font-mono text-xs text-amber-900/40 uppercase">
+                  {language === 'en' ? 'Landmark' : '地标'}
+                </p>
+                <p>{language === 'en' ? 'The Hen House' : '母鸡舍'}</p>
               </div>
               <div>
-                <p className="mb-1 font-mono text-xs text-amber-900/40 uppercase">Atmosphere</p>
-                <p>Quiet & Provincial</p>
+                <p className="mb-1 font-mono text-xs text-amber-900/40 uppercase">
+                  {language === 'en' ? 'Atmosphere' : '氛围'}
+                </p>
+                <p>{language === 'en' ? 'Quiet & Provincial' : '宁静与乡土'}</p>
               </div>
               <div>
-                <p className="mb-1 font-mono text-xs text-amber-900/40 uppercase">Population</p>
-                <p>Three Spinsters</p>
+                <p className="mb-1 font-mono text-xs text-amber-900/40 uppercase">
+                  {language === 'en' ? 'Population' : '人口'}
+                </p>
+                <p>{language === 'en' ? 'Three Spinsters' : '三个老处女'}</p>
               </div>
               <div>
-                <p className="mb-1 font-mono text-xs text-amber-900/40 uppercase">Memory</p>
-                <p>Lost Grace</p>
+                <p className="mb-1 font-mono text-xs text-amber-900/40 uppercase">
+                  {language === 'en' ? 'Memory' : '记忆'}
+                </p>
+                <p>{language === 'en' ? 'Lost Grace' : '失落的优雅'}</p>
               </div>
             </div>
           </div>
@@ -119,7 +143,7 @@ export default function Maurilia({ city }: { city: City }) {
           {/* Postcard Stamp */}
           <div className="absolute top-8 right-12 flex h-32 w-24 rotate-12 items-center justify-center border-4 border-amber-900/20 opacity-50">
             <span className="rotate-45 text-xs font-bold text-amber-900/40 uppercase">
-              Postage Paid
+              {language === 'en' ? 'Postage Paid' : '邮资已付'}
             </span>
           </div>
         </div>
@@ -137,8 +161,9 @@ export default function Maurilia({ city }: { city: City }) {
 
       <div className="mt-12 max-w-2xl space-y-6 text-center">
         <p className="text-lg text-stone-700">
-          &quot;Beware of saying to them that sometimes different cities follow one another on the same
-          site and under the same name, born and dying without knowing one another.&quot;
+          {language === 'en'
+            ? '"Beware of saying to them that sometimes different cities follow one another on the same site and under the same name, born and dying without knowing one another."'
+            : '“小心不要告诉他们，有时不同的城市在同一个地点、同一个名字下接踵而至，生生灭灭，互不相识。”'}
         </p>
         <div className="flex justify-center gap-8 text-sm tracking-widest text-stone-500 uppercase">
           <div className="flex items-center gap-2">
