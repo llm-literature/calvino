@@ -21,13 +21,7 @@ interface LayoutProps {
   theme: CityTheme
 }
 
-export const EtherealLayout = ({
-  city,
-  prevCity,
-  nextCity,
-  imageUrl,
-  theme,
-}: LayoutProps) => {
+export const EtherealLayout = ({ city, prevCity, nextCity, imageUrl, theme }: LayoutProps) => {
   const { language } = useLanguage()
   const displayDescription = language === 'en' ? city.enDescription : city.cnDescription
 

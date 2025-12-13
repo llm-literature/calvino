@@ -98,7 +98,7 @@ export default function LandingPage() {
             onClick={() => setLanguage('cn')}
             className={cn(
               'transition-colors duration-300 hover:text-white',
-              language === 'cn' ? 'text-white font-bold' : ''
+              language === 'cn' ? 'font-bold text-white' : ''
             )}
           >
             CN
@@ -108,7 +108,7 @@ export default function LandingPage() {
             onClick={() => setLanguage('en')}
             className={cn(
               'transition-colors duration-300 hover:text-white',
-              language === 'en' ? 'text-white font-bold' : ''
+              language === 'en' ? 'font-bold text-white' : ''
             )}
           >
             EN

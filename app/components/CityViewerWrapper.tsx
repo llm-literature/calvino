@@ -30,13 +30,13 @@ export default function CityViewerWrapper({ city, imageUrl, children }: CityView
     if (scrollContainerRef.current) {
       const { scrollHeight, clientHeight } = scrollContainerRef.current
       const maxScrollTop = scrollHeight - clientHeight
-      
+
       // Only scroll if we are near the bottom or if it's the initial load
       // But for "auto-scroll" feature, we usually want to force it unless user scrolled up?
       // Let's just scroll to bottom for now as requested.
       scrollContainerRef.current.scrollTo({
         top: maxScrollTop,
-        behavior: 'smooth'
+        behavior: 'smooth',
       })
     }
   }, [])
@@ -59,14 +59,17 @@ export default function CityViewerWrapper({ city, imageUrl, children }: CityView
     setIsResizing(false)
   }, [])
 
-  const resize = useCallback((e: MouseEvent) => {
-    if (isResizing) {
-      const newWidth = window.innerWidth - e.clientX
-      if (newWidth > 300 && newWidth < 800) {
-        setSidebarWidth(newWidth)
+  const resize = useCallback(
+    (e: MouseEvent) => {
+      if (isResizing) {
+        const newWidth = window.innerWidth - e.clientX
+        if (newWidth > 300 && newWidth < 800) {
+          setSidebarWidth(newWidth)
+        }
       }
-    }
-  }, [isResizing])
+    },
+    [isResizing]
+  )
 
   useEffect(() => {
     if (isResizing) {
@@ -85,12 +88,12 @@ export default function CityViewerWrapper({ city, imageUrl, children }: CityView
   return (
     <div className="relative min-h-screen w-full">
       {/* Main Creative Content Wrapper */}
-      <div 
+      <div
         className={cn(
-          "min-h-screen w-full transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]",
+          'min-h-screen w-full transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]'
         )}
         style={{
-          paddingRight: isJournalOpen && isLargeScreen ? `${sidebarWidth}px` : '0px'
+          paddingRight: isJournalOpen && isLargeScreen ? `${sidebarWidth}px` : '0px',
         }}
       >
         {children}
@@ -112,17 +115,17 @@ export default function CityViewerWrapper({ city, imageUrl, children }: CityView
               transition={{
                 duration: 4,
                 repeat: Infinity,
-                ease: "easeInOut"
+                ease: 'easeInOut',
               }}
             >
               <Button
                 variant="outline"
                 size="icon"
-                className="h-16 w-16 rounded-full bg-amber-100/80 dark:bg-amber-900/30 backdrop-blur-md border-amber-200/50 dark:border-amber-700/30 hover:bg-amber-200/80 dark:hover:bg-amber-800/40 text-amber-900 dark:text-amber-100 shadow-2xl transition-all hover:scale-110 hover:border-amber-400/50 group relative overflow-hidden"
+                className="group relative h-16 w-16 overflow-hidden rounded-full border-amber-200/50 bg-amber-100/80 text-amber-900 shadow-2xl backdrop-blur-md transition-all hover:scale-110 hover:border-amber-400/50 hover:bg-amber-200/80 dark:border-amber-700/30 dark:bg-amber-900/30 dark:text-amber-100 dark:hover:bg-amber-800/40"
                 onClick={() => setIsJournalOpen(true)}
                 title={language === 'en' ? 'City Notes' : '城市笔记'}
               >
-                <div className="absolute inset-0 bg-linear-to-tr from-amber-200/0 via-amber-200/30 to-amber-200/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                <div className="absolute inset-0 -translate-x-full bg-linear-to-tr from-amber-200/0 via-amber-200/30 to-amber-200/0 transition-transform duration-1000 group-hover:translate-x-full" />
                 <Feather className="h-7 w-7 stroke-[1.5]" />
               </Button>
             </motion.div>
@@ -130,7 +133,7 @@ export default function CityViewerWrapper({ city, imageUrl, children }: CityView
               initial={{ opacity: 0, y: 5 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1, duration: 0.5 }}
-              className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap text-xs font-serif text-stone-500 dark:text-stone-400 tracking-widest uppercase"
+              className="absolute -bottom-8 left-1/2 -translate-x-1/2 font-serif text-xs tracking-widest whitespace-nowrap text-stone-500 uppercase dark:text-stone-400"
             >
               {language === 'en' ? 'City Notes' : '城市笔记'}
             </motion.div>
@@ -144,11 +147,11 @@ export default function CityViewerWrapper({ city, imageUrl, children }: CityView
           <>
             {/* Mobile Backdrop */}
             <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                onClick={() => setIsJournalOpen(false)}
-                className="fixed inset-0 z-40 bg-black/20 backdrop-blur-[2px] lg:hidden"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsJournalOpen(false)}
+              className="fixed inset-0 z-40 bg-black/20 backdrop-blur-[2px] lg:hidden"
             />
 
             <motion.div
@@ -158,74 +161,77 @@ export default function CityViewerWrapper({ city, imageUrl, children }: CityView
               exit={{ x: '100%', opacity: 0.5 }}
               transition={{ type: 'spring', damping: 30, stiffness: 300 }}
               className={cn(
-                "fixed z-50 bg-white/90 dark:bg-stone-950/90 backdrop-blur-xl shadow-2xl flex flex-col border-stone-200 dark:border-stone-800",
+                'fixed z-50 flex flex-col border-stone-200 bg-white/90 shadow-2xl backdrop-blur-xl dark:border-stone-800 dark:bg-stone-950/90',
                 // Desktop Styles
-                "lg:top-0 lg:right-0 lg:left-auto lg:bottom-auto lg:h-full lg:border-l",
+                'lg:top-0 lg:right-0 lg:bottom-auto lg:left-auto lg:h-full lg:border-l',
                 // Mobile Styles (Bottom Sheet)
-                "bottom-0 left-0 right-0 h-[85vh] rounded-t-2xl border-t lg:rounded-none lg:border-t-0"
+                'right-0 bottom-0 left-0 h-[85vh] rounded-t-2xl border-t lg:rounded-none lg:border-t-0'
               )}
               style={{
-                width: typeof window !== 'undefined' && window.innerWidth >= 1024 ? `${sidebarWidth}px` : '100%'
+                width:
+                  typeof window !== 'undefined' && window.innerWidth >= 1024
+                    ? `${sidebarWidth}px`
+                    : '100%',
               }}
             >
               {/* Resize Handle (Desktop Only) */}
               <div
-                className="hidden lg:flex absolute left-0 top-0 bottom-0 w-1 cursor-ew-resize items-center justify-center hover:bg-amber-500/50 transition-colors z-50 -ml-0.5"
+                className="absolute top-0 bottom-0 left-0 z-50 -ml-0.5 hidden w-1 cursor-ew-resize items-center justify-center transition-colors hover:bg-amber-500/50 lg:flex"
                 onMouseDown={startResizing}
               >
-                 <div className="h-8 w-1 rounded-full bg-stone-300 dark:bg-stone-700" />
+                <div className="h-8 w-1 rounded-full bg-stone-300 dark:bg-stone-700" />
               </div>
 
               {/* Header */}
-              <div className="flex items-center justify-between p-6 border-b border-stone-200/50 dark:border-stone-800/50 shrink-0">
-                <h2 className="font-display text-3xl font-bold text-stone-900 dark:text-stone-100 capitalize tracking-wide">
+              <div className="flex shrink-0 items-center justify-between border-b border-stone-200/50 p-6 dark:border-stone-800/50">
+                <h2 className="font-display text-3xl font-bold tracking-wide text-stone-900 capitalize dark:text-stone-100">
                   {city.name}
                 </h2>
                 <Button
                   variant="ghost"
                   size="icon"
                   onClick={() => setIsJournalOpen(false)}
-                  className="hover:bg-stone-100 dark:hover:bg-stone-800 rounded-full transition-colors"
+                  className="rounded-full transition-colors hover:bg-stone-100 dark:hover:bg-stone-800"
                 >
                   <span className="sr-only">Close</span>
-                  <ChevronRight className="h-6 w-6 hidden lg:block" />
+                  <ChevronRight className="hidden h-6 w-6 lg:block" />
                   <ChevronDown className="h-6 w-6 lg:hidden" />
                 </Button>
               </div>
 
               {/* Scrollable Content */}
-              <div 
+              <div
                 ref={scrollContainerRef}
-                className="flex-1 overflow-y-auto p-6 space-y-8 no-scrollbar"
+                className="no-scrollbar flex-1 space-y-8 overflow-y-auto p-6"
               >
                 {/* Image Preview */}
-                <div 
-                  className="relative aspect-3/4 w-full overflow-hidden rounded-lg shadow-lg cursor-zoom-in group border border-stone-200 dark:border-stone-800 bg-stone-100 dark:bg-stone-900"
+                <div
+                  className="group relative aspect-3/4 w-full cursor-zoom-in overflow-hidden rounded-lg border border-stone-200 bg-stone-100 shadow-lg dark:border-stone-800 dark:bg-stone-900"
                   onClick={() => setIsLightboxOpen(true)}
                 >
                   <img
                     src={imageUrl}
                     alt={city.name}
-                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-90 group-hover:opacity-100"
+                    className="h-full w-full object-cover opacity-90 transition-transform duration-700 group-hover:scale-105 group-hover:opacity-100"
                   />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
-                      <Maximize2 className="text-white drop-shadow-lg w-10 h-10 scale-90 group-hover:scale-100 transition-transform" />
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/0 opacity-0 transition-all duration-300 group-hover:bg-black/20 group-hover:opacity-100">
+                    <Maximize2 className="h-10 w-10 scale-90 text-white drop-shadow-lg transition-transform group-hover:scale-100" />
                   </div>
-                  <div className="absolute bottom-2 right-2 bg-black/50 backdrop-blur-md text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="absolute right-2 bottom-2 rounded bg-black/50 px-2 py-1 text-xs text-white opacity-0 backdrop-blur-md transition-opacity group-hover:opacity-100">
                     {language === 'en' ? 'Click to expand' : '点击放大'}
                   </div>
                 </div>
 
                 {/* Text Narrative */}
                 <div className="prose prose-stone dark:prose-invert prose-lg max-w-none">
-                  <div className="flex items-center gap-4 mb-4">
+                  <div className="mb-4 flex items-center gap-4">
                     <div className="h-px flex-1 bg-stone-300 dark:bg-stone-700"></div>
-                    <span className="text-stone-400 text-sm font-serif italic">
-                        {language === 'en' ? 'The Chronicle' : '城市志'}
+                    <span className="font-serif text-sm text-stone-400 italic">
+                      {language === 'en' ? 'The Chronicle' : '城市志'}
                     </span>
                     <div className="h-px flex-1 bg-stone-300 dark:bg-stone-700"></div>
                   </div>
-                  <div className="font-serif text-lg leading-loose text-justify text-stone-700 dark:text-stone-300 space-y-4">
+                  <div className="space-y-4 text-justify font-serif text-lg leading-loose text-stone-700 dark:text-stone-300">
                     {(() => {
                       const lines = description.split('\n')
                       let currentDelay = 0.5
@@ -234,12 +240,12 @@ export default function CityViewerWrapper({ city, imageUrl, children }: CityView
                         // Calculate delay for next line: length * speed + pause
                         // Slowed down to 80ms per character for a more soothing pace
                         currentDelay += line.length * 0.08 + 0.5
-                        
+
                         return (
-                          <TypewriterLine 
-                            key={index} 
-                            text={line} 
-                            delay={delay} 
+                          <TypewriterLine
+                            key={index}
+                            text={line}
+                            delay={delay}
                             speed={80}
                             onUpdate={scrollToBottom}
                           />
@@ -247,11 +253,11 @@ export default function CityViewerWrapper({ city, imageUrl, children }: CityView
                       })
                     })()}
                   </div>
-                  <motion.div 
+                  <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 0.5 }}
                     transition={{ delay: description.length * 0.08 + 1, duration: 1 }}
-                    className="flex justify-center mt-8"
+                    className="mt-8 flex justify-center"
                   >
                     <span className="text-2xl text-stone-400">❦</span>
                   </motion.div>
@@ -269,21 +275,21 @@ export default function CityViewerWrapper({ city, imageUrl, children }: CityView
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-60 flex items-center justify-center bg-black/95 backdrop-blur-md p-4"
+            className="fixed inset-0 z-60 flex items-center justify-center bg-black/95 p-4 backdrop-blur-md"
             onClick={() => setIsLightboxOpen(false)}
           >
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              transition={{ type: "spring", duration: 0.5 }}
-              className="relative max-h-[95vh] max-w-[95vw] flex flex-col items-center"
+              transition={{ type: 'spring', duration: 0.5 }}
+              className="relative flex max-h-[95vh] max-w-[95vw] flex-col items-center"
               onClick={(e) => e.stopPropagation()}
             >
               <Button
                 variant="ghost"
                 size="icon"
-                className="absolute -top-12 right-0 text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-colors"
+                className="absolute -top-12 right-0 rounded-full text-white/70 transition-colors hover:bg-white/10 hover:text-white"
                 onClick={() => setIsLightboxOpen(false)}
               >
                 <X className="h-8 w-8" />
@@ -291,9 +297,9 @@ export default function CityViewerWrapper({ city, imageUrl, children }: CityView
               <img
                 src={imageUrl}
                 alt={city.name}
-                className="max-h-[85vh] w-auto object-contain rounded-sm shadow-2xl ring-1 ring-white/10"
+                className="max-h-[85vh] w-auto rounded-sm object-contain shadow-2xl ring-1 ring-white/10"
               />
-              <p className="mt-4 text-stone-400 font-display tracking-widest text-sm uppercase">
+              <p className="font-display mt-4 text-sm tracking-widest text-stone-400 uppercase">
                 {city.name}
               </p>
             </motion.div>
@@ -304,7 +310,17 @@ export default function CityViewerWrapper({ city, imageUrl, children }: CityView
   )
 }
 
-function TypewriterLine({ text, delay, speed = 30, onUpdate }: { text: string; delay: number; speed?: number; onUpdate?: () => void }) {
+function TypewriterLine({
+  text,
+  delay,
+  speed = 30,
+  onUpdate,
+}: {
+  text: string
+  delay: number
+  speed?: number
+  onUpdate?: () => void
+}) {
   const [visibleCount, setVisibleCount] = useState(0)
   const [started, setStarted] = useState(false)
 
@@ -321,7 +337,7 @@ function TypewriterLine({ text, delay, speed = 30, onUpdate }: { text: string; d
 
     if (visibleCount < text.length) {
       const timeout = setTimeout(() => {
-        setVisibleCount(prev => prev + 1)
+        setVisibleCount((prev) => prev + 1)
         onUpdate?.()
       }, speed)
       return () => clearTimeout(timeout)
@@ -329,17 +345,20 @@ function TypewriterLine({ text, delay, speed = 30, onUpdate }: { text: string; d
   }, [started, visibleCount, text.length, speed, onUpdate])
 
   return (
-    <p className="inline-block w-full min-h-[1.5em]">
-      {text.split('').slice(0, visibleCount).map((char, index) => (
-        <motion.span
-          key={index}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.2 }}
-        >
-          {char}
-        </motion.span>
-      ))}
+    <p className="inline-block min-h-[1.5em] w-full">
+      {text
+        .split('')
+        .slice(0, visibleCount)
+        .map((char, index) => (
+          <motion.span
+            key={index}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.2 }}
+          >
+            {char}
+          </motion.span>
+        ))}
     </p>
   )
 }

@@ -12,14 +12,14 @@ export default function Clarice({ city }: { city: City }) {
   const [epoch, setEpoch] = useState(0)
 
   const fragments = [
-    { color: "bg-amber-200", shape: "rounded-none" },
-    { color: "bg-stone-300", shape: "rounded-full" },
-    { color: "bg-rose-200", shape: "rounded-tl-3xl" },
-    { color: "bg-emerald-200", shape: "rounded-br-3xl" },
+    { color: 'bg-amber-200', shape: 'rounded-none' },
+    { color: 'bg-stone-300', shape: 'rounded-full' },
+    { color: 'bg-rose-200', shape: 'rounded-tl-3xl' },
+    { color: 'bg-emerald-200', shape: 'rounded-br-3xl' },
   ]
 
   return (
-    <div className="relative min-h-screen bg-stone-50 text-stone-800 font-serif overflow-hidden selection:bg-stone-200">
+    <div className="relative min-h-screen overflow-hidden bg-stone-50 font-serif text-stone-800 selection:bg-stone-200">
       <Link
         href={`/city/${city.type}`}
         className="fixed top-8 left-8 z-50 rounded-full bg-white/80 p-2 shadow-md transition-colors hover:bg-white"
@@ -27,45 +27,45 @@ export default function Clarice({ city }: { city: City }) {
         <ArrowLeft className="h-6 w-6" />
       </Link>
 
-      <div className="container mx-auto px-4 py-24 min-h-screen flex flex-col items-center justify-center">
-        <h1 className="text-6xl mb-4">{language === 'en' ? 'CLARICE' : city.cnName}</h1>
-        <p className="text-stone-500 mb-12">{language === 'en' ? 'Epoch' : '纪元'} {epoch + 1}</p>
+      <div className="container mx-auto flex min-h-screen flex-col items-center justify-center px-4 py-24">
+        <h1 className="mb-4 text-6xl">{language === 'en' ? 'CLARICE' : city.cnName}</h1>
+        <p className="mb-12 text-stone-500">
+          {language === 'en' ? 'Epoch' : '纪元'} {epoch + 1}
+        </p>
 
-        <div className="relative w-full max-w-3xl h-96 bg-white border-2 border-stone-200 rounded-lg shadow-inner p-8 flex flex-wrap content-end gap-2 overflow-hidden">
-            
-            {/* The City Layers */}
-            {Array.from({ length: 20 }).map((_, i) => {
-                // Deterministic pseudo-random based on epoch and index
-                const seed = (epoch * 20 + i) * 12345
-                const fragmentType = fragments[seed % fragments.length]
-                const height = (seed % 10) * 10 + 20
-                const width = (seed % 5) * 20 + 40
+        <div className="relative flex h-96 w-full max-w-3xl flex-wrap content-end gap-2 overflow-hidden rounded-lg border-2 border-stone-200 bg-white p-8 shadow-inner">
+          {/* The City Layers */}
+          {Array.from({ length: 20 }).map((_, i) => {
+            // Deterministic pseudo-random based on epoch and index
+            const seed = (epoch * 20 + i) * 12345
+            const fragmentType = fragments[seed % fragments.length]
+            const height = (seed % 10) * 10 + 20
+            const width = (seed % 5) * 20 + 40
 
-                return (
-                    <motion.div
-                        key={`${epoch}-${i}`}
-                        className={`${fragmentType.color} ${fragmentType.shape} border border-stone-400/20`}
-                        style={{ width, height }}
-                        initial={{ y: -500, opacity: 0, rotate: (seed % 360) }}
-                        animate={{ y: 0, opacity: 1, rotate: 0 }}
-                        transition={{ duration: 0.5, delay: i * 0.05, type: "spring" }}
-                    />
-                )
-            })}
-
+            return (
+              <motion.div
+                key={`${epoch}-${i}`}
+                className={`${fragmentType.color} ${fragmentType.shape} border border-stone-400/20`}
+                style={{ width, height }}
+                initial={{ y: -500, opacity: 0, rotate: seed % 360 }}
+                animate={{ y: 0, opacity: 1, rotate: 0 }}
+                transition={{ duration: 0.5, delay: i * 0.05, type: 'spring' }}
+              />
+            )
+          })}
         </div>
 
         <button
-            onClick={() => setEpoch(e => e + 1)}
-            className="mt-12 flex items-center gap-2 px-6 py-3 bg-stone-800 text-stone-100 rounded-full hover:bg-stone-700 transition-colors"
+          onClick={() => setEpoch((e) => e + 1)}
+          className="mt-12 flex items-center gap-2 rounded-full bg-stone-800 px-6 py-3 text-stone-100 transition-colors hover:bg-stone-700"
         >
-            <Recycle className="w-5 h-5" /> {language === 'en' ? 'Rebuild City' : '重建城市'}
+          <Recycle className="h-5 w-5" /> {language === 'en' ? 'Rebuild City' : '重建城市'}
         </button>
 
-        <p className="mt-8 max-w-xl text-center text-stone-600 italic text-sm">
-            {language === 'en' 
-              ? '"Clarice, the glorious city, has a tormented history. Several times it decayed, then burgeoned again, always keeping the first Clarice as an unparalleled model of every splendor."'
-              : '"光辉的城市克拉丽切有着一段痛苦的历史。它几次衰败，又几次复兴，始终将第一个克拉丽切作为每一种辉煌的无与伦比的典范。"'}
+        <p className="mt-8 max-w-xl text-center text-sm text-stone-600 italic">
+          {language === 'en'
+            ? '"Clarice, the glorious city, has a tormented history. Several times it decayed, then burgeoned again, always keeping the first Clarice as an unparalleled model of every splendor."'
+            : '"光辉的城市克拉丽切有着一段痛苦的历史。它几次衰败，又几次复兴，始终将第一个克拉丽切作为每一种辉煌的无与伦比的典范。"'}
         </p>
       </div>
     </div>

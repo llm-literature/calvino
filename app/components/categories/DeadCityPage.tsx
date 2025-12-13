@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import React from 'react'
 import { motion } from 'framer-motion'
@@ -43,8 +43,11 @@ export default function DeadCityPage({ cities, category }: DeadCityPageProps) {
           ))}
         </div>
       </div>
-      <div className="absolute left-6 top-6 z-20">
-        <Link href="/city" className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-2 text-sm shadow">
+      <div className="absolute top-6 left-6 z-20">
+        <Link
+          href="/city"
+          className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-2 text-sm shadow"
+        >
           <ArrowLeft className="h-4 w-4" />
           {language === 'en' ? 'All Categories' : '所有分类'}
         </Link>
@@ -53,7 +56,15 @@ export default function DeadCityPage({ cities, category }: DeadCityPageProps) {
   )
 }
 
-function DeadCityTombstone({ city, index, category }: { city: City; index: number; category: string }) {
+function DeadCityTombstone({
+  city,
+  index,
+  category,
+}: {
+  city: City
+  index: number
+  category: string
+}) {
   const { language } = useLanguage()
   const displayName = language === 'en' ? city.name : city.cnName || city.name
 

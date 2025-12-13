@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import React, { useState, useEffect, useRef } from 'react'
 import { motion, useMotionValue, MotionValue } from 'framer-motion'
@@ -53,12 +53,21 @@ export default function EyesCityPage({ cities, category }: EyesCityPageProps) {
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {cities.map((city) => (
-            <EyeCard key={city.name} city={city} mouseX={mouseX} mouseY={mouseY} category={category} />
+            <EyeCard
+              key={city.name}
+              city={city}
+              mouseX={mouseX}
+              mouseY={mouseY}
+              category={category}
+            />
           ))}
         </div>
       </div>
-      <div className="absolute left-6 top-6 z-20">
-        <Link href="/city" className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-2 text-sm shadow">
+      <div className="absolute top-6 left-6 z-20">
+        <Link
+          href="/city"
+          className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-2 text-sm shadow"
+        >
           <ArrowLeft className="h-4 w-4" />
           {language === 'en' ? 'All Categories' : '所有分类'}
         </Link>
@@ -67,7 +76,17 @@ export default function EyesCityPage({ cities, category }: EyesCityPageProps) {
   )
 }
 
-function EyeCard({ city, mouseX, mouseY, category }: { city: City; mouseX: MotionValue<number>; mouseY: MotionValue<number>; category: string }) {
+function EyeCard({
+  city,
+  mouseX,
+  mouseY,
+  category,
+}: {
+  city: City
+  mouseX: MotionValue<number>
+  mouseY: MotionValue<number>
+  category: string
+}) {
   const { language } = useLanguage()
   const cardRef = useRef<HTMLDivElement>(null)
   const [angle, setAngle] = useState(0)
@@ -94,40 +113,40 @@ function EyeCard({ city, mouseX, mouseY, category }: { city: City; mouseX: Motio
         className="group relative block h-64 cursor-pointer overflow-hidden rounded-full border-4 border-zinc-700 bg-zinc-800 shadow-xl shadow-black/50"
         whileHover={{ scale: 1.05, borderColor: '#34d399' }}
       >
-      {/* Sclera */}
-      <div className="absolute inset-0 rounded-full bg-zinc-200 shadow-inner" />
+        {/* Sclera */}
+        <div className="absolute inset-0 rounded-full bg-zinc-200 shadow-inner" />
 
-      {/* Iris Area - Rotates to look at cursor */}
-      <div
-        className="absolute inset-0 flex items-center justify-center transition-transform duration-100 ease-out"
-        style={{ transform: `rotate(${angle}deg)` }}
-      >
-        {/* The Pupil/Iris moves slightly towards the edge */}
-        <div className="relative flex h-32 w-32 translate-x-8 items-center justify-center overflow-hidden rounded-full border-4 border-emerald-700 bg-emerald-900 shadow-lg">
-          {/* Reflection highlight */}
-          <div className="absolute top-4 left-4 h-4 w-8 -rotate-45 rounded-full bg-white/40 blur-sm" />
+        {/* Iris Area - Rotates to look at cursor */}
+        <div
+          className="absolute inset-0 flex items-center justify-center transition-transform duration-100 ease-out"
+          style={{ transform: `rotate(${angle}deg)` }}
+        >
+          {/* The Pupil/Iris moves slightly towards the edge */}
+          <div className="relative flex h-32 w-32 translate-x-8 items-center justify-center overflow-hidden rounded-full border-4 border-emerald-700 bg-emerald-900 shadow-lg">
+            {/* Reflection highlight */}
+            <div className="absolute top-4 left-4 h-4 w-8 -rotate-45 rounded-full bg-white/40 blur-sm" />
 
-          {/* City Name inside the pupil */}
-          <div
-            className="font-cinzel px-2 text-center text-xs text-emerald-100 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-            style={{ transform: `rotate(${-angle}deg)` }} // Counter-rotate text
-          >
-            {language === 'en' ? city.name : city.cnName || city.name}
+            {/* City Name inside the pupil */}
+            <div
+              className="font-cinzel px-2 text-center text-xs text-emerald-100 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+              style={{ transform: `rotate(${-angle}deg)` }} // Counter-rotate text
+            >
+              {language === 'en' ? city.name : city.cnName || city.name}
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Eyelids (optional, for blinking effect?) */}
-      <motion.div
-        className="absolute inset-x-0 top-0 z-10 bg-zinc-900"
-        initial={{ height: '0%' }}
-        whileHover={{ height: '10%' }}
-      />
-      <motion.div
-        className="absolute inset-x-0 bottom-0 z-10 bg-zinc-900"
-        initial={{ height: '0%' }}
-        whileHover={{ height: '10%' }}
-      />
+        {/* Eyelids (optional, for blinking effect?) */}
+        <motion.div
+          className="absolute inset-x-0 top-0 z-10 bg-zinc-900"
+          initial={{ height: '0%' }}
+          whileHover={{ height: '10%' }}
+        />
+        <motion.div
+          className="absolute inset-x-0 bottom-0 z-10 bg-zinc-900"
+          initial={{ height: '0%' }}
+          whileHover={{ height: '10%' }}
+        />
       </motion.div>
     </Link>
   )

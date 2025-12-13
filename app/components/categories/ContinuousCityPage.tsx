@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import React from 'react'
 import { motion } from 'framer-motion'
@@ -55,16 +55,15 @@ export default function ContinuousCityPage({ cities, category }: ContinuousCityP
           }}
         >
           {loopedCities.map((city, index) => (
-            <ContinuousCityCard
-              key={`${city.name}-${index}`}
-              city={city}
-              category={category}
-            />
+            <ContinuousCityCard key={`${city.name}-${index}`} city={city} category={category} />
           ))}
         </motion.div>
       </div>
-      <div className="absolute left-6 top-6 z-20">
-        <Link href="/city" className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-2 text-sm shadow">
+      <div className="absolute top-6 left-6 z-20">
+        <Link
+          href="/city"
+          className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-2 text-sm shadow"
+        >
           <ArrowLeft className="h-4 w-4" />
           {language === 'en' ? 'All Categories' : '所有分类'}
         </Link>
@@ -75,8 +74,7 @@ export default function ContinuousCityPage({ cities, category }: ContinuousCityP
 
 function ContinuousCityCard({ city, category }: { city: City; category: string }) {
   const { language } = useLanguage()
-  const displayDescription =
-    language === 'en' ? city.enDescription : city.cnDescription
+  const displayDescription = language === 'en' ? city.enDescription : city.cnDescription
   const displayName = language === 'en' ? city.name : city.cnName || city.name
 
   return (

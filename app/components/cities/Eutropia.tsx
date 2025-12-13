@@ -26,13 +26,13 @@ export default function Eutropia({ city }: { city: City }) {
     if (index === activeCityIndex || isMoving) return
     setIsMoving(true)
     setTimeout(() => {
-        setActiveCityIndex(index)
-        setIsMoving(false)
+      setActiveCityIndex(index)
+      setIsMoving(false)
     }, 1000)
   }
 
   return (
-    <div className="relative min-h-screen bg-neutral-100 text-neutral-800 font-sans overflow-hidden selection:bg-neutral-300">
+    <div className="relative min-h-screen overflow-hidden bg-neutral-100 font-sans text-neutral-800 selection:bg-neutral-300">
       <Link
         href={`/city/${city.type}`}
         className="fixed top-8 left-8 z-50 rounded-full bg-white p-2 shadow-md transition-colors hover:bg-neutral-200"
@@ -40,64 +40,87 @@ export default function Eutropia({ city }: { city: City }) {
         <ArrowLeft className="h-6 w-6" />
       </Link>
 
-      <div className="container mx-auto px-4 py-24 flex flex-col items-center justify-center min-h-screen">
-        <header className="text-center mb-16">
-            <h1 className="text-5xl font-bold text-neutral-900 mb-4">EUTROPIA</h1>
-            <p className="text-neutral-500 uppercase tracking-widest">{language === 'en' ? 'The City of Multiple Cities' : '多重城市之城'}</p>
+      <div className="container mx-auto flex min-h-screen flex-col items-center justify-center px-4 py-24">
+        <header className="mb-16 text-center">
+          <h1 className="mb-4 text-5xl font-bold text-neutral-900">EUTROPIA</h1>
+          <p className="tracking-widest text-neutral-500 uppercase">
+            {language === 'en' ? 'The City of Multiple Cities' : '多重城市之城'}
+          </p>
         </header>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-8 w-full max-w-4xl">
-            {SUB_CITIES.map((subCity, index) => {
-                const isActive = index === activeCityIndex
-                return (
-                    <div 
-                        key={index}
-                        onClick={() => handleMove(index)}
-                        className={cn(
-                            "relative aspect-square rounded-2xl border-4 transition-all duration-500 cursor-pointer overflow-hidden group",
-                            isActive ? "border-neutral-800 shadow-2xl scale-105" : "border-neutral-200 hover:border-neutral-400 grayscale hover:grayscale-0"
-                        )}
-                    >
-                        {/* City Background */}
-                        <div className={cn("absolute inset-0 opacity-20", subCity.color)} />
-                        
-                        {/* Buildings (Abstract) */}
-                        <div className="absolute bottom-0 left-0 right-0 flex items-end justify-center gap-2 px-4 pb-4 opacity-50">
-                            <div className={cn("w-8 h-16 rounded-t", isActive ? "bg-neutral-800" : "bg-neutral-300")} />
-                            <div className={cn("w-12 h-24 rounded-t", isActive ? "bg-neutral-800" : "bg-neutral-300")} />
-                            <div className={cn("w-6 h-12 rounded-t", isActive ? "bg-neutral-800" : "bg-neutral-300")} />
-                        </div>
+        <div className="grid w-full max-w-4xl grid-cols-2 gap-8 md:grid-cols-3">
+          {SUB_CITIES.map((subCity, index) => {
+            const isActive = index === activeCityIndex
+            return (
+              <div
+                key={index}
+                onClick={() => handleMove(index)}
+                className={cn(
+                  'group relative aspect-square cursor-pointer overflow-hidden rounded-2xl border-4 transition-all duration-500',
+                  isActive
+                    ? 'scale-105 border-neutral-800 shadow-2xl'
+                    : 'border-neutral-200 grayscale hover:border-neutral-400 hover:grayscale-0'
+                )}
+              >
+                {/* City Background */}
+                <div className={cn('absolute inset-0 opacity-20', subCity.color)} />
 
-                        {/* Population */}
-                        {isActive && (
-                            <motion.div 
-                                layoutId="population"
-                                className="absolute inset-0 flex items-center justify-center"
-                                transition={{ type: "spring", stiffness: 50, damping: 20 }}
-                            >
-                                <div className="bg-white/80 backdrop-blur px-4 py-2 rounded-full shadow-lg flex items-center gap-2">
-                                    <User className="w-4 h-4" />
-                                    <span className="text-xs font-bold uppercase">{language === 'en' ? 'Inhabited' : '已居住'}</span>
-                                </div>
-                            </motion.div>
-                        )}
+                {/* Buildings (Abstract) */}
+                <div className="absolute right-0 bottom-0 left-0 flex items-end justify-center gap-2 px-4 pb-4 opacity-50">
+                  <div
+                    className={cn(
+                      'h-16 w-8 rounded-t',
+                      isActive ? 'bg-neutral-800' : 'bg-neutral-300'
+                    )}
+                  />
+                  <div
+                    className={cn(
+                      'h-24 w-12 rounded-t',
+                      isActive ? 'bg-neutral-800' : 'bg-neutral-300'
+                    )}
+                  />
+                  <div
+                    className={cn(
+                      'h-12 w-6 rounded-t',
+                      isActive ? 'bg-neutral-800' : 'bg-neutral-300'
+                    )}
+                  />
+                </div>
 
-                        {/* Move Button Overlay */}
-                        {!isActive && (
-                            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/10">
-                                <div className="bg-white px-4 py-2 rounded-full shadow-lg flex items-center gap-2 text-xs font-bold uppercase">
-                                    <RefreshCw className="w-4 h-4" />
-                                    {language === 'en' ? 'Move Here' : '搬到这里'}
-                                </div>
-                            </div>
-                        )}
+                {/* Population */}
+                {isActive && (
+                  <motion.div
+                    layoutId="population"
+                    className="absolute inset-0 flex items-center justify-center"
+                    transition={{ type: 'spring', stiffness: 50, damping: 20 }}
+                  >
+                    <div className="flex items-center gap-2 rounded-full bg-white/80 px-4 py-2 shadow-lg backdrop-blur">
+                      <User className="h-4 w-4" />
+                      <span className="text-xs font-bold uppercase">
+                        {language === 'en' ? 'Inhabited' : '已居住'}
+                      </span>
                     </div>
-                )
-            })}
+                  </motion.div>
+                )}
+
+                {/* Move Button Overlay */}
+                {!isActive && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/10 opacity-0 transition-opacity group-hover:opacity-100">
+                    <div className="flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-bold uppercase shadow-lg">
+                      <RefreshCw className="h-4 w-4" />
+                      {language === 'en' ? 'Move Here' : '搬到这里'}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )
+          })}
         </div>
 
         <div className="mt-16 max-w-2xl text-center text-neutral-500 italic">
-            {language === 'en' ? '"When the inhabitants of Eutropia feel the grip of weariness... they decide to move to the next city, which is there waiting for them, empty and good as new."' : '“当欧特罗皮亚的居民感到厌倦时……他们决定搬到下一个城市，那里正空着等待他们，焕然一新。”'}
+          {language === 'en'
+            ? '"When the inhabitants of Eutropia feel the grip of weariness... they decide to move to the next city, which is there waiting for them, empty and good as new."'
+            : '“当欧特罗皮亚的居民感到厌倦时……他们决定搬到下一个城市，那里正空着等待他们，焕然一新。”'}
         </div>
       </div>
     </div>

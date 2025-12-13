@@ -159,16 +159,36 @@ function StructuralView({ city }: { city: City }) {
 
           <div className="space-y-4 text-sm leading-relaxed text-slate-400">
             <p>
-              <span className="text-emerald-400">{language === 'en' ? 'SPECIFICATION:' : '规格：'}</span> {language === 'en' ? 'Four aluminum towers. Seven gates with spring-loaded drawbridges.' : '四座铝塔。七座带有弹簧吊桥的城门。'}
+              <span className="text-emerald-400">
+                {language === 'en' ? 'SPECIFICATION:' : '规格：'}
+              </span>{' '}
+              {language === 'en'
+                ? 'Four aluminum towers. Seven gates with spring-loaded drawbridges.'
+                : '四座铝塔。七座带有弹簧吊桥的城门。'}
             </p>
             <p>
-              <span className="text-emerald-400">{language === 'en' ? 'HYDROLOGY:' : '水文：'}</span> {language === 'en' ? 'Four green canals dividing the city into nine districts.' : '四条绿色运河将城市划分为九个区。'}
+              <span className="text-emerald-400">
+                {language === 'en' ? 'HYDROLOGY:' : '水文：'}
+              </span>{' '}
+              {language === 'en'
+                ? 'Four green canals dividing the city into nine districts.'
+                : '四条绿色运河将城市划分为九个区。'}
             </p>
             <p>
-              <span className="text-emerald-400">{language === 'en' ? 'DEMOGRAPHICS:' : '人口统计：'}</span> {language === 'en' ? '300 houses per district. 700 chimneys.' : '每个区300所房子。700个烟囱。'}
+              <span className="text-emerald-400">
+                {language === 'en' ? 'DEMOGRAPHICS:' : '人口统计：'}
+              </span>{' '}
+              {language === 'en'
+                ? '300 houses per district. 700 chimneys.'
+                : '每个区300所房子。700个烟囱。'}
             </p>
             <p>
-              <span className="text-emerald-400">{language === 'en' ? 'SOCIAL CONTRACT:' : '社会契约：'}</span> {language === 'en' ? 'Matrimonial exchange between districts. Commodity exchange: Bergamot, Roe, Amethysts.' : '各区之间的通婚。商品交换：佛手柑、鱼子、紫水晶。'}
+              <span className="text-emerald-400">
+                {language === 'en' ? 'SOCIAL CONTRACT:' : '社会契约：'}
+              </span>{' '}
+              {language === 'en'
+                ? 'Matrimonial exchange between districts. Commodity exchange: Bergamot, Roe, Amethysts.'
+                : '各区之间的通婚。商品交换：佛手柑、鱼子、紫水晶。'}
             </p>
           </div>
         </div>
@@ -178,7 +198,9 @@ function StructuralView({ city }: { city: City }) {
 }
 
 function ExperientialView({ city }: { city: City }) {
-  const [decorationItems, setDecorationItems] = useState<{ x: string; rotateInitial: number; rotateAnimate: number; duration: number }[]>([])
+  const [decorationItems, setDecorationItems] = useState<
+    { x: string; rotateInitial: number; rotateAnimate: number; duration: number }[]
+  >([])
   const { language } = useLanguage()
 
   useEffect(() => {
@@ -216,13 +238,19 @@ function ExperientialView({ city }: { city: City }) {
         className="prose prose-lg prose-amber mx-auto font-serif text-xl leading-loose text-amber-800"
       >
         <p>
-          {language === 'en' ? '"I arrived here in my early youth, one morning when many people were hurrying along the streets toward the market..."' : '“我年轻时曾来到这里，那是一个早晨，许多人正匆匆赶往市场……”'}
+          {language === 'en'
+            ? '"I arrived here in my early youth, one morning when many people were hurrying along the streets toward the market..."'
+            : '“我年轻时曾来到这里，那是一个早晨，许多人正匆匆赶往市场……”'}
         </p>
         <p className="mt-8 text-2xl text-amber-600 italic">
-          {language === 'en' ? 'The women had fine teeth and looked you straight in the eye.' : '女人们牙齿整齐，直视着你的眼睛。'}
+          {language === 'en'
+            ? 'The women had fine teeth and looked you straight in the eye.'
+            : '女人们牙齿整齐，直视着你的眼睛。'}
         </p>
         <p className="mt-4">
-          {language === 'en' ? 'Three soldiers on a platform played the trumpet. All around, wheels turned and colored banners fluttered in the wind.' : '三名士兵在台上吹奏小号。四周轮子转动，彩旗在风中飘扬。'}
+          {language === 'en'
+            ? 'Three soldiers on a platform played the trumpet. All around, wheels turned and colored banners fluttered in the wind.'
+            : '三名士兵在台上吹奏小号。四周轮子转动，彩旗在风中飘扬。'}
         </p>
       </motion.div>
 

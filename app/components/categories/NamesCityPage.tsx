@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import React from 'react'
 import { motion } from 'framer-motion'
@@ -42,8 +42,11 @@ export default function NamesCityPage({ cities, category }: NamesCityPageProps) 
           ))}
         </div>
       </div>
-      <div className="absolute left-6 top-6 z-20">
-        <Link href="/city" className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-2 text-sm shadow">
+      <div className="absolute top-6 left-6 z-20">
+        <Link
+          href="/city"
+          className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-2 text-sm shadow"
+        >
           <ArrowLeft className="h-4 w-4" />
           {language === 'en' ? 'All Categories' : '所有分类'}
         </Link>
@@ -62,26 +65,26 @@ function NameCityRow({ city, index, category }: { city: City; index: number; cat
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: index * 0.1 }}
       >
-      <div className="relative z-10 container mx-auto flex items-baseline justify-between">
-        <h2
-          className="font-cinzel stroke-black text-6xl font-black tracking-tighter text-transparent uppercase transition-colors duration-500 hover:text-black md:text-9xl"
-          style={{ WebkitTextStroke: '2px black' }}
-        >
-          {language === 'en' ? city.name : city.cnName || city.name}
-        </h2>
-        <span className="hidden font-mono text-sm text-gray-400 transition-colors group-hover:text-black md:block">
-          {language === 'en' ? 'TYPE: ' : '类型：'}
-          {city.type.toUpperCase()}
-        </span>
-      </div>
+        <div className="relative z-10 container mx-auto flex items-baseline justify-between">
+          <h2
+            className="font-cinzel stroke-black text-6xl font-black tracking-tighter text-transparent uppercase transition-colors duration-500 hover:text-black md:text-9xl"
+            style={{ WebkitTextStroke: '2px black' }}
+          >
+            {language === 'en' ? city.name : city.cnName || city.name}
+          </h2>
+          <span className="hidden font-mono text-sm text-gray-400 transition-colors group-hover:text-black md:block">
+            {language === 'en' ? 'TYPE: ' : '类型：'}
+            {city.type.toUpperCase()}
+          </span>
+        </div>
 
-      {/* Background Reveal */}
-      <motion.div
-        className="absolute inset-0 z-0 origin-left bg-gray-100"
-        initial={{ scaleX: 0 }}
-        whileHover={{ scaleX: 1 }}
-        transition={{ duration: 0.4, ease: 'circOut' }}
-      />
+        {/* Background Reveal */}
+        <motion.div
+          className="absolute inset-0 z-0 origin-left bg-gray-100"
+          initial={{ scaleX: 0 }}
+          whileHover={{ scaleX: 1 }}
+          transition={{ duration: 0.4, ease: 'circOut' }}
+        />
       </motion.div>
     </Link>
   )

@@ -11,8 +11,11 @@ export default function SignsCityPage({ cities }: CategoryPageProps) {
   const { language } = useLanguage()
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-neutral-950 py-20 font-mono text-neutral-200">
-      <div className="absolute left-6 top-6 z-30">
-        <Link href="/city" className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-2 text-sm text-black shadow">
+      <div className="absolute top-6 left-6 z-30">
+        <Link
+          href="/city"
+          className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-2 text-sm text-black shadow"
+        >
           <ArrowLeft className="h-4 w-4" />
           {language === 'en' ? 'All Categories' : '所有分类'}
         </Link>
@@ -44,13 +47,10 @@ export default function SignsCityPage({ cities }: CategoryPageProps) {
 function SignCell({ city }: { city: City }) {
   const [isHovered, setIsHovered] = useState(false)
   const { language } = useLanguage()
-  const displayDescription =
-    language === 'en' ? city.enDescription : city.cnDescription
+  const displayDescription = language === 'en' ? city.enDescription : city.cnDescription
 
   // Generate a "symbol" based on the city name (first letter + length or something)
-  const symbol = (language === 'en' ? city.name : city.cnName || city.name)
-    .charAt(0)
-    .toUpperCase()
+  const symbol = (language === 'en' ? city.name : city.cnName || city.name).charAt(0).toUpperCase()
 
   return (
     <Link href={`/city/${city.type}/${city.name}`} className="block">

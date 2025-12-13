@@ -123,11 +123,13 @@ export default function Zora() {
             >
               {isWithering ? (
                 <>
-                  <Hexagon className="h-4 w-4" /> {language === 'en' ? 'Restore Memory' : '恢复记忆'}
+                  <Hexagon className="h-4 w-4" />{' '}
+                  {language === 'en' ? 'Restore Memory' : '恢复记忆'}
                 </>
               ) : (
                 <>
-                  <ShieldAlert className="h-4 w-4" /> {language === 'en' ? 'Force Motionlessness' : '强制静止'}
+                  <ShieldAlert className="h-4 w-4" />{' '}
+                  {language === 'en' ? 'Force Motionlessness' : '强制静止'}
                 </>
               )}
             </button>

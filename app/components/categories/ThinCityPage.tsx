@@ -20,8 +20,11 @@ export default function ThinCityPage({ cities, category }: CategoryPageProps) {
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-slate-50">
-      <div className="absolute left-6 top-6 z-30">
-        <Link href="/city" className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-2 text-sm text-black shadow">
+      <div className="absolute top-6 left-6 z-30">
+        <Link
+          href="/city"
+          className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-2 text-sm text-black shadow"
+        >
           <ArrowLeft className="h-4 w-4" />
           {language === 'en' ? 'All Categories' : '所有分类'}
         </Link>
@@ -73,8 +76,7 @@ function HangingCity({
   mounted: boolean
 }) {
   const { language } = useLanguage()
-  const displayDescription =
-    language === 'en' ? city.enDescription : city.cnDescription
+  const displayDescription = language === 'en' ? city.enDescription : city.cnDescription
 
   // Calculate positions to spread them out but keep them "hanging"
   // We divide the screen width into sections

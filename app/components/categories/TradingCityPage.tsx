@@ -16,8 +16,11 @@ export default function TradingCityPage({ cities, category }: CategoryPageProps)
 
   return (
     <div className="flex h-screen flex-col overflow-hidden bg-[#0f172a] text-amber-500">
-      <div className="absolute left-6 top-6 z-30">
-        <Link href="/city" className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-2 text-sm text-black shadow">
+      <div className="absolute top-6 left-6 z-30">
+        <Link
+          href="/city"
+          className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-2 text-sm text-black shadow"
+        >
           <ArrowLeft className="h-4 w-4" />
           {language === 'en' ? 'All Categories' : '所有分类'}
         </Link>
@@ -63,8 +66,7 @@ export default function TradingCityPage({ cities, category }: CategoryPageProps)
 
 function TradingCard({ city, index }: { city: City; index: number }) {
   const { language } = useLanguage()
-  const displayDescription =
-    language === 'en' ? city.enDescription : city.cnDescription
+  const displayDescription = language === 'en' ? city.enDescription : city.cnDescription
 
   return (
     <motion.div

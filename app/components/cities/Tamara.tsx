@@ -140,7 +140,7 @@ export default function Tamara({ city }: { city: City }) {
           animate={{ opacity: 1, y: 0 }}
           className="mb-16 text-center"
         >
-                    <h1 className="mb-4 text-6xl font-black tracking-tighter uppercase md:text-9xl">
+          <h1 className="mb-4 text-6xl font-black tracking-tighter uppercase md:text-9xl">
             Tamara
           </h1>
           <p className="font-mono text-sm tracking-widest text-neutral-500 uppercase">
@@ -181,7 +181,7 @@ export default function Tamara({ city }: { city: City }) {
           ))}
 
           {/* Interpretation Panel */}
-          <div className="absolute bottom-8 left-8 right-8 border-2 border-neutral-900 bg-white p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+          <div className="absolute right-8 bottom-8 left-8 border-2 border-neutral-900 bg-white p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
             {hoveredSign ? (
               <motion.div
                 initial={{ opacity: 0 }}
@@ -198,13 +198,15 @@ export default function Tamara({ city }: { city: City }) {
               </motion.div>
             ) : (
               <p className="text-center text-sm text-neutral-400 italic">
-                {language === 'en' ? 'Hover over the signs to read the city' : '悬停在符号上以阅读城市'}
+                {language === 'en'
+                  ? 'Hover over the signs to read the city'
+                  : '悬停在符号上以阅读城市'}
               </p>
             )}
           </div>
         </div>
 
-        <p className="mt-16 max-w-2xl text-center font-serif text-xl italic text-neutral-500">
+        <p className="mt-16 max-w-2xl text-center font-serif text-xl text-neutral-500 italic">
           {language === 'en'
             ? '"The eye does not see things but images of things that mean other things."'
             : '“眼睛看到的不是事物，而是意味着其他事物的形象。”'}
@@ -213,4 +215,3 @@ export default function Tamara({ city }: { city: City }) {
     </div>
   )
 }
-

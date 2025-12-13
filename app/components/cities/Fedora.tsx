@@ -178,7 +178,9 @@ export default function Fedora({ city }: { city: City }) {
                 </p>
 
                 <div className="rounded-lg border border-blue-900/50 bg-blue-950/30 p-4 text-sm text-blue-400 italic">
-                  {language === 'en' ? '"On the map of your empire, O Great Khan, there must be room both for the big, stone Fedora and the little Fedoras in glass globes."' : '“大汗啊，在你的帝国地图上，必须既有巨大的石头费多拉，也有玻璃球里的小费多拉。”'}
+                  {language === 'en'
+                    ? '"On the map of your empire, O Great Khan, there must be room both for the big, stone Fedora and the little Fedoras in glass globes."'
+                    : '“大汗啊，在你的帝国地图上，必须既有巨大的石头费多拉，也有玻璃球里的小费多拉。”'}
                 </div>
               </div>
             </motion.div>
@@ -187,7 +189,9 @@ export default function Fedora({ city }: { city: City }) {
       </AnimatePresence>
 
       <footer className="absolute right-0 bottom-8 left-0 text-center text-sm text-slate-600">
-        {language === 'en' ? 'Click a sphere to peer into a possible future' : '点击球体窥视可能的未来'}
+        {language === 'en'
+          ? 'Click a sphere to peer into a possible future'
+          : '点击球体窥视可能的未来'}
       </footer>
     </div>
   )

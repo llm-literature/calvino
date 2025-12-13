@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
@@ -45,8 +45,11 @@ export default function HiddenCityPage({ cities, category }: HiddenCityPageProps
           ))}
         </div>
       </div>
-      <div className="absolute left-6 top-6 z-20">
-        <Link href="/city" className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-2 text-sm shadow">
+      <div className="absolute top-6 left-6 z-20">
+        <Link
+          href="/city"
+          className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-2 text-sm shadow"
+        >
           <ArrowLeft className="h-4 w-4" />
           {language === 'en' ? 'All Categories' : '所有分类'}
         </Link>
@@ -58,8 +61,7 @@ export default function HiddenCityPage({ cities, category }: HiddenCityPageProps
 function HiddenCityCard({ city, category }: { city: City; category: string }) {
   const [isHovered, setIsHovered] = useState(false)
   const { language } = useLanguage()
-  const displayDescription =
-    language === 'en' ? city.enDescription : city.cnDescription
+  const displayDescription = language === 'en' ? city.enDescription : city.cnDescription
 
   return (
     <Link href={`/city/${category}/${encodeURIComponent(city.name)}`} className="no-underline">
@@ -69,24 +71,24 @@ function HiddenCityCard({ city, category }: { city: City; category: string }) {
         onMouseLeave={() => setIsHovered(false)}
         whileHover={{ scale: 1.02 }}
       >
-      {/* The "Outer" City (The Mask) */}
-      <motion.div
-        className="absolute inset-0 z-20 flex items-center justify-center bg-stone-800"
-        animate={{ opacity: isHovered ? 0 : 1 }}
-        transition={{ duration: 0.5 }}
-      >
-        <div className="p-6 text-center">
-          <VenetianMask className="mx-auto mb-4 h-16 w-16 text-stone-600" />
-          <h3 className="font-cinzel text-2xl text-stone-500">
-            {language === 'en' ? 'A City' : '一座城市'}
-          </h3>
-          <p className="mt-2 text-sm text-stone-600">
-            {language === 'en' ? 'Hover to reveal the hidden essence' : '悬停以揭示隐藏的本质'}
-          </p>
-        </div>
-        {/* Pattern overlay */}
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay" />
-      </motion.div>
+        {/* The "Outer" City (The Mask) */}
+        <motion.div
+          className="absolute inset-0 z-20 flex items-center justify-center bg-stone-800"
+          animate={{ opacity: isHovered ? 0 : 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="p-6 text-center">
+            <VenetianMask className="mx-auto mb-4 h-16 w-16 text-stone-600" />
+            <h3 className="font-cinzel text-2xl text-stone-500">
+              {language === 'en' ? 'A City' : '一座城市'}
+            </h3>
+            <p className="mt-2 text-sm text-stone-600">
+              {language === 'en' ? 'Hover to reveal the hidden essence' : '悬停以揭示隐藏的本质'}
+            </p>
+          </div>
+          {/* Pattern overlay */}
+          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay" />
+        </motion.div>
 
         {/* The "Inner" City (The Truth) */}
         <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-linear-to-br from-orange-900 to-stone-900 p-6 text-center">

@@ -20,13 +20,7 @@ interface LayoutProps {
   theme: CityTheme
 }
 
-export const ChronicleLayout = ({
-  city,
-  prevCity,
-  nextCity,
-  imageUrl,
-  theme,
-}: LayoutProps) => {
+export const ChronicleLayout = ({ city, prevCity, nextCity, imageUrl, theme }: LayoutProps) => {
   const { language } = useLanguage()
   const displayDescription = language === 'en' ? city.enDescription : city.cnDescription
 

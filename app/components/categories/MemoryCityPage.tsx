@@ -27,8 +27,11 @@ export default function MemoryCityPage({ cities, category }: CategoryPageProps) 
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#e6e0d4] selection:bg-[#8c7b6c] selection:text-white">
-      <div className="absolute left-6 top-6 z-30">
-        <Link href="/city" className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-2 text-sm text-black shadow">
+      <div className="absolute top-6 left-6 z-30">
+        <Link
+          href="/city"
+          className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-2 text-sm text-black shadow"
+        >
           <ArrowLeft className="h-4 w-4" />
           {language === 'en' ? 'All Categories' : '所有分类'}
         </Link>
@@ -51,7 +54,7 @@ export default function MemoryCityPage({ cities, category }: CategoryPageProps) 
 
       <div className="pointer-events-none fixed bottom-8 left-0 w-full text-center font-serif text-sm text-[#8c7b6c]/60 italic">
         {language === 'en'
-          ? '“Memory\'s images, once they are fixed in words, are erased.”'
+          ? "“Memory's images, once they are fixed in words, are erased.”"
           : '“记忆的形象一旦被词语固定住，就消失了。”'}
       </div>
     </div>
@@ -60,8 +63,7 @@ export default function MemoryCityPage({ cities, category }: CategoryPageProps) 
 
 function Polaroid({ city, index, mounted }: { city: City; index: number; mounted: boolean }) {
   const { language } = useLanguage()
-  const displayDescription =
-    language === 'en' ? city.enDescription : city.cnDescription
+  const displayDescription = language === 'en' ? city.enDescription : city.cnDescription
 
   // Deterministic rotation based on index
   const rotation = useMemo(() => {

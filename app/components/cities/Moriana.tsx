@@ -14,92 +14,92 @@ export default function Moriana({ city }: { city: City }) {
   const [face, setFace] = useState<'glass' | 'rust'>('glass')
 
   return (
-    <div className={cn(
-        "relative min-h-screen font-sans overflow-hidden transition-colors duration-1000",
-        face === 'glass' ? "bg-sky-50 text-sky-900 selection:bg-sky-200" : "bg-orange-950 text-orange-100 selection:bg-orange-800"
-    )}>
+    <div
+      className={cn(
+        'relative min-h-screen overflow-hidden font-sans transition-colors duration-1000',
+        face === 'glass'
+          ? 'bg-sky-50 text-sky-900 selection:bg-sky-200'
+          : 'bg-orange-950 text-orange-100 selection:bg-orange-800'
+      )}
+    >
       <Link
         href={`/city/${city.type}`}
         className={cn(
-            "fixed top-8 left-8 z-50 rounded-full p-2 backdrop-blur transition-colors",
-            face === 'glass' ? "bg-white/50 hover:bg-white/80" : "bg-black/50 hover:bg-black/80"
+          'fixed top-8 left-8 z-50 rounded-full p-2 backdrop-blur transition-colors',
+          face === 'glass' ? 'bg-white/50 hover:bg-white/80' : 'bg-black/50 hover:bg-black/80'
         )}
       >
         <ArrowLeft className="h-6 w-6" />
       </Link>
 
-      <div className="container mx-auto px-4 py-24 min-h-screen flex flex-col items-center justify-center">
-        
-        <button 
-            onClick={() => setFace(face === 'glass' ? 'rust' : 'glass')}
-            className="mb-12 group relative"
+      <div className="container mx-auto flex min-h-screen flex-col items-center justify-center px-4 py-24">
+        <button
+          onClick={() => setFace(face === 'glass' ? 'rust' : 'glass')}
+          className="group relative mb-12"
         >
-            <h1 className="text-8xl font-serif tracking-tighter relative z-10">MORIANA</h1>
-            <motion.div 
-                className="absolute -inset-4 rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
-                animate={{ rotate: 360 }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-            >
-                <RefreshCw className="w-full h-full opacity-10" />
-            </motion.div>
+          <h1 className="relative z-10 font-serif text-8xl tracking-tighter">MORIANA</h1>
+          <motion.div
+            className="absolute -inset-4 flex items-center justify-center rounded-full opacity-0 transition-opacity group-hover:opacity-100"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+          >
+            <RefreshCw className="h-full w-full opacity-10" />
+          </motion.div>
         </button>
 
-        <div className="relative w-full max-w-5xl h-125 flex items-center justify-center perspective-1000">
-            
-            {/* Glass Face */}
-            <motion.div 
-                className="absolute inset-0 bg-white/30 backdrop-blur-md border border-white/50 rounded-3xl shadow-xl flex flex-col items-center justify-center p-12"
-                animate={{ 
-                    rotateY: face === 'glass' ? 0 : 180,
-                    opacity: face === 'glass' ? 1 : 0,
-                    zIndex: face === 'glass' ? 10 : 0
-                }}
-                transition={{ duration: 0.8 }}
-                style={{ backfaceVisibility: 'hidden' }}
-            >
-                <div className="grid grid-cols-3 gap-8 w-full h-full">
-                    <div className="bg-sky-200/50 rounded-xl animate-pulse" />
-                    <div className="bg-sky-200/50 rounded-xl animate-pulse delay-100" />
-                    <div className="bg-sky-200/50 rounded-xl animate-pulse delay-200" />
-                    <div className="col-span-3 bg-sky-100/50 rounded-xl flex items-center justify-center text-sky-700 text-xl font-light">
-                        {language === 'en'
-                            ? '"Alabaster gates transparent in the sunlight..."'
-                            : '“阳光下透明的雪花石膏大门……”'}
-                    </div>
-                </div>
-            </motion.div>
+        <div className="perspective-1000 relative flex h-125 w-full max-w-5xl items-center justify-center">
+          {/* Glass Face */}
+          <motion.div
+            className="absolute inset-0 flex flex-col items-center justify-center rounded-3xl border border-white/50 bg-white/30 p-12 shadow-xl backdrop-blur-md"
+            animate={{
+              rotateY: face === 'glass' ? 0 : 180,
+              opacity: face === 'glass' ? 1 : 0,
+              zIndex: face === 'glass' ? 10 : 0,
+            }}
+            transition={{ duration: 0.8 }}
+            style={{ backfaceVisibility: 'hidden' }}
+          >
+            <div className="grid h-full w-full grid-cols-3 gap-8">
+              <div className="animate-pulse rounded-xl bg-sky-200/50" />
+              <div className="animate-pulse rounded-xl bg-sky-200/50 delay-100" />
+              <div className="animate-pulse rounded-xl bg-sky-200/50 delay-200" />
+              <div className="col-span-3 flex items-center justify-center rounded-xl bg-sky-100/50 text-xl font-light text-sky-700">
+                {language === 'en'
+                  ? '"Alabaster gates transparent in the sunlight..."'
+                  : '“阳光下透明的雪花石膏大门……”'}
+              </div>
+            </div>
+          </motion.div>
 
-            {/* Rust Face */}
-            <motion.div 
-                className="absolute inset-0 bg-stone-900 border border-orange-900/50 rounded-3xl shadow-2xl flex flex-col items-center justify-center p-12"
-                animate={{ 
-                    rotateY: face === 'rust' ? 0 : -180,
-                    opacity: face === 'rust' ? 1 : 0,
-                    zIndex: face === 'rust' ? 10 : 0
-                }}
-                transition={{ duration: 0.8 }}
-                style={{ backfaceVisibility: 'hidden' }}
-            >
-                <div className="grid grid-cols-3 gap-8 w-full h-full">
-                    <div className="bg-orange-900/50 rounded-xl border border-orange-800" />
-                    <div className="bg-orange-900/50 rounded-xl border border-orange-800" />
-                    <div className="bg-orange-900/50 rounded-xl border border-orange-800" />
-                    <div className="col-span-3 bg-black/50 rounded-xl flex items-center justify-center text-orange-500 text-xl font-mono border border-orange-900">
-                        {language === 'en'
-                            ? '"Rusted signs... piles of tin cans... soot-covered walls..."'
-                            : '“生锈的标志……成堆的锡罐……覆盖着煤烟的墙壁……”'}
-                    </div>
-                </div>
-            </motion.div>
-
+          {/* Rust Face */}
+          <motion.div
+            className="absolute inset-0 flex flex-col items-center justify-center rounded-3xl border border-orange-900/50 bg-stone-900 p-12 shadow-2xl"
+            animate={{
+              rotateY: face === 'rust' ? 0 : -180,
+              opacity: face === 'rust' ? 1 : 0,
+              zIndex: face === 'rust' ? 10 : 0,
+            }}
+            transition={{ duration: 0.8 }}
+            style={{ backfaceVisibility: 'hidden' }}
+          >
+            <div className="grid h-full w-full grid-cols-3 gap-8">
+              <div className="rounded-xl border border-orange-800 bg-orange-900/50" />
+              <div className="rounded-xl border border-orange-800 bg-orange-900/50" />
+              <div className="rounded-xl border border-orange-800 bg-orange-900/50" />
+              <div className="col-span-3 flex items-center justify-center rounded-xl border border-orange-900 bg-black/50 font-mono text-xl text-orange-500">
+                {language === 'en'
+                  ? '"Rusted signs... piles of tin cans... soot-covered walls..."'
+                  : '“生锈的标志……成堆的锡罐……覆盖着煤烟的墙壁……”'}
+              </div>
+            </div>
+          </motion.div>
         </div>
 
-        <p className="mt-12 text-center opacity-60 max-w-lg">
-            {language === 'en'
-                ? 'Moriana has no thickness; it consists only of a face and an obverse, like a sheet of paper, with a figure on either side.'
-                : '莫里亚纳没有厚度；它只有正面和反面，就像一张纸，两面都有图案。'}
+        <p className="mt-12 max-w-lg text-center opacity-60">
+          {language === 'en'
+            ? 'Moriana has no thickness; it consists only of a face and an obverse, like a sheet of paper, with a figure on either side.'
+            : '莫里亚纳没有厚度；它只有正面和反面，就像一张纸，两面都有图案。'}
         </p>
-
       </div>
     </div>
   )
