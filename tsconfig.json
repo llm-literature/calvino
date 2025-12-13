@@ -21,7 +21,7 @@
     "paths": {
       "@/*": ["./*"]
     },
-    "types": ["next", "next/types/global"],
+    "types": ["next"],
     "typeRoots": ["./node_modules/@types"]
   },
   "include": [
