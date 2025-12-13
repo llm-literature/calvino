@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { useLanguage } from '@/app/context/LanguageContext'
+import { ArrowLeft } from 'lucide-react'
 import { getCityTheme } from '@/lib/themes'
 
 export default function DesireCityPage({ cities, category }: CategoryPageProps) {
@@ -23,6 +24,12 @@ export default function DesireCityPage({ cities, category }: CategoryPageProps) 
 
   return (
     <div className="relative min-h-screen cursor-none overflow-hidden bg-black text-white">
+      <div className="absolute left-6 top-6 z-30">
+        <Link href="/city" className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-2 text-sm text-black shadow">
+          <ArrowLeft className="h-4 w-4" />
+          {language === 'en' ? 'All Categories' : '所有分类'}
+        </Link>
+      </div>
       {/* Spotlight Effect */}
       <div
         className="pointer-events-none fixed z-20 mix-blend-overlay transition-opacity duration-300"
@@ -38,7 +45,7 @@ export default function DesireCityPage({ cities, category }: CategoryPageProps) 
       />
 
       <div className="relative z-10 container mx-auto px-4 py-20">
-        <h1 className="font-display mb-32 bg-gradient-to-b from-pink-900 to-black bg-clip-text text-center text-6xl font-bold tracking-tighter text-transparent select-none md:text-9xl">
+        <h1 className="font-display mb-32 bg-linear-to-b from-pink-900 to-black bg-clip-text text-center text-6xl font-bold tracking-tighter text-transparent select-none md:text-9xl">
           {displayCategory.toUpperCase()}
         </h1>
 
@@ -64,7 +71,7 @@ function DesireCard({ city }: { city: City }) {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ margin: '-10%' }}
-        className="group relative aspect-[3/4] overflow-hidden border border-pink-900/20 bg-zinc-950"
+        className="group relative aspect-3/4 overflow-hidden border border-pink-900/20 bg-zinc-950"
       >
         {/* Hidden Image/Texture */}
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/dark-leather.png')] opacity-50" />
@@ -84,7 +91,7 @@ function DesireCard({ city }: { city: City }) {
 
         {/* Glowing Edges on Hover */}
         <div className="absolute inset-0 border border-pink-500/0 transition-colors duration-500 group-hover:border-pink-500/50" />
-        <div className="absolute inset-0 bg-gradient-to-t from-pink-900/20 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+        <div className="absolute inset-0 bg-linear-to-t from-pink-900/20 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
       </motion.div>
     </Link>
   )

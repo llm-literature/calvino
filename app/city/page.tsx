@@ -87,9 +87,9 @@ export default function CityCategoriesPage() {
               onHoverEnd={() => setActiveType(null)}
               onClick={() => setActiveType(isActive ? null : type)} // For mobile tap
               className={cn(
-                'relative flex-shrink-0 cursor-pointer overflow-hidden border-b border-white/10 md:border-r md:border-b-0',
+                'relative shrink-0 cursor-pointer overflow-hidden border-b border-white/10 md:border-r md:border-b-0',
                 'flex flex-col items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] md:flex-row',
-                isActive ? 'flex-[3] md:flex-[4]' : 'flex-[1]'
+                isActive ? 'flex-3 md:flex-4' : 'flex-1'
               )}
               style={{
                 minHeight: '100px', // Mobile min height

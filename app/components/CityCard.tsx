@@ -34,7 +34,7 @@ export default function CityCard({ cityType, cityName, className, originalType }
         )}
       >
         {/* Image Container */}
-        <div className={cn('relative mb-4 aspect-[4/3] w-full overflow-hidden', theme.colors.bg)}>
+        <div className={cn('relative mb-4 aspect-4/3 w-full overflow-hidden', theme.colors.bg)}>
           <Image
             className="object-cover grayscale transition-transform duration-700 group-hover:scale-110 group-hover:grayscale-0"
             fill

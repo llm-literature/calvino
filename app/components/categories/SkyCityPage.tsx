@@ -4,13 +4,8 @@ import React, { useState, useEffect, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { City } from '@/lib/types'
 import { Star, Moon } from 'lucide-react'
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from '@/components/ui/dialog'
+import Link from 'next/link'
+import { ArrowLeft } from 'lucide-react'
 import { useLanguage } from '@/app/context/LanguageContext'
 import { getCityTheme } from '@/lib/themes'
 
@@ -40,17 +35,10 @@ function generateBackgroundStars(count: number, seed: number) {
 }
 
 export default function SkyCityPage({ cities, category }: SkyCityPageProps) {
-  const [selectedCity, setSelectedCity] = useState<City | null>(null)
   const [stars, setStars] = useState<{ x: number; y: number; size: number; delay: number }[]>([])
   const { language } = useLanguage()
   const theme = getCityTheme(category)
   const displayCategory = language === 'en' ? theme.label : theme.cnLabel
-
-  const selectedCityDescription = selectedCity
-    ? language === 'en'
-      ? selectedCity.enDescription
-      : selectedCity.cnDescription
-    : ''
 
   // Background stars - deterministic
   const backgroundStars = useMemo(() => generateBackgroundStars(50, 12345), [])
@@ -135,18 +123,11 @@ export default function SkyCityPage({ cities, category }: SkyCityPageProps) {
             if (!star) return null
 
             return (
-              <motion.button
+              <Link
                 key={city.name}
-                className="group absolute flex flex-col items-center justify-center"
-                style={{
-                  left: `${star.x}%`,
-                  top: `${star.y}%`,
-                }}
-                initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ delay: star.delay, duration: 1 }}
-                whileHover={{ scale: 1.2 }}
-                onClick={() => setSelectedCity(city)}
+                href={`/city/${category}/${encodeURIComponent(city.name)}`}
+                className="group absolute flex flex-col items-center justify-center no-underline"
+                style={{ left: `${star.x}%`, top: `${star.y}%` }}
               >
                 <div className="relative">
                   <motion.div
@@ -159,28 +140,18 @@ export default function SkyCityPage({ cities, category }: SkyCityPageProps) {
                 <span className="font-cinzel absolute top-full mt-2 rounded bg-black/50 px-2 py-1 text-xs whitespace-nowrap text-indigo-200 opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100 md:text-sm">
                   {language === 'en' ? city.name : city.cnName || city.name}
                 </span>
-              </motion.button>
+              </Link>
             )
           })}
         </div>
       </div>
 
-      <Dialog open={!!selectedCity} onOpenChange={() => setSelectedCity(null)}>
-        <DialogContent className="max-w-2xl border-indigo-500/30 bg-slate-900/90 text-indigo-100 backdrop-blur-xl">
-          <DialogHeader>
-            <DialogTitle className="font-cinzel text-center text-3xl text-indigo-300">
-              {language === 'en'
-                ? selectedCity?.name
-                : selectedCity?.cnName || selectedCity?.name}
-            </DialogTitle>
-          </DialogHeader>
-          <div className="custom-scrollbar mt-4 max-h-[60vh] overflow-y-auto pr-4">
-            <DialogDescription className="font-lora text-lg leading-relaxed whitespace-pre-line text-indigo-100/80">
-              {selectedCityDescription}
-            </DialogDescription>
-          </div>
-        </DialogContent>
-      </Dialog>
+    <div className="absolute left-6 top-6 z-20">
+      <Link href="/city" className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-2 text-sm shadow">
+        <ArrowLeft className="h-4 w-4" />
+        {language === 'en' ? 'All Categories' : '所有分类'}
+      </Link>
+    </div>
     </div>
   )
 }

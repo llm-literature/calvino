@@ -1,16 +1,10 @@
-'use client'
+"use client"
 
-import React, { useState } from 'react'
+import React from 'react'
 import { motion } from 'framer-motion'
 import { City } from '@/lib/types'
-import { Infinity as InfinityIcon } from 'lucide-react'
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from '@/components/ui/dialog'
+import { Infinity as InfinityIcon, ArrowLeft } from 'lucide-react'
+import Link from 'next/link'
 import { useLanguage } from '@/app/context/LanguageContext'
 import { getCityTheme } from '@/lib/themes'
 
@@ -20,29 +14,16 @@ interface ContinuousCityPageProps {
 }
 
 export default function ContinuousCityPage({ cities, category }: ContinuousCityPageProps) {
-  const [selectedCity, setSelectedCity] = useState<City | null>(null)
   const { language } = useLanguage()
   const theme = getCityTheme(category)
   const displayCategory = language === 'en' ? theme.label : theme.cnLabel
-
-  const selectedCityDescription = selectedCity
-    ? language === 'en'
-      ? selectedCity.enDescription
-      : selectedCity.cnDescription
-    : ''
-
-  const selectedCityName = selectedCity
-    ? language === 'en'
-      ? selectedCity.name
-      : selectedCity.cnName || selectedCity.name
-    : ''
 
   // Duplicate cities to create seamless loop
   const loopedCities = [...cities, ...cities, ...cities, ...cities]
 
   return (
     <div className="relative flex min-h-screen flex-col justify-center overflow-hidden bg-slate-100 font-serif text-slate-900 selection:bg-blue-500/30">
-      <div className="pointer-events-none absolute inset-0 grid grid-cols-[repeat(20,minmax(0,1fr))] opacity-5">
+      <div className="pointer-events-none absolute inset-0 grid grid-cols-20 opacity-5">
         {[...Array(400)].map((_, i) => (
           <div key={i} className="border border-slate-900/20" />
         ))}
@@ -77,54 +58,46 @@ export default function ContinuousCityPage({ cities, category }: ContinuousCityP
             <ContinuousCityCard
               key={`${city.name}-${index}`}
               city={city}
-              onSelect={() => setSelectedCity(city)}
+              category={category}
             />
           ))}
         </motion.div>
       </div>
-
-      <Dialog open={!!selectedCity} onOpenChange={() => setSelectedCity(null)}>
-        <DialogContent className="max-w-2xl border-slate-200 bg-white/95 text-slate-900 backdrop-blur-xl">
-          <DialogHeader>
-            <DialogTitle className="font-cinzel text-center text-3xl text-slate-800">
-              {selectedCityName}
-            </DialogTitle>
-          </DialogHeader>
-          <div className="custom-scrollbar mt-4 max-h-[60vh] overflow-y-auto pr-4">
-            <DialogDescription className="font-lora text-lg leading-relaxed whitespace-pre-line text-slate-600">
-              {selectedCityDescription}
-            </DialogDescription>
-          </div>
-        </DialogContent>
-      </Dialog>
+      <div className="absolute left-6 top-6 z-20">
+        <Link href="/city" className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-2 text-sm shadow">
+          <ArrowLeft className="h-4 w-4" />
+          {language === 'en' ? 'All Categories' : '所有分类'}
+        </Link>
+      </div>
     </div>
   )
 }
 
-function ContinuousCityCard({ city, onSelect }: { city: City; onSelect: () => void }) {
+function ContinuousCityCard({ city, category }: { city: City; category: string }) {
   const { language } = useLanguage()
   const displayDescription =
     language === 'en' ? city.enDescription : city.cnDescription
   const displayName = language === 'en' ? city.name : city.cnName || city.name
 
   return (
-    <motion.div
-      className="flex h-96 w-80 shrink-0 cursor-pointer flex-col justify-between border border-slate-200 bg-white p-6 shadow-lg transition-shadow hover:shadow-xl"
-      whileHover={{ scale: 1.05, y: -10 }}
-      onClick={onSelect}
-    >
-      <div>
-        <div className="mb-4 h-1 w-full bg-gradient-to-r from-blue-500 to-cyan-500" />
-        <h3 className="font-cinzel mb-2 text-2xl text-slate-800">{displayName}</h3>
-        <p className="font-lora line-clamp-6 text-sm leading-relaxed text-slate-500">
-          {displayDescription}
-        </p>
-      </div>
-      <div className="mt-4 flex items-center justify-between text-xs tracking-wider text-slate-400 uppercase">
-        <span>{language === 'en' ? 'Route A' : '路线 A'}</span>
-        <span>&rarr;</span>
-        <span>{language === 'en' ? 'Route B' : '路线 B'}</span>
-      </div>
-    </motion.div>
+    <Link href={`/city/${category}/${encodeURIComponent(city.name)}`} className="no-underline">
+      <motion.div
+        className="flex h-96 w-80 shrink-0 cursor-pointer flex-col justify-between border border-slate-200 bg-white p-6 shadow-lg transition-shadow hover:shadow-xl"
+        whileHover={{ scale: 1.05, y: -10 }}
+      >
+        <div>
+          <div className="mb-4 h-1 w-full bg-linear-to-r from-blue-500 to-cyan-500" />
+          <h3 className="font-cinzel mb-2 text-2xl text-slate-800">{displayName}</h3>
+          <p className="font-lora line-clamp-6 text-sm leading-relaxed text-slate-500">
+            {displayDescription}
+          </p>
+        </div>
+        <div className="mt-4 flex items-center justify-between text-xs tracking-wider text-slate-400 uppercase">
+          <span>{language === 'en' ? 'Route A' : '路线 A'}</span>
+          <span>&rarr;</span>
+          <span>{language === 'en' ? 'Route B' : '路线 B'}</span>
+        </div>
+      </motion.div>
+    </Link>
   )
 }

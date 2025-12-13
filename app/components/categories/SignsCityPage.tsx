@@ -5,11 +5,18 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useState } from 'react'
 import { useLanguage } from '@/app/context/LanguageContext'
+import { ArrowLeft } from 'lucide-react'
 
 export default function SignsCityPage({ cities }: CategoryPageProps) {
   const { language } = useLanguage()
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-neutral-950 py-20 font-mono text-neutral-200">
+      <div className="absolute left-6 top-6 z-30">
+        <Link href="/city" className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-2 text-sm text-black shadow">
+          <ArrowLeft className="h-4 w-4" />
+          {language === 'en' ? 'All Categories' : '所有分类'}
+        </Link>
+      </div>
       <div className="pointer-events-none absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20" />
 
       <h1 className="z-10 mb-12 text-xs tracking-[1em] text-neutral-500 uppercase">

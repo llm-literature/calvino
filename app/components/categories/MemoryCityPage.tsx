@@ -3,8 +3,9 @@
 import { City, CategoryPageProps } from '@/lib/types'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { useEffect, useState, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useLanguage } from '@/app/context/LanguageContext'
+import { ArrowLeft } from 'lucide-react'
 import { getCityTheme } from '@/lib/themes'
 
 // Deterministic pseudo-random based on index
@@ -26,6 +27,12 @@ export default function MemoryCityPage({ cities, category }: CategoryPageProps) 
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#e6e0d4] selection:bg-[#8c7b6c] selection:text-white">
+      <div className="absolute left-6 top-6 z-30">
+        <Link href="/city" className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-2 text-sm text-black shadow">
+          <ArrowLeft className="h-4 w-4" />
+          {language === 'en' ? 'All Categories' : '所有分类'}
+        </Link>
+      </div>
       {/* Texture Background */}
       <div className="pointer-events-none absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/paper.png')] opacity-40" />
 
@@ -84,7 +91,7 @@ function Polaroid({ city, index, mounted }: { city: City; index: number; mounted
                 {(language === 'en' ? city.name : city.cnName || city.name)[0].toUpperCase()}
               </span>
             </div>
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60" />
+            <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent opacity-60" />
 
             <p className="absolute right-2 bottom-2 left-2 line-clamp-3 font-serif text-xs text-white/80 italic opacity-0 transition-opacity duration-500 group-hover:opacity-100">
               {displayDescription}

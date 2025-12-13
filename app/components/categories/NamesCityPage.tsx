@@ -1,16 +1,10 @@
-'use client'
+"use client"
 
-import React, { useState } from 'react'
+import React from 'react'
 import { motion } from 'framer-motion'
 import { City } from '@/lib/types'
-import { Type } from 'lucide-react'
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from '@/components/ui/dialog'
+import { Type, ArrowLeft } from 'lucide-react'
+import Link from 'next/link'
 import { useLanguage } from '@/app/context/LanguageContext'
 import { getCityTheme } from '@/lib/themes'
 
@@ -20,16 +14,9 @@ interface NamesCityPageProps {
 }
 
 export default function NamesCityPage({ cities, category }: NamesCityPageProps) {
-  const [selectedCity, setSelectedCity] = useState<City | null>(null)
   const { language } = useLanguage()
   const theme = getCityTheme(category)
   const displayCategory = language === 'en' ? theme.label : theme.cnLabel
-
-  const selectedCityDescription = selectedCity
-    ? language === 'en'
-      ? selectedCity.enDescription
-      : selectedCity.cnDescription
-    : ''
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-white font-serif text-black selection:bg-black selection:text-white">
@@ -51,54 +38,30 @@ export default function NamesCityPage({ cities, category }: NamesCityPageProps) 
 
         <div className="flex flex-col gap-0">
           {cities.map((city, index) => (
-            <NameCityRow
-              key={city.name}
-              city={city}
-              index={index}
-              onSelect={() => setSelectedCity(city)}
-            />
+            <NameCityRow key={city.name} city={city} index={index} category={category} />
           ))}
         </div>
       </div>
-
-      <Dialog open={!!selectedCity} onOpenChange={() => setSelectedCity(null)}>
-        <DialogContent className="max-w-3xl rounded-none border-4 border-black bg-white text-black">
-          <DialogHeader>
-            <DialogTitle className="font-cinzel text-center text-6xl tracking-tighter text-black uppercase">
-              {language === 'en'
-                ? selectedCity?.name
-                : selectedCity?.cnName || selectedCity?.name}
-            </DialogTitle>
-          </DialogHeader>
-          <div className="custom-scrollbar mt-8 max-h-[60vh] overflow-y-auto pr-4">
-            <DialogDescription className="font-lora columns-1 gap-8 text-justify text-xl leading-relaxed whitespace-pre-line text-gray-800 md:columns-2">
-              {selectedCityDescription}
-            </DialogDescription>
-          </div>
-        </DialogContent>
-      </Dialog>
+      <div className="absolute left-6 top-6 z-20">
+        <Link href="/city" className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-2 text-sm shadow">
+          <ArrowLeft className="h-4 w-4" />
+          {language === 'en' ? 'All Categories' : '所有分类'}
+        </Link>
+      </div>
     </div>
   )
 }
 
-function NameCityRow({
-  city,
-  index,
-  onSelect,
-}: {
-  city: City
-  index: number
-  onSelect: () => void
-}) {
+function NameCityRow({ city, index, category }: { city: City; index: number; category: string }) {
   const { language } = useLanguage()
   return (
-    <motion.div
-      className="group relative cursor-pointer overflow-hidden border-b border-black py-12"
-      initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ delay: index * 0.1 }}
-      onClick={onSelect}
-    >
+    <Link href={`/city/${category}/${encodeURIComponent(city.name)}`} className="no-underline">
+      <motion.div
+        className="group relative block cursor-pointer overflow-hidden border-b border-black py-12"
+        initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: index * 0.1 }}
+      >
       <div className="relative z-10 container mx-auto flex items-baseline justify-between">
         <h2
           className="font-cinzel stroke-black text-6xl font-black tracking-tighter text-transparent uppercase transition-colors duration-500 hover:text-black md:text-9xl"
@@ -119,6 +82,7 @@ function NameCityRow({
         whileHover={{ scaleX: 1 }}
         transition={{ duration: 0.4, ease: 'circOut' }}
       />
-    </motion.div>
+      </motion.div>
+    </Link>
   )
 }

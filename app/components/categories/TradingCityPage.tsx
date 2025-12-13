@@ -4,6 +4,7 @@ import { CategoryPageProps, City } from '@/lib/types'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useLanguage } from '@/app/context/LanguageContext'
+import { ArrowLeft } from 'lucide-react'
 import { getCityTheme } from '@/lib/themes'
 
 export default function TradingCityPage({ cities, category }: CategoryPageProps) {
@@ -15,6 +16,12 @@ export default function TradingCityPage({ cities, category }: CategoryPageProps)
 
   return (
     <div className="flex h-screen flex-col overflow-hidden bg-[#0f172a] text-amber-500">
+      <div className="absolute left-6 top-6 z-30">
+        <Link href="/city" className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-2 text-sm text-black shadow">
+          <ArrowLeft className="h-4 w-4" />
+          {language === 'en' ? 'All Categories' : '所有分类'}
+        </Link>
+      </div>
       <div className="z-10 flex items-end justify-between border-b border-amber-900/30 bg-[#0f172a] p-8">
         <div>
           <h1 className="font-display text-4xl font-bold tracking-tighter text-amber-500/90 uppercase md:text-6xl">
@@ -34,14 +41,14 @@ export default function TradingCityPage({ cities, category }: CategoryPageProps)
         style={{ scrollBehavior: 'smooth' }}
       >
         {/* Intro Spacer */}
-        <div className="w-8 flex-shrink-0" />
+        <div className="w-8 shrink-0" />
 
         {cities.map((city, index) => (
           <TradingCard key={city.name} city={city} index={index} />
         ))}
 
         {/* Outro Spacer */}
-        <div className="flex w-32 flex-shrink-0 items-center justify-center opacity-30">
+        <div className="flex w-32 shrink-0 items-center justify-center opacity-30">
           <span className="writing-vertical-rl font-mono text-xs tracking-widest text-amber-900">
             {language === 'en' ? 'END OF ROUTE' : '路线终点'}
           </span>
@@ -49,7 +56,7 @@ export default function TradingCityPage({ cities, category }: CategoryPageProps)
       </div>
 
       {/* Background Elements */}
-      <div className="pointer-events-none absolute bottom-0 left-0 h-32 w-full bg-gradient-to-t from-amber-900/10 to-transparent" />
+      <div className="pointer-events-none absolute bottom-0 left-0 h-32 w-full bg-linear-to-t from-amber-900/10 to-transparent" />
     </div>
   )
 }
@@ -61,7 +68,7 @@ function TradingCard({ city, index }: { city: City; index: number }) {
 
   return (
     <motion.div
-      className="group relative h-[60vh] w-[85vw] flex-shrink-0 snap-center md:w-[400px]"
+      className="group relative h-[60vh] w-[85vw] shrink-0 snap-center md:w-100"
       initial={{ opacity: 0, x: 50 }}
       whileInView={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -88,10 +95,10 @@ function TradingCard({ city, index }: { city: City; index: number }) {
             </div>
 
             <div className="relative flex-1 overflow-hidden">
-              <p className="line-clamp-[10] font-serif text-sm leading-relaxed text-amber-200/80 md:text-base">
+              <p className="line-clamp-10 font-serif text-sm leading-relaxed text-amber-200/80 md:text-base">
                 {displayDescription}
               </p>
-              <div className="absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-[#1e293b] to-transparent" />
+              <div className="absolute bottom-0 left-0 h-24 w-full bg-linear-to-t from-[#1e293b] to-transparent" />
             </div>
 
             <div className="mt-6 flex items-center justify-between border-t border-amber-500/10 pt-6">

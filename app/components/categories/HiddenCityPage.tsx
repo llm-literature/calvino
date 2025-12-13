@@ -1,16 +1,11 @@
-'use client'
+"use client"
 
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { City } from '@/lib/types'
 import { VenetianMask } from 'lucide-react'
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from '@/components/ui/dialog'
+import Link from 'next/link'
+import { ArrowLeft } from 'lucide-react'
 import { useLanguage } from '@/app/context/LanguageContext'
 import { getCityTheme } from '@/lib/themes'
 
@@ -20,16 +15,9 @@ interface HiddenCityPageProps {
 }
 
 export default function HiddenCityPage({ cities, category }: HiddenCityPageProps) {
-  const [selectedCity, setSelectedCity] = useState<City | null>(null)
   const { language } = useLanguage()
   const theme = getCityTheme(category)
   const displayCategory = language === 'en' ? theme.label : theme.cnLabel
-
-  const selectedCityDescription = selectedCity
-    ? language === 'en'
-      ? selectedCity.enDescription
-      : selectedCity.cnDescription
-    : ''
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-stone-900 font-serif text-stone-100 selection:bg-orange-500/30">
@@ -53,45 +41,34 @@ export default function HiddenCityPage({ cities, category }: HiddenCityPageProps
 
         <div className="mx-auto grid max-w-4xl grid-cols-1 gap-12 md:grid-cols-2">
           {cities.map((city) => (
-            <HiddenCityCard key={city.name} city={city} onSelect={() => setSelectedCity(city)} />
+            <HiddenCityCard key={city.name} city={city} category={category} />
           ))}
         </div>
       </div>
-
-      <Dialog open={!!selectedCity} onOpenChange={() => setSelectedCity(null)}>
-        <DialogContent className="max-w-2xl border-stone-700 bg-stone-900/95 text-stone-100 backdrop-blur-xl">
-          <DialogHeader>
-            <DialogTitle className="font-cinzel text-center text-3xl text-orange-300">
-              {language === 'en'
-                ? selectedCity?.name
-                : selectedCity?.cnName || selectedCity?.name}
-            </DialogTitle>
-          </DialogHeader>
-          <div className="custom-scrollbar mt-4 max-h-[60vh] overflow-y-auto pr-4">
-            <DialogDescription className="font-lora text-lg leading-relaxed whitespace-pre-line text-stone-300">
-              {selectedCityDescription}
-            </DialogDescription>
-          </div>
-        </DialogContent>
-      </Dialog>
+      <div className="absolute left-6 top-6 z-20">
+        <Link href="/city" className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-2 text-sm shadow">
+          <ArrowLeft className="h-4 w-4" />
+          {language === 'en' ? 'All Categories' : '所有分类'}
+        </Link>
+      </div>
     </div>
   )
 }
 
-function HiddenCityCard({ city, onSelect }: { city: City; onSelect: () => void }) {
+function HiddenCityCard({ city, category }: { city: City; category: string }) {
   const [isHovered, setIsHovered] = useState(false)
   const { language } = useLanguage()
   const displayDescription =
     language === 'en' ? city.enDescription : city.cnDescription
 
   return (
-    <motion.div
-      className="relative h-80 cursor-pointer overflow-hidden rounded-lg border border-stone-700 bg-stone-800 shadow-2xl"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onClick={onSelect}
-      whileHover={{ scale: 1.02 }}
-    >
+    <Link href={`/city/${category}/${encodeURIComponent(city.name)}`} className="no-underline">
+      <motion.div
+        className="relative block h-80 cursor-pointer overflow-hidden rounded-lg border border-stone-700 bg-stone-800 shadow-2xl"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        whileHover={{ scale: 1.02 }}
+      >
       {/* The "Outer" City (The Mask) */}
       <motion.div
         className="absolute inset-0 z-20 flex items-center justify-center bg-stone-800"
@@ -111,16 +88,17 @@ function HiddenCityCard({ city, onSelect }: { city: City; onSelect: () => void }
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay" />
       </motion.div>
 
-      {/* The "Inner" City (The Truth) */}
-      <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-gradient-to-br from-orange-900 to-stone-900 p-6 text-center">
-        <h3 className="font-cinzel mb-2 text-3xl text-orange-200">
-          {language === 'en' ? city.name : city.cnName || city.name}
-        </h3>
-        <p className="font-lora line-clamp-4 text-sm text-orange-100/70">{displayDescription}</p>
-        <span className="mt-4 rounded border border-orange-400/30 px-3 py-1 text-xs tracking-widest text-orange-400 uppercase">
-          {language === 'en' ? 'Click to Read' : '点击阅读'}
-        </span>
-      </div>
-    </motion.div>
+        {/* The "Inner" City (The Truth) */}
+        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-linear-to-br from-orange-900 to-stone-900 p-6 text-center">
+          <h3 className="font-cinzel mb-2 text-3xl text-orange-200">
+            {language === 'en' ? city.name : city.cnName || city.name}
+          </h3>
+          <p className="font-lora line-clamp-4 text-sm text-orange-100/70">{displayDescription}</p>
+          <span className="mt-4 rounded border border-orange-400/30 px-3 py-1 text-xs tracking-widest text-orange-400 uppercase">
+            {language === 'en' ? 'Click to Read' : '点击阅读'}
+          </span>
+        </div>
+      </motion.div>
+    </Link>
   )
 }

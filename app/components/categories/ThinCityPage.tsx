@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { useLanguage } from '@/app/context/LanguageContext'
+import { ArrowLeft } from 'lucide-react'
 import { getCityTheme } from '@/lib/themes'
 
 export default function ThinCityPage({ cities, category }: CategoryPageProps) {
@@ -19,8 +20,14 @@ export default function ThinCityPage({ cities, category }: CategoryPageProps) {
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-slate-50">
+      <div className="absolute left-6 top-6 z-30">
+        <Link href="/city" className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-2 text-sm text-black shadow">
+          <ArrowLeft className="h-4 w-4" />
+          {language === 'en' ? 'All Categories' : '所有分类'}
+        </Link>
+      </div>
       {/* Subtle Grid Background */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[24px_24px]" />
 
       <div className="relative z-10 container mx-auto h-screen px-4 py-20">
         <motion.h1
@@ -122,7 +129,7 @@ function HangingCity({
               </div>
 
               {/* Hover Description Tooltip */}
-              <div className="pointer-events-none absolute top-full z-50 mt-4 w-64 translate-y-[-10px] rounded-sm border border-slate-100 bg-white/90 p-4 text-center font-serif text-xs leading-relaxed text-slate-500 opacity-0 shadow-xl backdrop-blur transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+              <div className="pointer-events-none absolute top-full z-50 mt-4 w-64 -translate-y-2.5 rounded-sm border border-slate-100 bg-white/90 p-4 text-center font-serif text-xs leading-relaxed text-slate-500 opacity-0 shadow-xl backdrop-blur transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
                 {displayDescription.substring(0, 100)}...
               </div>
             </div>

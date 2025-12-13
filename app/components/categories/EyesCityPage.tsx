@@ -1,16 +1,10 @@
-'use client'
+"use client"
 
 import React, { useState, useEffect, useRef } from 'react'
 import { motion, useMotionValue, MotionValue } from 'framer-motion'
 import { City } from '@/lib/types'
-import { Eye } from 'lucide-react'
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from '@/components/ui/dialog'
+import { Eye, ArrowLeft } from 'lucide-react'
+import Link from 'next/link'
 import { useLanguage } from '@/app/context/LanguageContext'
 import { getCityTheme } from '@/lib/themes'
 
@@ -20,16 +14,9 @@ interface EyesCityPageProps {
 }
 
 export default function EyesCityPage({ cities, category }: EyesCityPageProps) {
-  const [selectedCity, setSelectedCity] = useState<City | null>(null)
   const { language } = useLanguage()
   const theme = getCityTheme(category)
   const displayCategory = language === 'en' ? theme.label : theme.cnLabel
-
-  const selectedCityDescription = selectedCity
-    ? language === 'en'
-      ? selectedCity.enDescription
-      : selectedCity.cnDescription
-    : ''
 
   // Mouse tracking for "eyes" effect
   const mouseX = useMotionValue(0)
@@ -66,48 +53,21 @@ export default function EyesCityPage({ cities, category }: EyesCityPageProps) {
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {cities.map((city) => (
-            <EyeCard
-              key={city.name}
-              city={city}
-              mouseX={mouseX}
-              mouseY={mouseY}
-              onSelect={() => setSelectedCity(city)}
-            />
+            <EyeCard key={city.name} city={city} mouseX={mouseX} mouseY={mouseY} category={category} />
           ))}
         </div>
       </div>
-
-      <Dialog open={!!selectedCity} onOpenChange={() => setSelectedCity(null)}>
-        <DialogContent className="max-w-2xl border-emerald-500/30 bg-zinc-900/95 text-zinc-100 backdrop-blur-xl">
-          <DialogHeader>
-            <DialogTitle className="font-cinzel text-center text-3xl text-emerald-300">
-              {language === 'en'
-                ? selectedCity?.name
-                : selectedCity?.cnName || selectedCity?.name}
-            </DialogTitle>
-          </DialogHeader>
-          <div className="custom-scrollbar mt-4 max-h-[60vh] overflow-y-auto pr-4">
-            <DialogDescription className="font-lora text-lg leading-relaxed whitespace-pre-line text-zinc-300">
-              {selectedCityDescription}
-            </DialogDescription>
-          </div>
-        </DialogContent>
-      </Dialog>
+      <div className="absolute left-6 top-6 z-20">
+        <Link href="/city" className="inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-2 text-sm shadow">
+          <ArrowLeft className="h-4 w-4" />
+          {language === 'en' ? 'All Categories' : '所有分类'}
+        </Link>
+      </div>
     </div>
   )
 }
 
-function EyeCard({
-  city,
-  mouseX,
-  mouseY,
-  onSelect,
-}: {
-  city: City
-  mouseX: MotionValue<number>
-  mouseY: MotionValue<number>
-  onSelect: () => void
-}) {
+function EyeCard({ city, mouseX, mouseY, category }: { city: City; mouseX: MotionValue<number>; mouseY: MotionValue<number>; category: string }) {
   const { language } = useLanguage()
   const cardRef = useRef<HTMLDivElement>(null)
   const [angle, setAngle] = useState(0)
@@ -128,12 +88,12 @@ function EyeCard({
   }, [mouseX, mouseY])
 
   return (
-    <motion.div
-      ref={cardRef}
-      className="group relative h-64 cursor-pointer overflow-hidden rounded-full border-4 border-zinc-700 bg-zinc-800 shadow-xl shadow-black/50"
-      whileHover={{ scale: 1.05, borderColor: '#34d399' }} // emerald-400
-      onClick={onSelect}
-    >
+    <Link href={`/city/${category}/${encodeURIComponent(city.name)}`} className="no-underline">
+      <motion.div
+        ref={cardRef}
+        className="group relative block h-64 cursor-pointer overflow-hidden rounded-full border-4 border-zinc-700 bg-zinc-800 shadow-xl shadow-black/50"
+        whileHover={{ scale: 1.05, borderColor: '#34d399' }}
+      >
       {/* Sclera */}
       <div className="absolute inset-0 rounded-full bg-zinc-200 shadow-inner" />
 
@@ -168,6 +128,7 @@ function EyeCard({
         initial={{ height: '0%' }}
         whileHover={{ height: '10%' }}
       />
-    </motion.div>
+      </motion.div>
+    </Link>
   )
 }
