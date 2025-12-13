@@ -24,7 +24,6 @@ export const ChronicleLayout = ({
   city,
   prevCity,
   nextCity,
-  description,
   imageUrl,
   theme,
 }: LayoutProps) => {
@@ -65,7 +64,7 @@ export const ChronicleLayout = ({
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2, duration: 0.8 }}
-            className="relative aspect-[3/4] rotate-1 border-4 bg-white p-2 shadow-xl md:col-span-5"
+            className="relative aspect-3/4 rotate-1 border-4 bg-white p-2 shadow-xl md:col-span-5"
             style={{ borderColor: 'currentColor' }}
           >
             <div className="relative h-full w-full overflow-hidden">

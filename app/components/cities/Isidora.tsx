@@ -1,35 +1,71 @@
 'use client'
 
 import { City } from '@/lib/types'
-import { motion } from 'framer-motion'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import Link from 'next/link'
-import { ArrowLeft } from 'lucide-react'
-import { useMemo } from 'react'
+import { ArrowLeft, Shell, Telescope, Music, Users, User } from 'lucide-react'
+import { useMemo, useRef } from 'react'
 import { useLanguage } from '@/app/context/LanguageContext'
+
+// Deterministic pseudo-random based on seed
+function seededRandom(seed: number) {
+  const x = Math.sin(seed * 9999) * 10000
+  return x - Math.floor(x)
+}
 
 export default function Isidora({ city }: { city: City }) {
   const { language } = useLanguage()
-  const displayDescription = language === 'en' ? city.enDescription : city.cnDescription
+  const containerRef = useRef(null)
+  const { scrollYProgress } = useScroll({ target: containerRef })
 
-  // Pre-generate random values for spirals to maintain purity
+  // Transform values for the journey from Youth to Age
+  const background = useTransform(
+    scrollYProgress,
+    [0, 0.8],
+    ['linear-gradient(to bottom, #fffbeb, #fef3c7)', 'linear-gradient(to bottom, #f5f5f4, #78716c)']
+  )
+  
+  const textColor = useTransform(scrollYProgress, [0, 0.8], ['#92400e', '#44403c'])
+  const saturation = useTransform(scrollYProgress, [0, 0.8], [1, 0])
+  const filter = useTransform(saturation, s => `saturate(${s})`)
+
+  // Pre-generate random values for spirals
   const spirals = useMemo(
     () =>
       [...Array(12)].map((_, i) => ({
         delay: i * 0.2,
         scale: 0.5 + i * 0.15,
         rotateStart: i * 30,
+        x: seededRandom(i * 10 + 1) * 80 + 10,
+        y: seededRandom(i * 10 + 2) * 80 + 10
       })),
     []
   )
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-gradient-to-b from-amber-100 via-rose-50 to-amber-50 text-amber-900">
-      {/* Spiral staircase background motif - representing dreams of youth */}
-      <div className="absolute inset-0 flex items-center justify-center opacity-10">
+    <motion.div 
+        ref={containerRef} 
+        style={{ background, color: textColor }}
+        className="relative min-h-[250vh] font-serif overflow-hidden"
+    >
+      <Link
+        href={`/city/${city.type}`}
+        className="fixed top-8 left-8 z-50 rounded-full bg-white/50 p-2 backdrop-blur transition-colors hover:bg-white/80"
+      >
+        <ArrowLeft className="h-6 w-6" />
+      </Link>
+
+      {/* Background Spirals (Fading with age) */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden">
         {spirals.map((spiral, i) => (
           <motion.div
             key={i}
-            className="absolute h-64 w-64 rounded-full border-4 border-amber-800"
+            style={{ 
+                left: `${spiral.x}%`, 
+                top: `${spiral.y}%`,
+                filter
+            }}
+            className="absolute opacity-10"
             initial={{ scale: 0, rotate: spiral.rotateStart }}
             animate={{ scale: spiral.scale, rotate: spiral.rotateStart + 360 }}
             transition={{
@@ -38,68 +74,96 @@ export default function Isidora({ city }: { city: City }) {
               repeat: Infinity,
               ease: 'linear',
             }}
-          />
+          >
+             <Shell size={200} strokeWidth={0.5} />
+          </motion.div>
         ))}
       </div>
 
-      <Link
-        href={`/city/${city.type}`}
-        className="absolute top-8 left-8 z-20 rounded-full p-2 transition-colors hover:bg-amber-900/10"
-      >
-        <ArrowLeft className="h-6 w-6" />
-      </Link>
-
-      <div className="relative z-10 container mx-auto flex min-h-screen flex-col items-center justify-center px-4 py-20">
+      {/* Section 1: The Desire (Youth) */}
+      <div className="h-screen flex flex-col items-center justify-center relative z-10 p-8 text-center">
         <motion.div
-          initial={{ y: -50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 1.2, ease: 'easeOut' }}
-          className="mb-12 text-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1 }}
         >
-          <h1 className="font-serif text-7xl tracking-wide text-amber-800 md:text-9xl">
-            {city.name}
-          </h1>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8, duration: 1 }}
-            className="mt-6 font-light text-amber-700 italic"
-          >
-            {language === 'en'
-              ? 'The city of memory where one arrives as an old man'
-              : '一座记忆之城，当你抵达时已是垂暮之年'}
-          </motion.p>
+            <h1 className="text-8xl font-bold mb-4 tracking-tighter">ISIDORA</h1>
+            <p className="text-xl uppercase tracking-widest opacity-60">
+                {language === 'en' ? 'The City of Dreams' : '梦想之城'}
+            </p>
         </motion.div>
 
-        <motion.div
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 0.5, duration: 1 }}
-          className="max-w-3xl rounded-2xl border border-amber-200 bg-white/70 p-12 text-center shadow-xl backdrop-blur-sm"
-        >
-          <p className="font-serif text-xl leading-loose text-amber-900">{displayDescription}</p>
-        </motion.div>
-
-        {/* Floating memory fragments */}
-        <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          {[...Array(6)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute text-6xl"
-              initial={{ x: `${15 + i * 15}%`, y: '110%' }}
-              animate={{ y: '-10%' }}
-              transition={{
-                duration: 15 + i * 2,
-                delay: i * 3,
-                repeat: Infinity,
-                ease: 'linear',
-              }}
+        <div className="mt-24 grid grid-cols-3 gap-12 max-w-4xl">
+            <motion.div 
+                whileHover={{ scale: 1.1, rotate: 5 }}
+                className="flex flex-col items-center gap-4 p-6 bg-white/30 rounded-2xl backdrop-blur-sm"
             >
-              {['🌹', '🕰️', '🪞', '📜', '🗝️', '🎭'][i]}
+                <Telescope size={48} className="text-amber-600" />
+                <span className="font-bold">{language === 'en' ? 'Perfect Telescopes' : '完美的望远镜'}</span>
             </motion.div>
-          ))}
+            <motion.div 
+                whileHover={{ scale: 1.1, rotate: -5 }}
+                className="flex flex-col items-center gap-4 p-6 bg-white/30 rounded-2xl backdrop-blur-sm"
+            >
+                <Music size={48} className="text-amber-600" />
+                <span className="font-bold">{language === 'en' ? 'Violins' : '小提琴'}</span>
+            </motion.div>
+            <motion.div 
+                whileHover={{ scale: 1.1, rotate: 5 }}
+                className="flex flex-col items-center gap-4 p-6 bg-white/30 rounded-2xl backdrop-blur-sm"
+            >
+                <Users size={48} className="text-amber-600" />
+                <span className="font-bold">{language === 'en' ? 'Encounters' : '邂逅'}</span>
+            </motion.div>
         </div>
       </div>
-    </div>
+
+      {/* Section 2: The Transition */}
+      <div className="h-[50vh] flex items-center justify-center relative z-10">
+         <motion.div 
+            style={{ opacity: useTransform(scrollYProgress, [0.3, 0.5], [0, 1]) }}
+            className="text-2xl italic max-w-2xl text-center leading-loose"
+         >
+            {language === 'en' 
+                ? '"He was thinking of all these things when he desired a city. Isidora, therefore, is the city of his dreams: with one difference."'
+                : '“当他渴望一座城市时，他想的是所有这些东西。因此，伊西多拉是他梦想中的城市：只有一个区别。”'}
+         </motion.div>
+      </div>
+
+      {/* Section 3: The Reality (Old Age) */}
+      <div className="h-screen flex flex-col items-center justify-center relative z-10 p-8 bg-linear-to-t from-stone-900/10 to-transparent">
+         <div className="max-w-4xl w-full grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            <div className="space-y-8">
+                <h2 className="text-5xl font-bold mb-8">
+                    {language === 'en' ? 'The Difference' : '区别'}
+                </h2>
+                <p className="text-xl leading-relaxed">
+                    {language === 'en'
+                        ? "The dreamed-of city contained him as a young man; he arrives at Isidora in his old age."
+                        : "梦想中的城市包含着年轻时的他；而他抵达伊西多拉时已是暮年。"}
+                </p>
+                <p className="text-xl leading-relaxed font-bold">
+                    {language === 'en'
+                        ? "Desires are already memories."
+                        : "欲望已成记忆。"}
+                </p>
+            </div>
+
+            <div className="relative h-80 bg-stone-800 rounded-lg shadow-2xl p-8 flex items-end justify-center overflow-hidden">
+                {/* The Wall */}
+                <div className="absolute bottom-0 left-0 right-0 h-32 bg-stone-700 flex items-center justify-around px-4">
+                    {[...Array(5)].map((_, i) => (
+                        <User key={i} size={32} className="text-stone-500" />
+                    ))}
+                    <User size={32} className="text-amber-500/50 animate-pulse" /> {/* The Traveler */}
+                </div>
+                <div className="absolute top-8 text-stone-500 text-sm uppercase tracking-widest">
+                    {language === 'en' ? 'The Square' : '广场'}
+                </div>
+            </div>
+         </div>
+      </div>
+
+    </motion.div>
   )
 }

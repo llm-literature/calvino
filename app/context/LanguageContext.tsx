@@ -77,7 +77,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   }
 
   const t = (key: string) => {
-    // @ts-ignore
+    // @ts-expect-error: Dynamic key access on translations object
     return translations[language][key] || key
   }
 

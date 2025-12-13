@@ -25,7 +25,6 @@ export const EtherealLayout = ({
   city,
   prevCity,
   nextCity,
-  description,
   imageUrl,
   theme,
 }: LayoutProps) => {
@@ -81,7 +80,7 @@ export const EtherealLayout = ({
             <h1 className="font-display mb-8 text-7xl font-light tracking-tight md:text-9xl">
               {capitalizeString(city.name)}
             </h1>
-            <div className="mx-auto h-24 w-[1px] bg-current opacity-20" />
+            <div className="mx-auto h-24 w-px bg-current opacity-20" />
           </motion.div>
 
           {/* Image as subtle background or floating element */}
@@ -99,7 +98,7 @@ export const EtherealLayout = ({
             />
             <div
               className={cn(
-                'absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-current',
+                'absolute inset-0 bg-linear-to-b from-transparent via-transparent to-current',
                 theme.colors.bg.replace('bg-', 'to-')
               )}
             />

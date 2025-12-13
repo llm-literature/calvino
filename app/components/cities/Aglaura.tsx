@@ -45,7 +45,7 @@ export default function Aglaura({ city }: { city: City }) {
         ],
         duration: 10 + Math.random() * 10
     })))
-  }, [])
+  }, [language])
 
   return (
     <div className="relative min-h-screen bg-gray-50 text-gray-900 font-sans overflow-hidden selection:bg-gray-200">

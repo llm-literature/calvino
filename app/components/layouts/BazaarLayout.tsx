@@ -23,7 +23,6 @@ export const BazaarLayout = ({
   city,
   prevCity,
   nextCity,
-  description,
   imageUrl,
   theme,
 }: LayoutProps) => {
@@ -37,7 +36,7 @@ export const BazaarLayout = ({
       <div className="grid min-h-screen grid-cols-1 lg:grid-cols-2">
         {/* Left: Image & Title (Sticky) */}
         <div className="relative h-[50vh] overflow-hidden lg:sticky lg:top-0 lg:h-screen">
-          <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/80 via-transparent to-transparent lg:bg-gradient-to-r lg:from-transparent lg:to-black/80" />
+          <div className="absolute inset-0 z-10 bg-linear-to-t from-black/80 via-transparent to-transparent lg:bg-linear-to-r lg:from-transparent lg:to-black/80" />
           <Image
             fill
             src={imageUrl}

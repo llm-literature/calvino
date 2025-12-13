@@ -23,7 +23,6 @@ export const LabyrinthLayout = ({
   city,
   prevCity,
   nextCity,
-  description,
   imageUrl,
   theme,
 }: LayoutProps) => {
