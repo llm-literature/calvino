@@ -22,20 +22,34 @@ export default function CityViewerWrapper({ city, imageUrl, children }: CityView
   const [isLargeScreen, setIsLargeScreen] = useState(false)
   const sidebarRef = useRef<HTMLDivElement>(null)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const shouldAutoScroll = useRef(true)
+  const lastScrollTop = useRef(0)
 
   const { language } = useLanguage()
   const description = language === 'en' ? city.enDescription : city.cnDescription
 
-  const scrollToBottom = useCallback(() => {
-    if (scrollContainerRef.current) {
-      const { scrollHeight, clientHeight } = scrollContainerRef.current
-      const maxScrollTop = scrollHeight - clientHeight
+  const handleScroll = useCallback(() => {
+    if (!scrollContainerRef.current) return
 
-      // Only scroll if we are near the bottom or if it's the initial load
-      // But for "auto-scroll" feature, we usually want to force it unless user scrolled up?
-      // Let's just scroll to bottom for now as requested.
+    const { scrollTop, scrollHeight, clientHeight } = scrollContainerRef.current
+    const isScrollingUp = scrollTop < lastScrollTop.current
+    lastScrollTop.current = scrollTop
+
+    const distanceToBottom = scrollHeight - clientHeight - scrollTop
+    const isAtBottom = distanceToBottom < 50 // Give a bit of buffer
+
+    if (isScrollingUp) {
+      shouldAutoScroll.current = false
+    } else if (isAtBottom) {
+      shouldAutoScroll.current = true
+    }
+  }, [])
+
+  const scrollToBottom = useCallback(() => {
+    if (shouldAutoScroll.current && scrollContainerRef.current) {
+      const { scrollHeight, clientHeight } = scrollContainerRef.current
       scrollContainerRef.current.scrollTo({
-        top: maxScrollTop,
+        top: scrollHeight - clientHeight,
         behavior: 'smooth',
       })
     }
@@ -202,6 +216,7 @@ export default function CityViewerWrapper({ city, imageUrl, children }: CityView
               {/* Scrollable Content */}
               <div
                 ref={scrollContainerRef}
+                onScroll={handleScroll}
                 className="no-scrollbar flex-1 space-y-8 overflow-y-auto p-6"
               >
                 {/* Image Preview */}
