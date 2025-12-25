@@ -1,10 +1,10 @@
 import LandingPage from '@/app/components/LandingPage'
 import SetLanguage from '@/app/components/SetLanguage'
 
-export default function Home() {
+export default function EnHome() {
   return (
     <>
-      <SetLanguage lang="cn" />
+      <SetLanguage lang="en" />
       <LandingPage />
     </>
   )
